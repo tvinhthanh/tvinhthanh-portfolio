@@ -1,26 +1,552 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================================
+   DESIGN SYSTEM
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+   Direction — "an engineer cultivating systems inside a digital
+   immortal world". Obsidian ground, pearl-silver as the body of
+   the thing, warm gold as the single accent.
+
+   The metals are the client's, not a mood board: born 09/07/2001,
+   Tân Tỵ — Bạch Lạp Kim. Silver and pearl are the element itself;
+   earth-gold feeds it. Green (wood) is what metal cuts, and red
+   and orange (fire) are what melts it — so neither appears here.
+
+   Dark is the primary face. Light is not an inversion: it is the
+   same world painted as an ink-wash landscape on rice paper,
+   which is where this imagery comes from in the first place.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* Pearl ground. Cool rather than cream: white wax metal, not parchment —
+     and it keeps the one warm accent from turning muddy against it. */
+  --paper: #f1f2f3;
+  --surface: rgba(255, 255, 255, 0.74);
+  --surface-solid: #e9eaec;
+  --surface-2: #e2e4e6;
+
+  --ink: #16181a;
+  --ink-soft: #4a4f54;
+  --ink-faint: #616970;
+
+  --metal: #5c646b;
+  --metal-deep: #3a4147;
+  --pearl: #ffffff;
+  --gold: #7d5b13;
+
+  --accent: #7d5b13;
+  --accent-hot: #5f450d;
+  --accent-wash: rgba(125, 91, 19, 0.1);
+  --on-accent: #f7f6f2;
+
+  /* Status light. Fixed in both themes on purpose: "open to work" is a
+     semantic signal, not a brand colour, and it must not read as decoration. */
+  --status-live: #1f9c66;
+
+  --line: rgba(22, 28, 32, 0.13);
+  --line-soft: rgba(22, 28, 32, 0.07);
+  --hairline: rgba(22, 28, 32, 0.2);
+
+  /* World */
+  --world-far: #9aa4aa;
+  --world-near: #5f676c;
+  --world-qi: #6f5010;
+  --world-pearl: #b49a55;
+  --world-fog: #f1f2f3;
+  --world-blend: normal;
+  --world-alpha: 0.9;
+
+  /* Paper still needs a firmer hand than obsidian, but the old values (62/34/82)
+     left nothing of the scene once real content sat on top of it. Body text here
+     runs about 15:1, so there is room to give the world back. */
+  --veil-top: 45%;
+  --veil-mid: 16%;
+  --veil-low: 60%;
+
+  --shadow-pop: 0 18px 44px -28px rgba(22, 28, 32, 0.5);
+
+  /* Type scale — 1.25 */
+  --step--2: 0.6875rem;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.125rem;
+  --step-2: 1.375rem;
+  --step-3: 1.75rem;
+  --step-4: clamp(1.9rem, 1.35rem + 2.2vw, 2.65rem);
+  --step-5: clamp(2.4rem, 1.6rem + 3.4vw, 3.6rem);
+  --step-hero: clamp(2.9rem, 1.1rem + 8vw, 6.75rem);
+
+  --s-section: clamp(84px, 10vh, 132px);
+  --doc: 46rem;
+  --doc-wide: 68rem;
+  --radius: 6px;
+  --radius-chip: 3px; /* chips and pills only — 6px reads bloated at 11px text */
+  --rail: 15rem;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --paper: #080c0d;
+    --surface: rgba(9, 16, 15, 0.72);
+    --surface-solid: #0d1414;
+    --surface-2: #111b19;
+
+    --ink: #f2f0e9;
+    --ink-soft: #8b9691;
+    --ink-faint: #737f7a;
+
+    --metal: #b6c0c4;
+    --metal-deep: #2a3439;
+    --pearl: #f4f1e8;
+    --gold: #e3cb93;
+
+    --accent: #e3cb93;
+    --accent-hot: #f2e2ba;
+    --accent-wash: rgba(227, 203, 147, 0.11);
+    --on-accent: #14110a;
+
+    --status-live: #35c584;
+
+    --line: rgba(150, 210, 190, 0.1);
+    --line-soft: rgba(150, 210, 190, 0.06);
+    --hairline: rgba(150, 210, 190, 0.18);
+
+    --world-far: #cdd8dc;
+    --world-near: #26333a;
+    --world-qi: #e3cb93;
+    --world-pearl: #fbf6e8;
+    --world-fog: #080c0d;
+    --world-blend: screen;
+    --world-alpha: 1;
+
+    /* On obsidian the text already has ~14:1, so the veil can stand back and
+       let the range show through. */
+    --veil-top: 16%;
+    --veil-mid: 0%;
+    --veil-low: 46%;
+
+    --shadow-pop: 0 24px 60px -30px rgba(0, 0, 0, 0.95);
   }
 }
 
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --paper: #080c0d;
+  --surface: rgba(9, 16, 15, 0.72);
+  --surface-solid: #0d1414;
+  --surface-2: #111b19;
+
+  --ink: #f2f0e9;
+  --ink-soft: #8b9691;
+  --ink-faint: #737f7a;
+
+  --metal: #b6c0c4;
+  --metal-deep: #2a3439;
+  --pearl: #f4f1e8;
+  --gold: #e3cb93;
+
+  --accent: #e3cb93;
+  --accent-hot: #f2e2ba;
+  --accent-wash: rgba(227, 203, 147, 0.11);
+  --on-accent: #14110a;
+
+  --status-live: #35c584;
+
+  --line: rgba(150, 210, 190, 0.1);
+  --line-soft: rgba(150, 210, 190, 0.06);
+  --hairline: rgba(150, 210, 190, 0.18);
+
+  --world-far: #cdd8dc;
+  --world-near: #26333a;
+  --world-qi: #e3cb93;
+  --world-pearl: #fbf6e8;
+  --world-fog: #080c0d;
+  --world-blend: screen;
+  --world-alpha: 1;
+
+  --veil-top: 16%;
+  --veil-mid: 0%;
+  --veil-low: 46%;
+
+  --shadow-pop: 0 24px 60px -30px rgba(0, 0, 0, 0.95);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-solid: var(--surface-solid);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-metal: var(--metal);
+  --color-metal-deep: var(--metal-deep);
+  --color-pearl: var(--pearl);
+  --color-gold: var(--gold);
+  --color-accent: var(--accent);
+  --color-accent-hot: var(--accent-hot);
+  --color-accent-wash: var(--accent-wash);
+  --color-on-accent: var(--on-accent);
+  --color-status-live: var(--status-live);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-hairline: var(--hairline);
+
+  --font-display: var(--font-title), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-code), ui-monospace, monospace;
+
+  --text-step--2: var(--step--2);
+  --text-step--1: var(--step--1);
+  --text-step-0: var(--step-0);
+  --text-step-1: var(--step-1);
+  --text-step-2: var(--step-2);
+  --text-step-3: var(--step-3);
+  --text-step-4: var(--step-4);
+  --text-step-5: var(--step-5);
+  --text-step-hero: var(--step-hero);
+
+  --radius-base: var(--radius);
+  --radius-chip: var(--radius-chip);
+}
+
+/* ============================================================
+   BILINGUAL — both languages ship in the HTML, <html data-lang>
+   picks one before first paint. No flash, no wait for hydration.
+   The Vietnamese face carries real diacritics, so tone marks are
+   drawn by the type designer rather than synthesised.
+   ============================================================ */
+
+[data-l="vi"] {
+  display: none;
+}
+
+:root[data-lang="vi"] [data-l="vi"] {
+  display: inline;
+}
+
+:root[data-lang="vi"] [data-l="en"] {
+  display: none;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+* {
+  border-color: var(--line);
+  min-width: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* A rectangular ring around an arc is worse than no ring — it boxes in a shape
+   that isn't a box. The sector shows focus by lighting up and thickening its
+   own edge, which is a shape change, not a colour-only cue. */
+.sector:focus,
+.sector:focus-visible {
+  outline: none;
+}
+
+.sector:focus-visible {
+  stroke-width: 2.2;
+  stroke-opacity: 1;
+}
+
+/* Display face: the name and section titles only. Cormorant is drawn for
+   large sizes — below ~24px it loses its colour, so it never sets body text. */
+.display {
+  font-family: var(--font-title), "Iowan Old Style", Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  line-height: 1.06;
+}
+
+.mono {
+  font-family: var(--font-code), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.meta {
+  font-family: var(--font-code), ui-monospace, monospace;
+  font-size: var(--step--1);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   SURFACES
+   Cards sit on a near-transparent wash so the world stays
+   visible behind the document. Only cards blur — never sections.
+   ============================================================ */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.doc {
+  width: 100%;
+  max-width: var(--doc);
+  margin-inline: auto;
+}
+
+.doc-wide {
+  width: 100%;
+  max-width: var(--doc-wide);
+  margin-inline: auto;
+}
+
+/* A thread of qi: the hairline that ties the timeline together */
+.thread {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--hairline) 7%,
+    var(--hairline) 93%,
+    transparent
+  );
+}
+
+/* Topographic hairlines — the contour map under a mountain range */
+.contour {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 22px,
+    var(--line-soft) 22px 23px
+  );
+}
+
+.anchor {
+  opacity: 0;
+  transition: opacity 140ms ease;
+}
+
+.heading-row:hover .anchor,
+.anchor:focus-visible {
+  opacity: 1;
+}
+
+/* ============================================================
+   MOTION — 250–700ms, opacity and small displacement only.
+   Scoped to [data-js] so the document is complete without
+   JavaScript, and if hydration ever fails.
+   ============================================================ */
+
+:root[data-js] .reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 560ms cubic-bezier(0.2, 0.65, 0.3, 1),
+    transform 560ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+:root[data-js] .reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--status-live) 32%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
+.pulse {
+  animation: breathe 3.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  :root[data-js] .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .pulse {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   THE WORLD
+   One fixed canvas behind the whole document. It does not scroll
+   with the page — the world holds still while you move through it.
+   ============================================================ */
+
+.world {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: var(--world-blend);
+  opacity: 0;
+  transition: opacity 1600ms ease-out;
+}
+
+.world[data-ready="true"] {
+  opacity: 1;
+}
+
+.world[data-gl="on"] .world-still {
+  display: none;
+}
+
+.world canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Static stand-in, drawn in CSS: shown until WebGL is confirmed working,
+   and left in place on devices that cannot run it. */
+.world-still {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(80% 50% at 50% 76%, var(--accent-wash), transparent 70%),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 24px,
+      color-mix(in srgb, var(--metal) 14%, transparent) 24px 25px
+    );
+  mask-image: radial-gradient(100% 62% at 50% 72%, #000 10%, transparent 78%);
+}
+
+/* Legibility guard: text always sits on a graded wash of the page colour,
+   so the scene can never pull contrast below AA. */
+.world-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--paper) var(--veil-top), transparent) 0%,
+    color-mix(in srgb, var(--paper) var(--veil-mid), transparent) 30%,
+    color-mix(in srgb, var(--paper) var(--veil-low), transparent) 74%,
+    /* Never fully opaque: a solid bottom edge became a dead zone the world
+       could not be seen through at all. */
+    color-mix(in srgb, var(--paper) 90%, transparent) 100%
+  );
+}
+
+/* As the reader moves into the document the page colour rises behind the text.
+   Driven by the scene's scroll progress, so the two never disagree. */
+.world-veil::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--paper);
+  opacity: calc(var(--world-recede, 0) * 0.4);
+}
+
+/* ============================================================
+   QUIET STRIPS
+
+   The world is a signature, not a wallpaper. Between hero, projects
+   and contact — the three deliberate exposures — the paper closes
+   over the scene so the document can be read without competing
+   motion behind it. The edges fade rather than clip, so the swap
+   between quiet and open never reads as a boundary line.
+   ============================================================ */
+
+.quiet-strip {
+  position: relative;
+}
+
+.quiet-strip::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6rem;
+  bottom: -6rem;
+  background: var(--paper);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 6rem,
+    #000 calc(100% - 6rem),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 6rem,
+    #000 calc(100% - 6rem),
+    transparent 100%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Technology chips arriving in the expertise panel — staggered by index,
+   short enough that a fast reader never waits for it. */
+@keyframes chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal-chip {
+  animation: chip-in 320ms cubic-bezier(0.2, 0.65, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-chip {
+    animation: none;
+  }
 }
