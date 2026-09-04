@@ -204,8 +204,12 @@ export const roles: Role[] = [
         "Cải thiện khả năng tìm thấy và hiệu năng runtime qua SSR, metadata, sitemap, cache Redis, tối ưu bundle và Core Web Vitals.",
       ),
       t(
-        "Raise release confidence with Playwright end-to-end tests, collaborate via Git/Jira, and support React Native mobile development when needed.",
-        "Tăng độ tin cậy khi release bằng test end-to-end Playwright, phối hợp qua Git/Jira, và hỗ trợ phát triển tính năng mobile bằng React Native khi cần.",
+        "Worked on an Android application project using React Native for approximately 6 months — implementing features, REST API integration, debugging, and release support.",
+        "Phát triển ứng dụng Android bằng React Native trong khoảng 6 tháng — triển khai tính năng, tích hợp REST API, tối ưu và hỗ trợ release.",
+      ),
+      t(
+        "Raise release confidence with Playwright end-to-end tests, and collaborate with product, QA, and design teams through Git and Agile/Scrum workflows.",
+        "Tăng độ tin cậy khi release bằng test end-to-end Playwright, phối hợp chặt chẽ với team product, QA và design qua quy trình Agile/Scrum.",
       ),
     ],
     stack: ["React", "Next.js", "TypeScript", "NestJS", "Node.js", "Redis", "BullMQ", "WebSocket", "Playwright", "Docker", "React Native"],
@@ -231,8 +235,8 @@ export const roles: Role[] = [
         "Tích hợp RESTful API, sự kiện WebSocket, caching và các luồng dữ liệu để có trải nghiệm real-time mượt mà.",
       ),
       t(
-        "Contributed Flutter mobile features and Spine animation integration, working with backend, product, design and QA through Git and Jira.",
-        "Đóng góp tính năng mobile bằng Flutter và tích hợp Spine animation, phối hợp với backend, product, design và QA qua Git và Jira.",
+        "Developed and maintained Flutter mobile features alongside React/Next.js web applications, integrating REST APIs, real-time data flows, and Spine animations.",
+        "Phát triển và bảo trì các tính năng ứng dụng di động Flutter song song với web application React/Next.js, tích hợp REST API, luồng dữ liệu thời gian thực và Spine animation.",
       ),
     ],
     stack: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", "WebSocket", "Flutter"],
