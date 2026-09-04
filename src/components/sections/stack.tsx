@@ -1,5 +1,6 @@
 import { education, languages, pages } from "@/content/profile";
 import { T, t } from "@/lib/i18n";
+import { ArsenalShowcase } from "../ui/arsenal-showcase";
 import { ExpertiseMap } from "../ui/expertise-map";
 import { Reveal } from "../ui/reveal";
 import { Section } from "../ui/section";
@@ -21,6 +22,10 @@ export function Stack() {
       )}
     >
       <Reveal>
+        <ArsenalShowcase />
+      </Reveal>
+
+      <Reveal delay={120}>
         <ExpertiseMap />
       </Reveal>
     </Section>

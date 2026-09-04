@@ -14,7 +14,7 @@ type Props = {
   children: ReactNode;
 };
 
-export function Section({ id, title, aside, index, intro, wide, children }: Props) {
+export function Section({ id, title, aside, index, intro, wide = true, children }: Props) {
   return (
     <section
       id={id}
@@ -23,7 +23,7 @@ export function Section({ id, title, aside, index, intro, wide, children }: Prop
     >
       <Reveal>
         <p className="meta flex items-center gap-3 text-ink-faint">
-          <span className="tnum text-accent">{index}</span>
+          <span className="tnum text-accent font-semibold">{index}</span>
           <T v={aside} />
         </p>
 

@@ -28,7 +28,7 @@ export function Philosophy() {
             className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-accent to-transparent"
           />
           <blockquote>
-            <p className="display max-w-[28ch] text-step-3 leading-[1.24] text-ink sm:text-step-4">
+            <p className="display max-w-[42ch] text-step-3 leading-[1.24] text-ink sm:text-step-4">
               <T v={philosophy.statement} />
             </p>
           </blockquote>

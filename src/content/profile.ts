@@ -66,14 +66,14 @@ export const profile = {
 export type PageLink = { id: string; label: L; aside: L };
 
 export const pages: PageLink[] = [
-  { id: "home", label: t("Home", "Trang chủ"), aside: t("Celestial gate", "Cổng trời") },
-  { id: "intro", label: t("Intro", "Giới thiệu"), aside: t("Entering the realm", "Bước vào cảnh giới") },
-  { id: "philosophy", label: t("Philosophy", "Triết lý"), aside: t("The dao of the work", "Đạo của nghề") },
-  { id: "projects", label: t("Projects", "Dự án"), aside: t("Artifacts forged through engineering", "Pháp bảo rèn bằng kỹ thuật") },
-  { id: "experience", label: t("Experience", "Kinh nghiệm"), aside: t("The cultivation journey", "Hành trình tu luyện") },
-  { id: "stack", label: t("Stack", "Công nghệ"), aside: t("Techniques and arsenal", "Công pháp và binh khí") },
-  { id: "background", label: t("Background", "Nền tảng"), aside: t("Origins", "Cội nguồn") },
-  { id: "contact", label: t("Contact", "Liên hệ"), aside: t("Transmission array", "Trận truyền tin") },
+  { id: "home", label: t("Home", "Trang chủ"), aside: t("Overview", "Tổng quan") },
+  { id: "intro", label: t("Intro", "Giới thiệu"), aside: t("Engineer Profile", "Hồ sơ kỹ sư") },
+  { id: "philosophy", label: t("Philosophy", "Triết lý"), aside: t("Engineering Principles", "Nguyên tắc kỹ thuật") },
+  { id: "projects", label: t("Projects", "Dự án"), aside: t("Featured Works", "Dự án tiêu biểu") },
+  { id: "experience", label: t("Experience", "Kinh nghiệm"), aside: t("Career Path", "Quá trình làm việc") },
+  { id: "stack", label: t("Stack", "Công nghệ"), aside: t("Tools & Capabilities", "Công nghệ & Kỹ năng") },
+  { id: "background", label: t("Background", "Nền tảng"), aside: t("Education & Languages", "Học vấn & Ngôn ngữ") },
+  { id: "contact", label: t("Contact", "Liên hệ"), aside: t("Get in Touch", "Kênh kết nối") },
 ];
 
 /* ------------------------------------------------------------------ *
@@ -81,16 +81,44 @@ export const pages: PageLink[] = [
  * ------------------------------------------------------------------ */
 
 export const philosophy = {
-  eyebrow: t("One idea shows up in everything I build", "Một ý tưởng lặp lại trong mọi thứ tôi làm"),
+  eyebrow: t("Core engineering principles across frontend & backend", "Nguyên tắc kỹ thuật xuyên suốt frontend và backend"),
   statement: t(
-    "Money and inventory are written once. Any balance you can see is derived from that history, never edited in place.",
-    "Tiền và tồn kho chỉ được ghi một lần. Mọi con số bạn nhìn thấy đều được suy ra từ lịch sử đó, không bao giờ sửa đè lên.",
+    "Data integrity at the system boundary, deterministic state fidelity at the interface.",
+    "Bảo toàn tính đúng đắn ở tầng dữ liệu, chuẩn xác và mượt mà ở tầng giao diện người dùng.",
   ),
   closing: t(
-    "A mutable balance column is faster to write and impossible to defend the first time somebody disputes a number.",
-    "Một cột số dư cho phép sửa thì viết nhanh hơn, nhưng không thể bảo vệ được ngay lần đầu có người thắc mắc về con số.",
+    "Whether it is an immutable database ledger or a resilient client state machine, shortcuts taken at the data layer always become expensive bugs at the interface.",
+    "Dù là một cột sổ cái bất biến phía backend hay một state machine chặt chẽ phía frontend, mọi lối tắt ở tầng dữ liệu đều sẽ trở thành lỗi đắt giá ngay trên trải nghiệm người dùng.",
   ),
   examples: [
+    {
+      where: t("UI State & Hydration", "State giao diện & Hydration"),
+      how: t(
+        "Client state is a deterministic projection of server truth, never a desynchronised parallel copy. Form drafts and user inputs snapshot locally so network drops or hydration never wipe user keystrokes.",
+        "State giao diện là hình chiếu chuẩn xác từ server, không lưu bản sao song song dễ lệch nhau. Bản nháp form và thao tác được snapshot cục bộ để mất mạng hay hydration cũng không bao giờ mất dữ liệu người dùng nhập.",
+      ),
+    },
+    {
+      where: t("Optimistic UI & Rollback", "UI Lạc quan & Hoàn tác"),
+      how: t(
+        "Immediate UI feedback keeps interactions instant and fluid, but every mutation carries an explicit compensation rollback. The interface never falsely claims success until the server commits.",
+        "Cập nhật giao diện tức thì cho trải nghiệm mượt mà, nhưng mọi thao tác đột biến đều có cơ chế rollback tường minh nếu server từ chối. Giao diện không bao giờ tự nhận thành công trước khi hệ thống xác nhận.",
+      ),
+    },
+    {
+      where: t("Layout & Performance", "Hiệu năng hiển thị & Layout"),
+      how: t(
+        "Every dynamic container reserves exact dimensions up-front to guarantee 0 Cumulative Layout Shift (CLS). Critical content renders server-side (SSR) while heavy visual assets stream asynchronously.",
+        "Mọi khung hình chuyển đổi đều giữ chỗ kích thước chuẩn để tránh giật nhảy giao diện (CLS = 0). Nội dung cốt lõi render phía server (SSR), các thành phần đồ họa nặng được stream bất đồng bộ.",
+      ),
+    },
+    {
+      where: t("Error Boundaries & Offline", "Phân tách lỗi & Ngoại tuyến"),
+      how: t(
+        "Every critical user journey is wrapped with granular error boundaries and explicit permission/empty states. A failed microservice or third-party script never white-screens the application.",
+        "Mỗi luồng người dùng đều có Error Boundary cô lập cùng trạng thái lỗi/rỗng rõ ràng. Một API bên thứ ba gặp sự cố không bao giờ làm trắng toàn bộ trang web.",
+      ),
+    },
     {
       where: t("Point of sale", "Bán hàng tại quầy"),
       how: t(
@@ -117,20 +145,6 @@ export const philosophy = {
       how: t(
         "Handover and return are two separately dated condition records. Rental disputes are never about the rate — they are about whether that scratch was already there.",
         "Giao xe và nhận xe là hai bản ghi tình trạng có ngày riêng. Tranh chấp thuê xe chưa bao giờ nằm ở giá — nó nằm ở vết xước kia đã có sẵn hay chưa.",
-      ),
-    },
-    {
-      where: t("Phone store", "Cửa hàng điện thoại"),
-      how: t(
-        "Shipping details are snapshotted onto the order at checkout. An address edited next month must not rewrite where last month's parcel went.",
-        "Thông tin giao hàng được chụp vào đơn ngay lúc đặt. Địa chỉ sửa tháng sau không được phép viết lại nơi kiện hàng tháng trước đã đi.",
-      ),
-    },
-    {
-      where: t("Social platform", "Nền tảng mạng xã hội"),
-      how: t(
-        "Affiliate commission is a ledger; creator balances are a cache rebuilt from it.",
-        "Hoa hồng affiliate là một sổ cái; số dư của creator chỉ là cache dựng lại từ sổ đó.",
       ),
     },
   ],
@@ -166,12 +180,16 @@ export const roles: Role[] = [
     ),
     work: [
       t(
-        "Build user journeys for authentication, payments, wallets, content access and account verification, each with explicit loading, error and permission states.",
-        "Dựng các luồng đăng nhập, thanh toán, ví, quyền truy cập nội dung và xác minh tài khoản — mỗi màn đều có trạng thái loading, lỗi và phân quyền rõ ràng.",
+        "Own frontend delivery for production applications using React, Next.js, and TypeScript — from responsive UI through API integration to release support.",
+        "Phụ trách phần frontend của các ứng dụng chạy thật bằng React, Next.js và TypeScript — từ dựng UI responsive, tích hợp API cho tới hỗ trợ release.",
       ),
       t(
-        "Design and integrate REST APIs, webhooks and database-driven workflows between the Next.js frontend and Node/NestJS services.",
-        "Thiết kế và tích hợp REST API, webhook và các luồng dựa trên database giữa frontend Next.js và service Node/NestJS.",
+        "Build complex user journeys for authentication, payments, wallets, content access and account verification, each with explicit loading, error and permission states.",
+        "Dựng các luồng người dùng phức tạp cho đăng nhập, thanh toán, ví, quyền truy cập nội dung và xác minh tài khoản — mỗi màn đều có trạng thái loading, lỗi và phân quyền rõ ràng.",
+      ),
+      t(
+        "Design and integrate RESTful APIs, webhooks and WebSocket events while collaborating across Node.js/NestJS backend services.",
+        "Thiết kế và tích hợp RESTful API, webhook và sự kiện WebSocket phối hợp chặt chẽ với các service Node.js/NestJS.",
       ),
       t(
         "Ship real-time and event-driven features with WebSocket, BullMQ and Redis for interactive experiences and asynchronous processing.",
@@ -179,25 +197,25 @@ export const roles: Role[] = [
       ),
       t(
         "Integrate OpenAI and Whisper for translation, transcription and content workflows, validating both the integration and its output through testing and human review.",
-        "Tích hợp OpenAI và Whisper cho luồng dịch, bóc băng và nội dung; kiểm chứng cả phần tích hợp lẫn kết quả đầu ra bằng test và rà soát của người.",
+        "Tích hợp OpenAI và Whisper cho luồng dịch, bóc băng và nội dung; kiểm chứng cả phần tích hợp lẫn kết quả đầu ra bằng test và rà soát thực tế.",
       ),
       t(
         "Improve discoverability and runtime performance through SSR, metadata and sitemap work, Redis caching, bundle optimisation and Core Web Vitals.",
         "Cải thiện khả năng tìm thấy và hiệu năng runtime qua SSR, metadata, sitemap, cache Redis, tối ưu bundle và Core Web Vitals.",
       ),
       t(
-        "Raise release confidence with Playwright end-to-end tests, and support delivery on Docker, Jenkins CI/CD, Ubuntu, Nginx and Cloudflare.",
-        "Tăng độ tin cậy khi release bằng test end-to-end Playwright; hỗ trợ vận hành trên Docker, Jenkins CI/CD, Ubuntu, Nginx và Cloudflare.",
+        "Raise release confidence with Playwright end-to-end tests, collaborate via Git/Jira, and support React Native mobile development when needed.",
+        "Tăng độ tin cậy khi release bằng test end-to-end Playwright, phối hợp qua Git/Jira, và hỗ trợ phát triển tính năng mobile bằng React Native khi cần.",
       ),
     ],
-    stack: ["Next.js", "React", "TypeScript", "NestJS", "Redis", "BullMQ", "WebSocket", "Playwright", "Docker"],
+    stack: ["React", "Next.js", "TypeScript", "NestJS", "Node.js", "Redis", "BullMQ", "WebSocket", "Playwright", "Docker", "React Native"],
   },
   {
     id: "playouu",
     company: "Playouu Company",
     title: t("Frontend developer", "Frontend developer"),
     start: "2024-06",
-    end: "2026-06",
+    end: "2025-07",
     location: t("Ho Chi Minh City", "TP. Hồ Chí Minh"),
     summary: t(
       "Built production web applications across social, e-commerce and interactive product features, plus the reusable UI system underneath them.",
@@ -205,12 +223,12 @@ export const roles: Role[] = [
     ),
     work: [
       t(
-        "Created reusable dashboards, charts, filters, forms and data-heavy components shared across several product areas.",
-        "Dựng dashboard, biểu đồ, bộ lọc, form và các component nhiều dữ liệu dùng chung cho nhiều mảng sản phẩm.",
+        "Created reusable UI systems including dashboards, charts, filters, forms and data-heavy components shared across several product areas.",
+        "Dựng hệ thống UI dùng lại được gồm dashboard, biểu đồ, bộ lọc, form và các component nhiều dữ liệu dùng chung.",
       ),
       t(
-        "Integrated REST APIs, WebSocket events, caching and database-driven flows for responsive, real-time experiences.",
-        "Tích hợp REST API, sự kiện WebSocket, caching và các luồng dựa trên database để có trải nghiệm real-time mượt.",
+        "Integrated RESTful APIs, WebSocket events, caching and database-driven flows for responsive, real-time experiences.",
+        "Tích hợp RESTful API, sự kiện WebSocket, caching và các luồng dữ liệu để có trải nghiệm real-time mượt mà.",
       ),
       t(
         "Contributed Flutter mobile features and Spine animation integration, working with backend, product, design and QA through Git and Jira.",
@@ -232,8 +250,8 @@ export const roles: Role[] = [
     ),
     work: [
       t(
-        "Develop and maintain project-based web applications with React/Next.js, Node.js/NestJS, Laravel/PHP, C# and WordPress/CMS — chosen per project rather than by habit.",
-        "Phát triển và bảo trì ứng dụng web theo dự án bằng React/Next.js, Node.js/NestJS, Laravel/PHP, C# và WordPress/CMS — chọn theo từng dự án chứ không theo thói quen.",
+        "Develop and maintain project-based web applications with React/Next.js, Node.js/NestJS, Laravel/PHP, C#, Payload CMS and WordPress (Flatsome).",
+        "Phát triển và bảo trì ứng dụng web theo dự án bằng React/Next.js, Node.js/NestJS, Laravel/PHP, C#, Payload CMS và WordPress (Flatsome).",
       ),
       t(
         "Build responsive frontend interfaces, REST APIs, database-driven features and third-party integrations.",
@@ -244,11 +262,11 @@ export const roles: Role[] = [
         "Làm việc trực tiếp với khách: phân tích yêu cầu, ước lượng phạm vi, xử lý sự cố và bàn giao tính năng dùng được thật.",
       ),
       t(
-        "Apply technical SEO and performance practice: semantic HTML, metadata, image optimisation, lazy loading, caching and Core Web Vitals.",
-        "Áp dụng SEO kỹ thuật và tối ưu hiệu năng: HTML ngữ nghĩa, metadata, tối ưu ảnh, lazy loading, caching và Core Web Vitals.",
+        "Apply technical SEO and performance practice: semantic HTML, structured data, metadata, image optimisation, lazy loading, caching and Core Web Vitals.",
+        "Áp dụng SEO kỹ thuật và tối ưu hiệu năng: HTML ngữ nghĩa, dữ liệu có cấu trúc, metadata, tối ưu ảnh, lazy loading, caching và Core Web Vitals.",
       ),
     ],
-    stack: ["React", "Next.js", "Node.js", "NestJS", "Laravel", "C#", "WordPress", "Technical SEO"],
+    stack: ["React", "Next.js", "Node.js", "NestJS", "Laravel", "C#", "WordPress", "Payload CMS", "Technical SEO"],
   },
 ];
 
@@ -279,12 +297,13 @@ export const domains: Domain[] = [
       "React",
       "Next.js",
       "TypeScript",
-      "JavaScript",
+      "JavaScript (ES6+)",
       "Tailwind CSS",
       "SCSS",
       "Bootstrap",
       "SWR",
       "Vite",
+      "Angular (basic)",
       "Responsive UI",
       "State management",
       "API integration",
@@ -300,13 +319,13 @@ export const domains: Domain[] = [
     items: [
       "Node.js",
       "NestJS",
-      "Express",
+      "Express.js",
       "Laravel / PHP",
       "C#",
-      "REST API",
+      "RESTful APIs",
       "WebSocket",
-      "Authentication",
-      "Queues / BullMQ",
+      "Webhooks",
+      "BullMQ",
       "Background jobs",
       "System design",
     ],
@@ -323,8 +342,9 @@ export const domains: Domain[] = [
       "LLM integration",
       "Prompt engineering",
       "RAG concepts",
-      "Python",
+      "Python (AI testing)",
       "n8n",
+      "AI Coding Assistants",
       "Automation pipelines",
     ],
   },
@@ -333,7 +353,7 @@ export const domains: Domain[] = [
     short: "Testing",
     label: t("Testing", "Kiểm thử"),
     aside: t("Proof before release", "Bằng chứng trước khi phát hành"),
-    depth: 3,
+    depth: 4,
     items: [
       "Playwright",
       "End-to-end testing",
@@ -346,22 +366,22 @@ export const domains: Domain[] = [
     id: "database",
     short: "Data",
     label: t("Database", "Cơ sở dữ liệu"),
-    aside: t("Where the truth is kept", "Nơi giữ sự thật"),
+    aside: t("Data stores & caching", "Lưu trữ dữ liệu & caching"),
     depth: 4,
-    items: ["MongoDB", "PostgreSQL", "MySQL", "Redis", "Query design", "Caching"],
+    items: ["PostgreSQL", "MongoDB (Mongoose)", "MySQL", "Redis", "Query design", "Caching"],
   },
   {
     id: "devops",
     short: "DevOps",
     label: t("DevOps / Infrastructure", "DevOps / Hạ tầng"),
-    aside: t("Getting it there and keeping it up", "Đưa lên và giữ cho sống"),
+    aside: t("Deployment & delivery", "Triển khai & phân phối"),
     depth: 3,
     items: [
       "Docker",
       "Nginx",
       "Cloudflare",
       "Ubuntu VPS",
-      "Jenkins",
+      "Jenkins CI/CD",
       "Deployment",
       "Environment config",
     ],
@@ -369,10 +389,10 @@ export const domains: Domain[] = [
   {
     id: "mobile",
     short: "Mobile",
-    label: t("Mobile", "Mobile"),
-    aside: t("The same product, in hand", "Cùng sản phẩm, trên tay"),
+    label: t("Mobile & CMS", "Mobile & CMS"),
+    aside: t("Cross-platform & content", "Ứng dụng đa nền tảng & CMS"),
     depth: 3,
-    items: ["Flutter", "React Native CLI", "Dart", "Platform builds"],
+    items: ["React Native", "Flutter", "Payload CMS", "WordPress (Flatsome)", "Spine animation"],
   },
   {
     id: "game",
@@ -386,12 +406,13 @@ export const domains: Domain[] = [
     id: "tools",
     short: "Tools",
     label: t("Tools / Workflow", "Công cụ / Quy trình"),
-    aside: t("How the work moves", "Cách công việc chạy"),
+    aside: t("Development & collaboration", "Quy trình & phối hợp"),
     depth: 4,
     items: [
       "Git",
       "GitHub",
       "npm / yarn",
+      "Vite",
       "Webpack",
       "Jira",
       "Trello",

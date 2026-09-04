@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { profile } from "@/content/profile";
 import type { Category, FeaturedDetail, Project } from "@/content/projects";
 import { T, t } from "@/lib/i18n";
@@ -16,6 +16,7 @@ const labels = {
   study: t("Read the case study", "Đọc case study"),
   split: t("My share of the work", "Phần việc của tôi"),
   built: t("Built with", "Công nghệ"),
+  artifactTag: t("Featured Project", "Dự án tiêu biểu"),
 };
 
 const categoryLabel: Record<Category, ReturnType<typeof t>> = {
@@ -37,11 +38,26 @@ function formatDate(iso: string) {
 type Props = { project: Project; detail: FeaturedDetail; delay: number };
 
 export function FeaturedCard({ project, detail, delay }: Props) {
+  const [spotlight, setSpotlight] = useState({ x: 0, y: 0, active: false });
+
   /* Hovering a card sends one pulse into the scene: the qi river brightens and
      quickens for about a second, then settles. */
   const pulse = useCallback(() => {
     window.dispatchEvent(new CustomEvent("world:pulse"));
   }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setSpotlight({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+      active: true,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setSpotlight((prev) => ({ ...prev, active: false }));
+  };
 
   const source = project.repo ? `${profile.githubUrl}/${project.repo}` : null;
 
@@ -49,16 +65,34 @@ export function FeaturedCard({ project, detail, delay }: Props) {
     <Reveal as="article" delay={delay}>
       <div
         onMouseEnter={pulse}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
         onFocusCapture={pulse}
-        className="panel group relative overflow-hidden transition-colors duration-500 hover:border-hairline"
+        className="panel group relative overflow-hidden transition-all duration-300 hover:border-hairline hover:-translate-y-1"
       >
+        {/* Dynamic Cursor Spotlight */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 transition-opacity duration-300 z-10"
+          style={{
+            opacity: spotlight.active ? 1 : 0,
+            background: `radial-gradient(550px circle at ${spotlight.x}px ${spotlight.y}px, rgba(237, 212, 154, 0.08), transparent 70%)`,
+          }}
+        />
+
+        {/* Ethereal top edge glow line */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 z-20"
+        />
+
         {/* COVER — the visual anchor. Sigil at full scale, index numeral as a
             secondary mark, and a warm gold wash so the card has an image even
             without a screenshot. */}
         <div className="relative aspect-[16/6] w-full overflow-hidden border-b border-line-soft bg-surface-2/40 sm:aspect-[16/5]">
           <span
             aria-hidden="true"
-            className="absolute inset-0 text-accent opacity-40 transition-opacity duration-700 group-hover:opacity-60"
+            className="absolute inset-0 text-accent opacity-40 transition-all duration-700 group-hover:opacity-70 group-hover:scale-105"
           >
             <Sigil seed={project.id} className="h-full w-full" />
           </span>
@@ -73,18 +107,23 @@ export function FeaturedCard({ project, detail, delay }: Props) {
             }}
           />
 
-          {/* The oversized index — sits behind the eye, not fights for it */}
+          {/* The oversized index */}
           <span
             aria-hidden="true"
-            className="display pointer-events-none absolute right-6 top-4 select-none text-[clamp(4.5rem,10vw,7.5rem)] leading-none text-accent/25 sm:right-10"
+            className="display pointer-events-none absolute right-6 top-4 select-none text-[clamp(4.5rem,10vw,7.5rem)] leading-none text-accent/65 transition-colors duration-300 group-hover:text-accent font-medium sm:right-10"
           >
             {detail.index}
           </span>
 
-          {/* Category chip, top-left */}
-          <span className="mono absolute left-6 top-6 rounded-chip border border-line bg-paper/70 px-2.5 py-1 text-step--2 uppercase tracking-[0.14em] text-ink-soft sm:left-10">
-            <T v={categoryLabel[project.category]} />
-          </span>
+          {/* Category & Artifact chips, top-left */}
+          <div className="absolute left-6 top-6 flex items-center gap-2 sm:left-10">
+            <span className="mono rounded-chip border border-line bg-paper/80 px-2.5 py-1 text-step--2 uppercase tracking-[0.14em] text-ink-soft backdrop-blur-md">
+              <T v={categoryLabel[project.category]} />
+            </span>
+            <span className="mono hidden sm:inline-flex rounded-chip border border-accent/30 bg-accent/10 px-2.5 py-1 text-step--2 uppercase tracking-[0.12em] text-accent backdrop-blur-md">
+              <T v={labels.artifactTag} />
+            </span>
+          </div>
         </div>
 
         {/* HEADER — title + one-line summary, at recruiter-scan size. */}
@@ -184,7 +223,7 @@ export function FeaturedCard({ project, detail, delay }: Props) {
               {project.built.map((tech) => (
                 <li
                   key={tech}
-                  className="rounded-chip border border-line bg-paper/60 px-2 py-1 text-step--2 text-ink-soft"
+                  className="rounded-chip border border-line bg-paper/60 px-2.5 py-1 text-step--2 text-ink-soft transition-all duration-200 hover:border-accent/60 hover:text-accent hover:bg-surface-2 hover:shadow-[0_0_10px_rgba(237,212,154,0.15)]"
                 >
                   {tech}
                 </li>
@@ -201,7 +240,7 @@ export function FeaturedCard({ project, detail, delay }: Props) {
                 href={source}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-1.5 text-ink no-underline transition-colors hover:text-accent"
+                className="inline-flex items-center gap-1.5 rounded-chip border border-line/70 bg-surface/80 px-2.5 py-1 text-ink no-underline backdrop-blur-sm transition-all duration-200 hover:border-accent hover:text-accent hover:shadow-[0_0_14px_rgba(237,212,154,0.25)]"
               >
                 <T v={project.note ? labels.study : labels.source} />
                 <svg
