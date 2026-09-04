@@ -31,18 +31,19 @@ const code = JetBrains_Mono({
 });
 
 const description =
-  "Full-stack software engineer in Ho Chi Minh City. Business systems — rental, point of sale, warehouse, e-commerce — built with React, Next.js, TypeScript, NestJS and whichever backend the problem calls for.";
+  "Frontend engineer in Ho Chi Minh City building production React and Next.js apps: responsive UI, SSR/SEO, Core Web Vitals, real-time features, and REST/WebSocket API integration. Frontend-focused full-stack — I can go down the stack when the problem needs it.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(profile.siteUrl),
   title: {
-    default: `${profile.nameLatin} — Full-stack software engineer`,
+    default: `${profile.nameLatin} — Frontend & Full-stack Engineer`,
     template: `%s · ${profile.nameLatin}`,
   },
   description,
   keywords: [
     "Truong Vinh Thanh",
     "Trương Vĩnh Thành",
+    "frontend developer",
     "full-stack developer",
     "software engineer",
     "React",
@@ -59,13 +60,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     alternateLocale: "vi_VN",
     url: profile.siteUrl,
-    title: `${profile.nameLatin} — Full-stack software engineer`,
+    title: `${profile.nameLatin} — Frontend & Full-stack Engineer`,
     description,
     siteName: profile.nameLatin,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${profile.nameLatin} — Full-stack software engineer`,
+    title: `${profile.nameLatin} — Frontend & Full-stack Engineer`,
     description,
   },
   robots: { index: true, follow: true },
@@ -88,7 +89,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     "@type": "Person",
     name: profile.nameLatin,
     alternateName: profile.name,
-    jobTitle: "Full-stack software engineer",
+    jobTitle: "Frontend & Full-stack Software Engineer",
     email: `mailto:${profile.email}`,
     url: profile.siteUrl,
     sameAs: [profile.githubUrl, profile.linkedinUrl],

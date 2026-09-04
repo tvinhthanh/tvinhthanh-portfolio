@@ -14,10 +14,13 @@ export const profile = {
   initials: "TVT",
 
   discipline: t(
-    "Full-stack software engineer · AI · Systems",
-    "Kỹ sư phần mềm full-stack · AI · Hệ thống",
+    "Frontend Engineer · Full-stack Software Engineer",
+    "Frontend Engineer · Kỹ sư phần mềm Full-stack",
   ),
-  role: t("Full-stack software engineer", "Kỹ sư phần mềm full-stack"),
+  role: t(
+    "Frontend Engineer · Full-stack Software Engineer",
+    "Frontend Engineer · Kỹ sư phần mềm Full-stack",
+  ),
   statement: t(
     "Building scalable products, intelligent systems, and digital experiences from interface to infrastructure.",
     "Xây dựng sản phẩm có khả năng mở rộng, hệ thống thông minh và trải nghiệm số — từ giao diện xuống tới hạ tầng.",
@@ -26,7 +29,7 @@ export const profile = {
   location: t("Ho Chi Minh City", "TP. Hồ Chí Minh"),
   locationFull: t("Ho Chi Minh City, Vietnam", "TP. Hồ Chí Minh, Việt Nam"),
   availability: t("Available for opportunities", "Sẵn sàng cho cơ hội mới"),
-  headline: "React · Next.js · Node.js · AI",
+  headline: "React · Next.js · TypeScript · Tailwind",
 
   email: "tvinhthanhsg@gmail.com",
   phone: "+84 797 200 168",
@@ -47,7 +50,7 @@ export const profile = {
   ),
 
   facts: [
-    { label: t("Role", "Vai trò"), value: t("Full-stack software engineer", "Kỹ sư phần mềm full-stack") },
+    { label: t("Role", "Vai trò"), value: t("Frontend Engineer · Full-stack Software Engineer", "Frontend Engineer · Kỹ sư phần mềm Full-stack") },
     { label: t("Based in", "Ở tại"), value: t("Ho Chi Minh City, Vietnam", "TP. Hồ Chí Minh, Việt Nam") },
     { label: t("Experience", "Kinh nghiệm"), value: t("3+ years in production", "3+ năm với sản phẩm chạy thật") },
     { label: t("Public repositories", "Repository công khai"), value: t("31 on GitHub", "31 trên GitHub") },

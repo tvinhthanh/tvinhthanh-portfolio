@@ -3,7 +3,7 @@ import { profile } from "@/content/profile";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = `${profile.nameLatin} — full-stack developer`;
+export const alt = `${profile.nameLatin} — frontend & full-stack developer`;
 
 /** Dark palette and lattice motif from the site itself, so the share card
  *  reads as a piece of the page rather than a generic banner. */
@@ -56,7 +56,7 @@ export default function OpengraphImage() {
             {profile.nameLatin}
           </div>
           <div style={{ display: "flex", fontSize: 38, color: "#9d9a95", marginTop: 16 }}>
-            Full-stack developer
+            Frontend & Full-stack Engineer
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 24, color: "#7e7b76" }}>
