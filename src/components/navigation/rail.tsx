@@ -143,7 +143,7 @@ export function Rail() {
 
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[var(--rail)] flex-col justify-between border-r border-line px-6 py-8 lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[var(--rail)] flex-col justify-between border-r border-line bg-paper/55 px-6 py-8 backdrop-blur-lg lg:flex">
         <Identity />
         <Marks active={active} />
         <Ledger />
