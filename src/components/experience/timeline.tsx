@@ -33,15 +33,23 @@ export function Timeline() {
             <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
               <p className="mono text-step--2 uppercase tracking-[0.14em] text-ink-faint">
                 <span className="tnum">{label(role.start)}</span>
-                <span aria-hidden="true" className="mx-2 text-hairline">
+                {/* Separators inherit --ink-faint: --hairline is a border colour
+                    and drops to ~1.5:1 as type. */}
+                <span aria-hidden="true" className="mx-2">
                   →
                 </span>
                 <span className="tnum">{role.end ? label(role.end) : <T v={now} />}</span>
-                <span aria-hidden="true" className="mx-2 text-hairline">
+                <span aria-hidden="true" className="mx-2">
                   ·
                 </span>
                 <span className="tnum">{duration(role)}</span>
               </p>
+
+              {role.employmentType ? (
+                <span className="mono inline-flex items-center rounded-base border border-line-soft bg-surface-2/60 px-2 py-0.5 text-step--2 uppercase tracking-[0.12em] text-ink-soft">
+                  <T v={role.employmentType} />
+                </span>
+              ) : null}
 
               {running ? (
                 <span className="mono inline-flex items-center gap-2 rounded-base border border-accent/40 bg-accent-wash px-2 py-0.5 text-step--2 uppercase tracking-[0.12em] text-accent">

@@ -38,7 +38,7 @@ export function Contact() {
       <Reveal>
         <a
           href={`mailto:${profile.email}`}
-          className="display block break-words text-step-4 text-ink no-underline transition-colors duration-200 hover:text-accent"
+          className="display block break-words text-step-3 text-ink no-underline transition-colors duration-200 hover:text-accent"
         >
           {profile.email}
         </a>

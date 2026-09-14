@@ -67,16 +67,16 @@
 
   --shadow-pop: 0 18px 44px -28px rgba(22, 28, 32, 0.5);
 
-  /* Type scale — 1.25 */
+  /* Type scale — calibrated for balanced, professional density */
   --step--2: 0.6875rem;
   --step--1: 0.8125rem;
-  --step-0: 1rem;
-  --step-1: 1.125rem;
-  --step-2: 1.375rem;
-  --step-3: 1.75rem;
-  --step-4: clamp(1.9rem, 1.35rem + 2.2vw, 2.65rem);
-  --step-5: clamp(2.4rem, 1.6rem + 3.4vw, 3.6rem);
-  --step-hero: clamp(2.9rem, 1.1rem + 8vw, 6.75rem);
+  --step-0: 0.9375rem;
+  --step-1: 1.0625rem;
+  --step-2: 1.25rem;
+  --step-3: 1.5rem;
+  --step-4: clamp(1.6rem, 1.2rem + 1.2vw, 2.15rem);
+  --step-5: clamp(1.9rem, 1.4rem + 1.8vw, 2.65rem);
+  --step-hero: clamp(2.35rem, 1.3rem + 3.8vw, 4.25rem);
 
   --s-section: clamp(84px, 10vh, 132px);
   --doc: 46rem;
@@ -483,6 +483,19 @@ body {
   .pulse {
     animation: none;
   }
+
+  /* The celestial rings and the sweep across the primary CTA are ambient loops
+     that never stop on their own. The WebGL world already drops to a single
+     still frame at this setting; these have to be held still with it. */
+  .celestial-spin,
+  .celestial-spin-rev {
+    animation: none;
+  }
+
+  .shimmer-gold-btn::after {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 /* ============================================================
@@ -596,6 +609,54 @@ body {
   );
   z-index: -1;
   pointer-events: none;
+}
+
+/* Held for the single frame in which the theme swaps — see ThemeToggle. */
+:root[data-theme-swapping] *,
+:root[data-theme-swapping] *::before,
+:root[data-theme-swapping] *::after {
+  transition: none !important;
+}
+
+/* ============================================================
+   TEXT SHIELD
+
+   The hero is one of the three deliberate exposures, so the paper
+   cannot close over it the way .quiet-strip closes the sections
+   between. But the qi river runs straight through the statement
+   line, and gold particles on --ink-soft measure about 1.8:1 where
+   they cross a glyph — the one sentence that has to be read is the
+   one the scene interferes with most.
+
+   So the paper gathers behind the type only: densest under the text,
+   gone well before the column edge, no seam anywhere. The river is
+   still visible above, below and around the words.
+   ============================================================ */
+
+.text-shield {
+  position: relative;
+}
+
+.text-shield > * {
+  position: relative;
+  z-index: 1;
+}
+
+.text-shield::before {
+  content: "";
+  position: absolute;
+  inset: -2rem -2.5rem;
+  z-index: 0;
+  pointer-events: none;
+  /* The type runs the full width of the column, so the plateau has to as well —
+     a tighter centre left the end of the statement line back in the particles. */
+  background: radial-gradient(
+    86% 74% at 46% 50%,
+    color-mix(in srgb, var(--paper) 92%, transparent) 0%,
+    color-mix(in srgb, var(--paper) 84%, transparent) 46%,
+    color-mix(in srgb, var(--paper) 46%, transparent) 72%,
+    transparent 92%
+  );
 }
 
 /* Technology chips arriving in the expertise panel — staggered by index,

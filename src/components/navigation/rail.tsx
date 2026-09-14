@@ -112,10 +112,11 @@ function Ledger() {
 function Identity() {
   return (
     <div>
-      <p className="display text-step-1 leading-tight text-ink">{profile.name}</p>
-      <p className="mono mt-1.5 text-step--2 uppercase tracking-[0.14em] text-ink-faint">
-        <T v={profile.role} />
-      </p>
+      <p className="display text-step-0 font-medium leading-tight text-ink">{profile.name}</p>
+      <div className="mt-2 space-y-0.5 text-[0.6875rem] leading-relaxed text-ink-faint">
+        <p className="font-medium text-ink-soft">Frontend Engineer</p>
+        <p>Full-Stack Software Engineer</p>
+      </div>
       <p className="mt-3 flex items-center gap-2 text-step--2 text-ink-soft">
         <span aria-hidden="true" className="pulse h-1.5 w-1.5 rounded-full bg-status-live" />
         <T v={profile.availability} />

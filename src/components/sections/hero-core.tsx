@@ -4,16 +4,33 @@ import { useCallback, useState } from "react";
 import { T, t } from "@/lib/i18n";
 
 const coreData = {
-  statusBadge: t("Full-stack & Frontend", "Kỹ sư Full-stack & Frontend"),
+  statusBadge: t("Full-stack & Mobile", "Kỹ sư Full-stack & Mobile"),
   architectureSub: t("Production-Grade Systems", "Hệ Thống Thực Chiến"),
-  frontendLabel: t("Frontend Architecture", "Thế Mạnh Frontend"),
-  frontendVal: t("React 19 · Next.js · TypeScript", "React 19 · Next.js · TypeScript"),
-  backendLabel: t("Backend & Realtime", "Backend & Hàng Đợi"),
-  backendVal: t("NestJS · Redis · BullMQ", "NestJS · Redis · BullMQ"),
-  prodMetric: t("3+ Years Production", "3+ Năm Thực Chiến"),
-  reposMetric: t("31 Repositories", "31 Repositories"),
   pulseHint: t("Click core to pulse interactive scene", "Nhấp để tương tác không gian 3D"),
 };
+
+const stackDomains = [
+  {
+    label: t("Web & UI", "Web & UI"),
+    items: ["React 19", "Next.js", "TypeScript", "Tailwind"],
+    highlight: true,
+  },
+  {
+    label: t("Mobile", "Mobile"),
+    items: ["React Native", "Flutter", "Android", "Cross-plat"],
+    highlight: true,
+  },
+  {
+    label: t("Backend", "Backend"),
+    items: ["NestJS", "Node.js", "WebSocket", "BullMQ"],
+    highlight: false,
+  },
+  {
+    label: t("Cloud & AI", "Cloud & AI"),
+    items: ["PostgreSQL", "Redis", "Docker", "OpenAI"],
+    highlight: false,
+  },
+];
 
 export function HeroCore() {
   const [pulsing, setPulsing] = useState(false);
@@ -25,7 +42,7 @@ export function HeroCore() {
   }, []);
 
   return (
-    <div className="panel glow-subtle relative overflow-hidden p-6 sm:p-7">
+    <div className="panel glow-subtle relative overflow-hidden p-5 sm:p-6">
       {/* Luminous corner accents */}
       <div
         aria-hidden="true"
@@ -37,29 +54,30 @@ export function HeroCore() {
       />
 
       {/* Header status bar */}
-      <div className="flex items-center justify-between border-b border-line-soft pb-4">
-        <div className="flex items-center gap-2.5">
-          <span className="relative flex h-2.5 w-2.5">
+      <div className="flex items-center justify-between border-b border-line-soft pb-3">
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
             <span className="pulse absolute inline-flex h-full w-full rounded-full bg-status-live opacity-75" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-status-live" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-status-live" />
           </span>
-          <span className="mono text-step--2 uppercase tracking-[0.14em] text-accent">
+          <span className="mono text-[0.6875rem] uppercase tracking-[0.14em] text-accent font-medium">
             <T v={coreData.statusBadge} />
           </span>
         </div>
-        <span className="mono text-step--2 text-ink-faint">
+        <span className="mono text-[0.6875rem] text-ink-faint">
           <T v={coreData.architectureSub} />
         </span>
       </div>
 
-      {/* Center: The Celestial Core / Linh Trận */}
-      <div className="relative my-6 flex flex-col items-center justify-center">
+      {/* Center: The Celestial Core */}
+      <div className="relative my-4 flex flex-col items-center justify-center">
         <button
           type="button"
           onClick={channelQi}
           onMouseEnter={channelQi}
-          aria-label="Channel Qi into the celestial world"
-          className="group relative flex h-36 w-36 cursor-pointer items-center justify-center rounded-full transition-transform duration-300 active:scale-95"
+          onFocus={channelQi}
+          aria-label="Channel pulse into the celestial world"
+          className="group relative flex h-32 w-32 cursor-pointer items-center justify-center rounded-full transition-transform duration-300 active:scale-95 focus:outline-none focus-visible:outline-none"
         >
           {/* Outer rotating celestial ring */}
           <svg
@@ -83,7 +101,7 @@ export function HeroCore() {
 
           {/* Inner counter-rotating ring */}
           <svg
-            className="celestial-spin-rev absolute inset-3 h-30 w-30 text-hairline transition-colors duration-300 group-hover:text-accent/40"
+            className="celestial-spin-rev absolute inset-2.5 h-27 w-27 text-hairline transition-colors duration-300 group-hover:text-accent/40"
             viewBox="0 0 120 120"
             fill="none"
           >
@@ -106,54 +124,47 @@ export function HeroCore() {
 
           {/* Center Orb */}
           <div
-            className={`relative flex h-16 w-16 items-center justify-center rounded-full border transition-all duration-300 ${
+            className={`relative flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-300 ${
               pulsing
                 ? "border-accent bg-accent/25 shadow-[0_0_24px_rgba(237,212,154,0.6)]"
                 : "border-accent/40 bg-surface-2/70 shadow-[0_0_12px_rgba(237,212,154,0.15)] group-hover:border-accent group-hover:shadow-[0_0_20px_rgba(237,212,154,0.35)]"
             }`}
           >
-            <span className="mono text-step-0 font-medium text-accent">TVT</span>
+            <span className="mono text-step--1 font-medium text-accent">TVT</span>
           </div>
         </button>
 
-        <p className="mono mt-2 text-step--2 text-ink-faint transition-colors duration-200 group-hover:text-accent">
+        <p className="mono mt-1 text-[0.625rem] uppercase tracking-[0.12em] text-ink-faint transition-colors duration-200 group-hover:text-accent">
           <T v={coreData.pulseHint} />
         </p>
       </div>
 
-      {/* Telemetry Metrics Grid */}
-      <div className="grid grid-cols-2 gap-2.5 pt-2">
-        <div className="rounded-base border border-line-soft bg-surface-2/40 p-3 transition-colors duration-200 hover:border-line">
-          <p className="mono text-[0.65rem] uppercase tracking-[0.12em] text-ink-faint">
-            <T v={coreData.frontendLabel} />
-          </p>
-          <p className="mt-1 text-step--1 font-medium text-ink">
-            <T v={coreData.frontendVal} />
-          </p>
-        </div>
-
-        <div className="rounded-base border border-line-soft bg-surface-2/40 p-3 transition-colors duration-200 hover:border-line">
-          <p className="mono text-[0.65rem] uppercase tracking-[0.12em] text-ink-faint">
-            <T v={coreData.backendLabel} />
-          </p>
-          <p className="mt-1 text-step--1 font-medium text-ink">
-            <T v={coreData.backendVal} />
-          </p>
-        </div>
-
-        <div className="rounded-base border border-line-soft bg-surface-2/40 p-3 transition-colors duration-200 hover:border-line">
-          <p className="mono text-[0.65rem] uppercase tracking-[0.12em] text-ink-faint">EXP</p>
-          <p className="mt-1 text-step--1 font-medium text-accent">
-            <T v={coreData.prodMetric} />
-          </p>
-        </div>
-
-        <div className="rounded-base border border-line-soft bg-surface-2/40 p-3 transition-colors duration-200 hover:border-line">
-          <p className="mono text-[0.65rem] uppercase tracking-[0.12em] text-ink-faint">CODEBASE</p>
-          <p className="mt-1 text-step--1 font-medium text-ink">
-            <T v={coreData.reposMetric} />
-          </p>
-        </div>
+      {/* Telemetry Stack Grid - Sleek Developer Badges */}
+      <div className="grid grid-cols-2 gap-2 pt-1">
+        {stackDomains.map((domain) => (
+          <div
+            key={domain.label.en}
+            className="rounded-base border border-line-soft bg-surface-2/30 p-2.5 transition-colors duration-200 hover:border-line"
+          >
+            <span
+              className={`mono text-[0.625rem] font-medium uppercase tracking-[0.14em] ${
+                domain.highlight ? "text-accent" : "text-ink-faint"
+              }`}
+            >
+              <T v={domain.label} />
+            </span>
+            <div className="mt-1.5 flex flex-wrap gap-1">
+              {domain.items.map((tech) => (
+                <span
+                  key={tech}
+                  className="rounded-chip border border-line-soft/80 bg-paper/60 px-1.5 py-0.5 text-[0.6875rem] font-normal leading-tight text-ink-soft transition-colors hover:border-accent/40 hover:text-accent"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

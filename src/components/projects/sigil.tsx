@@ -4,20 +4,18 @@
  * alike, no stock art, and it costs a few hundred bytes.
  */
 
-type Dot = { key: string; cx: number; cy: number; r: number; o: number };
+type Node = { x: number; y: number };
+type Line = { x1: number; y1: number; x2: number; y2: number; opacity: number };
 
-/* Values are rounded because React serialises floats differently on the server
-   and in the browser, and the last digit is enough to break hydration. */
-const round = (n: number) => Math.round(n * 1000) / 1000;
+type PatternData = {
+  nodes: Node[];
+  lines: Line[];
+  accentGlow: { cx: number; cy: number; r: number };
+};
 
-const COLS = 52;
-const ROWS = 16;
+const cache = new Map<string, PatternData>();
 
-/* Generation lives outside the component: it is a pure function of the seed,
-   and the result is cached so six cards do not recompute on every render. */
-const cache = new Map<string, Dot[]>();
-
-function build(seed: string): Dot[] {
+function build(seed: string): PatternData {
   const cached = cache.get(seed);
   if (cached) return cached;
 
@@ -32,31 +30,51 @@ function build(seed: string): Dot[] {
     return ((state >>> 0) % 1000) / 1000;
   };
 
-  const phase = round(next() * 6.28);
-  const freq = round(0.28 + next() * 0.42);
-  const skew = round(0.16 + next() * 0.3);
+  const nodeCount = 14;
+  const nodes: Node[] = [];
 
-  const dots: Dot[] = [];
-  for (let x = 0; x < COLS; x++) {
-    for (let y = 0; y < ROWS; y++) {
-      const strength = Math.abs(
-        Math.sin(x * freq + phase) * Math.cos(y * skew + phase * 0.5),
-      );
-      dots.push({
-        key: `${x}-${y}`,
-        cx: x * 5 + 3,
-        cy: y * 5 + 3,
-        r: round(0.28 + strength * 0.95),
-        o: round(0.1 + strength * 0.55),
-      });
+  for (let i = 0; i < nodeCount; i++) {
+    nodes.push({
+      x: Math.round(15 + next() * 230),
+      y: Math.round(10 + next() * 60),
+    });
+  }
+
+  const lines: Line[] = [];
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 65) {
+        lines.push({
+          x1: nodes[i].x,
+          y1: nodes[i].y,
+          x2: nodes[j].x,
+          y2: nodes[j].y,
+          opacity: Math.max(0.08, Math.round((1 - dist / 65) * 0.45 * 100) / 100),
+        });
+      }
     }
   }
 
-  cache.set(seed, dots);
-  return dots;
+  const data: PatternData = {
+    nodes,
+    lines,
+    accentGlow: {
+      cx: Math.round(50 + next() * 160),
+      cy: Math.round(20 + next() * 40),
+      r: Math.round(35 + next() * 25),
+    },
+  };
+
+  cache.set(seed, data);
+  return data;
 }
 
 export function Sigil({ seed, className = "" }: { seed: string; className?: string }) {
+  const { nodes, lines, accentGlow } = build(seed);
+
   return (
     <svg
       viewBox="0 0 260 80"
@@ -65,9 +83,43 @@ export function Sigil({ seed, className = "" }: { seed: string; className?: stri
       aria-hidden="true"
       preserveAspectRatio="xMidYMid slice"
     >
+      <defs>
+        {/* Soft focal glow */}
+        <radialGradient id={`sigil-glow-${seed}`} cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="currentColor" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
+      {/* Background ambient auroral orb */}
+      <circle
+        cx={accentGlow.cx}
+        cy={accentGlow.cy}
+        r={accentGlow.r}
+        fill={`url(#sigil-glow-${seed})`}
+      />
+
+      {/* Geometric constellation lattice lines */}
+      <g stroke="currentColor" strokeWidth="0.75">
+        {lines.map((l, i) => (
+          <line
+            key={`l-${i}`}
+            x1={l.x1}
+            y1={l.y1}
+            x2={l.x2}
+            y2={l.y2}
+            strokeOpacity={l.opacity}
+          />
+        ))}
+      </g>
+
+      {/* Star constellation nodes */}
       <g fill="currentColor">
-        {build(seed).map((dot) => (
-          <circle key={dot.key} cx={dot.cx} cy={dot.cy} r={dot.r} opacity={dot.o} />
+        {nodes.map((n, i) => (
+          <g key={`n-${i}`}>
+            <circle cx={n.x} cy={n.y} r="1.1" opacity="0.65" />
+            <circle cx={n.x} cy={n.y} r="2.4" opacity="0.18" />
+          </g>
         ))}
       </g>
     </svg>

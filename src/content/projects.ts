@@ -114,14 +114,14 @@ export const projects: Project[] = [
     repo: "trangsuc",
     name: t("Jewellery, three markets", "Trang sức, ba thị trường"),
     summary: t(
-      "Jewellery storefront for three markets. Live multi-currency pricing, 3D product inspection, and a server-side proxy so the browser never holds a credential.",
-      "Cửa hàng trang sức cho ba thị trường. Giá đa tiền tệ cập nhật trực tiếp, xem sản phẩm 3D, và proxy phía server để trình duyệt không bao giờ giữ credential.",
+      "Jewellery storefront for three markets with Payload CMS backoffice. Live multi-currency pricing, 3D product inspection, and a server-side proxy so the browser never holds a credential.",
+      "Cửa hàng trang sức cho ba thị trường kèm backoffice Payload CMS. Giá đa tiền tệ cập nhật trực tiếp, xem sản phẩm 3D, và proxy phía server để trình duyệt không bao giờ giữ credential.",
     ),
-    built: ["Next.js 16", "React 19", "React Compiler", "Tailwind v4", "Supabase", "model-viewer"],
+    built: ["Next.js 16", "React 19", "Payload CMS", "Tailwind v4", "Supabase", "model-viewer"],
     category: "commerce",
     language: "TypeScript",
     stars: 0,
-    updated: "2026-08-24",
+    updated: "2026-02-15",
     featured: true,
   },
   {
@@ -475,14 +475,17 @@ export const featuredDetail: Record<string, FeaturedDetail> = {
   },
   trangsuc: {
     index: "05",
-    role: t("Frontend and backend-for-frontend", "Frontend và lớp backend-for-frontend"),
+    role: t(
+      "Frontend, backend-for-frontend, and Payload CMS backoffice",
+      "Frontend, lớp backend-for-frontend và backoffice Payload CMS",
+    ),
     challenge: t(
-      "One storefront serving three markets: live multi-currency pricing and 3D product inspection, with every credential kept behind a server-side proxy so the browser never holds one.",
-      "Một cửa hàng phục vụ ba thị trường: giá đa tiền tệ cập nhật trực tiếp và xem sản phẩm 3D, mọi credential nằm sau proxy phía server để trình duyệt không bao giờ giữ.",
+      "One storefront serving three markets: live multi-currency pricing, 3D product inspection, and an integrated Payload CMS admin backoffice for product catalog and order management, with every credential kept behind a server-side proxy so the browser never holds one.",
+      "Một cửa hàng phục vụ ba thị trường: giá đa tiền tệ cập nhật trực tiếp, xem sản phẩm 3D, và backoffice quản trị Payload CMS cho catalog sản phẩm cùng đơn hàng, mọi credential nằm sau proxy phía server để trình duyệt không bao giờ giữ.",
     ),
     outcome: t(
-      "Next.js 16 and React 19 with the React Compiler, on Supabase.",
-      "Next.js 16 và React 19 với React Compiler, chạy trên Supabase.",
+      "Next.js 16 and React 19 with Payload CMS backoffice on Supabase.",
+      "Next.js 16 và React 19 kết hợp quản trị backoffice Payload CMS trên Supabase.",
     ),
   },
   WMS: {

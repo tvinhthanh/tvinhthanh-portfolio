@@ -1,90 +1,44 @@
 import { T, t } from "@/lib/i18n";
 
-type Weapon = {
-  name: string;
-  role: { en: string; vi: string };
-  badge: string;
-};
-
-const weapons: Weapon[] = [
-  {
-    name: "Next.js 16",
-    role: t("SSR, Edge & Full-stack", "SSR, Edge & Full-stack"),
-    badge: "Core",
-  },
-  {
-    name: "React 19",
-    role: t("Concurrent UI & RSC", "Giao diện đa luồng & RSC"),
-    badge: "UI",
-  },
-  {
-    name: "TypeScript",
-    role: t("Type Contracts & Safety", "Hợp đồng kiểu & An toàn"),
-    badge: "Lang",
-  },
-  {
-    name: "NestJS",
-    role: t("Modular Enterprise Services", "Dịch vụ doanh nghiệp module"),
-    badge: "Backend",
-  },
-  {
-    name: "PostgreSQL",
-    role: t("ACID & Immutable Ledgers", "ACID & Sổ cái bất biến"),
-    badge: "Database",
-  },
-  {
-    name: "Redis & BullMQ",
-    role: t("Event Queues & Low-latency", "Hàng đợi sự kiện & Độ trễ thấp"),
-    badge: "Async",
-  },
-  {
-    name: "Docker",
-    role: t("Containerised Delivery", "Đóng gói & Phân phối"),
-    badge: "DevOps",
-  },
-  {
-    name: "Three.js",
-    role: t("WebGL & Interactive 3D", "WebGL & Không gian 3D"),
-    badge: "Graphics",
-  },
+/**
+ * The tools that carry most of the work, named in one line.
+ *
+ * This used to be a grid of eight cards, which repeated the hero panel and the
+ * expertise map below it for a third time and arrived before the section's own
+ * intro had been answered. The map is the thing worth reading here; this is a
+ * caption for it, not a competing block.
+ */
+const core = [
+  "Next.js",
+  "React",
+  "TypeScript",
+  "NestJS",
+  "PostgreSQL",
+  "Redis & BullMQ",
+  "Docker",
+  "Three.js",
 ];
 
-const arsenalTitle = t("Core Technical Pillars", "Công Nghệ Chủ Lực");
+const label = t("Reached for first", "Dùng nhiều nhất");
 
 export function ArsenalShowcase() {
   return (
-    <div className="mb-12">
-      <div className="mb-5 flex items-center justify-between">
-        <p className="mono text-step--2 uppercase tracking-[0.14em] text-accent">
-          <T v={arsenalTitle} />
-        </p>
-        <span className="mono text-step--2 text-ink-faint">8 Core Pillars</span>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {weapons.map((w) => (
-          <div
-            key={w.name}
-            className="panel group relative flex flex-col justify-between p-4 transition-all duration-300 hover:border-hairline hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(237,212,154,0.12)]"
-          >
-            <div className="flex items-start justify-between">
-              <span className="mono rounded-chip border border-line-soft bg-surface-2/60 px-2 py-0.5 text-[0.6875rem] text-ink-faint group-hover:border-accent/40 group-hover:text-accent">
-                {w.badge}
+    <div className="mb-10 grid gap-x-10 gap-y-3 border-t border-line pt-7 md:grid-cols-[minmax(0,10rem)_minmax(0,1fr)]">
+      <p className="mono pt-0.5 text-step--2 uppercase tracking-[0.14em] text-ink-faint">
+        <T v={label} />
+      </p>
+      <ul className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1.5">
+        {core.map((name, i) => (
+          <li key={name} className="flex items-baseline gap-2.5 text-step--1 text-ink">
+            {i > 0 ? (
+              <span aria-hidden="true" className="text-ink-faint">
+                ·
               </span>
-              <span className="h-1.5 w-1.5 rounded-full bg-line-soft transition-colors duration-200 group-hover:bg-accent group-hover:shadow-[0_0_6px_var(--accent)]" />
-            </div>
-
-            <div className="mt-4">
-              <h4 className="font-medium text-step--1 text-ink group-hover:text-accent transition-colors duration-200">
-                {w.name}
-              </h4>
-              <p className="mt-1 text-step--2 text-ink-soft leading-snug">
-                <T v={w.role} />
-              </p>
-            </div>
-          </div>
+            ) : null}
+            {name}
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

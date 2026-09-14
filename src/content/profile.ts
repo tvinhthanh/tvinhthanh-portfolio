@@ -158,6 +158,7 @@ export type Role = {
   id: string;
   company: string;
   title: L;
+  employmentType?: L;
   start: string;
   end: string | null;
   location: L;
@@ -170,7 +171,8 @@ export const roles: Role[] = [
   {
     id: "thangchin",
     company: "TGR Fusion",
-    title: t("Full-stack developer", "Full-stack developer"),
+    title: t("Full-Stack Developer", "Full-Stack Developer"),
+    employmentType: t("Full-time", "Toàn thời gian"),
     start: "2025-06",
     end: null,
     location: t("Ho Chi Minh City", "TP. Hồ Chí Minh"),
@@ -180,36 +182,28 @@ export const roles: Role[] = [
     ),
     work: [
       t(
-        "Own frontend delivery for production applications using React, Next.js, and TypeScript — from responsive UI through API integration to release support.",
-        "Phụ trách phần frontend của các ứng dụng chạy thật bằng React, Next.js và TypeScript — từ dựng UI responsive, tích hợp API cho tới hỗ trợ release.",
+        "Own frontend delivery for production applications using React, Next.js, and TypeScript, from responsive UI implementation through API integration and release support.",
+        "Phụ trách phần frontend của các ứng dụng chạy thật bằng React, Next.js và TypeScript, từ dựng UI responsive cho tới tích hợp API và hỗ trợ release.",
       ),
       t(
-        "Build complex user journeys for authentication, payments, wallets, content access and account verification, each with explicit loading, error and permission states.",
-        "Dựng các luồng người dùng phức tạp cho đăng nhập, thanh toán, ví, quyền truy cập nội dung và xác minh tài khoản — mỗi màn đều có trạng thái loading, lỗi và phân quyền rõ ràng.",
+        "Build complex user journeys for authentication, payments, wallets, content access, and account verification with clear loading, error, and permission states.",
+        "Dựng các luồng người dùng phức tạp cho đăng nhập, thanh toán, ví, quyền truy cập nội dung và xác minh tài khoản với trạng thái loading, lỗi và phân quyền rõ ràng.",
       ),
       t(
-        "Design and integrate RESTful APIs, webhooks and WebSocket events while collaborating across Node.js/NestJS backend services.",
-        "Thiết kế và tích hợp RESTful API, webhook và sự kiện WebSocket phối hợp chặt chẽ với các service Node.js/NestJS.",
+        "Integrate RESTful APIs, webhooks, and WebSocket events while collaborating with Node.js/NestJS backend services.",
+        "Thiết kế và tích hợp RESTful API, webhook và sự kiện WebSocket phối hợp chặt chẽ với các backend service Node.js/NestJS.",
       ),
       t(
-        "Ship real-time and event-driven features with WebSocket, BullMQ and Redis for interactive experiences and asynchronous processing.",
-        "Làm tính năng real-time và event-driven bằng WebSocket, BullMQ và Redis cho trải nghiệm tương tác và xử lý bất đồng bộ.",
+        "Improve discoverability and runtime performance through SSR, metadata and sitemap work, Redis caching, bundle optimization, and Core Web Vitals improvements.",
+        "Cải thiện khả năng tìm kiếm và hiệu năng runtime qua SSR, metadata, sitemap, cache Redis, tối ưu bundle và Core Web Vitals.",
       ),
       t(
-        "Integrate OpenAI and Whisper for translation, transcription and content workflows, validating both the integration and its output through testing and human review.",
-        "Tích hợp OpenAI và Whisper cho luồng dịch, bóc băng và nội dung; kiểm chứng cả phần tích hợp lẫn kết quả đầu ra bằng test và rà soát thực tế.",
+        "Develop and validate real-time, data-driven interfaces; increase release confidence with Playwright end-to-end testing.",
+        "Phát triển và kiểm thử giao diện hướng dữ liệu thời gian thực; tăng độ tin cậy release bằng end-to-end test Playwright.",
       ),
       t(
-        "Improve discoverability and runtime performance through SSR, metadata and sitemap work, Redis caching, bundle optimisation and Core Web Vitals.",
-        "Cải thiện khả năng tìm thấy và hiệu năng runtime qua SSR, metadata, sitemap, cache Redis, tối ưu bundle và Core Web Vitals.",
-      ),
-      t(
-        "Worked on an Android application project using React Native for approximately 6 months — implementing features, REST API integration, debugging, and release support.",
-        "Phát triển ứng dụng Android bằng React Native trong khoảng 6 tháng — triển khai tính năng, tích hợp REST API, tối ưu và hỗ trợ release.",
-      ),
-      t(
-        "Raise release confidence with Playwright end-to-end tests, and collaborate with product, QA, and design teams through Git and Agile/Scrum workflows.",
-        "Tăng độ tin cậy khi release bằng test end-to-end Playwright, phối hợp chặt chẽ với team product, QA và design qua quy trình Agile/Scrum.",
+        "Collaborate with product, QA, and design teams through Git/Jira and Agile/Scrum workflows; contribute to React Native mobile features when needed.",
+        "Phối hợp với team product, QA và design qua quy trình Git/Jira và Agile/Scrum; tham gia phát triển tính năng mobile React Native khi cần.",
       ),
     ],
     stack: ["React", "Next.js", "TypeScript", "NestJS", "Node.js", "Redis", "BullMQ", "WebSocket", "Playwright", "Docker", "React Native"],
@@ -217,9 +211,10 @@ export const roles: Role[] = [
   {
     id: "playouu",
     company: "Playouu Company",
-    title: t("Frontend developer", "Frontend developer"),
+    title: t("Frontend Developer", "Frontend Developer"),
+    employmentType: t("Part-time · Hourly Contract", "Bán thời gian · Theo giờ"),
     start: "2024-06",
-    end: "2025-07",
+    end: "2026-06",
     location: t("Ho Chi Minh City", "TP. Hồ Chí Minh"),
     summary: t(
       "Built production web applications across social, e-commerce and interactive product features, plus the reusable UI system underneath them.",
@@ -227,24 +222,33 @@ export const roles: Role[] = [
     ),
     work: [
       t(
-        "Created reusable UI systems including dashboards, charts, filters, forms and data-heavy components shared across several product areas.",
-        "Dựng hệ thống UI dùng lại được gồm dashboard, biểu đồ, bộ lọc, form và các component nhiều dữ liệu dùng chung.",
+        "Built production web applications with React, Next.js, TypeScript, and Tailwind CSS across social, e-commerce, and interactive product features.",
+        "Xây dựng ứng dụng web chạy thật bằng React, Next.js, TypeScript và Tailwind CSS cho mảng social, thương mại điện tử và tính năng tương tác.",
       ),
       t(
-        "Integrated RESTful APIs, WebSocket events, caching and database-driven flows for responsive, real-time experiences.",
-        "Tích hợp RESTful API, sự kiện WebSocket, caching và các luồng dữ liệu để có trải nghiệm real-time mượt mà.",
+        "Created reusable UI systems including dashboards, charts, filters, forms, and data-heavy components.",
+        "Dựng hệ thống UI dùng lại được bao gồm dashboard, biểu đồ, bộ lọc, form và các component nhiều dữ liệu.",
       ),
       t(
-        "Developed and maintained Flutter mobile features alongside React/Next.js web applications, integrating REST APIs, real-time data flows, and Spine animations.",
-        "Phát triển và bảo trì các tính năng ứng dụng di động Flutter song song với web application React/Next.js, tích hợp REST API, luồng dữ liệu thời gian thực và Spine animation.",
+        "Integrated REST APIs, WebSocket events, caching, and database-driven flows to deliver responsive, real-time experiences.",
+        "Tích hợp REST API, sự kiện WebSocket, caching và luồng dữ liệu để mang lại trải nghiệm thời gian thực mượt mà.",
+      ),
+      t(
+        "Optimized responsive behavior, rendering performance, and usability across desktop and mobile devices.",
+        "Tối ưu trải nghiệm responsive, hiệu năng render và tính tiện dụng trên cả desktop lẫn thiết bị di động.",
+      ),
+      t(
+        "Collaborated with backend, product, design, and QA teams through Git- and Jira-based delivery workflows.",
+        "Phối hợp chặt chẽ với team backend, product, design và QA qua quy trình làm việc trên Git và Jira.",
       ),
     ],
-    stack: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", "WebSocket", "Flutter"],
+    stack: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", "WebSocket"],
   },
   {
     id: "freelance",
     company: "Freelance",
-    title: t("Full-stack developer", "Full-stack developer"),
+    title: t("Full-Stack Developer", "Full-Stack Developer"),
+    employmentType: t("Project-based Freelance", "Dự án độc lập / Freelance"),
     start: "2023-01",
     end: null,
     location: t("Remote", "Từ xa"),
@@ -254,20 +258,20 @@ export const roles: Role[] = [
     ),
     work: [
       t(
-        "Develop and maintain project-based web applications with React/Next.js, Node.js/NestJS, Laravel/PHP, C#, Payload CMS and WordPress (Flatsome).",
-        "Phát triển và bảo trì ứng dụng web theo dự án bằng React/Next.js, Node.js/NestJS, Laravel/PHP, C#, Payload CMS và WordPress (Flatsome).",
+        "Develop and maintain project-based web applications using React/Next.js, Node.js/NestJS, Laravel/PHP, C#, and WordPress/CMS based on client requirements.",
+        "Phát triển và bảo trì ứng dụng web theo dự án bằng React/Next.js, Node.js/NestJS, Laravel/PHP, C#, và WordPress/CMS theo yêu cầu của khách hàng.",
       ),
       t(
-        "Build responsive frontend interfaces, REST APIs, database-driven features and third-party integrations.",
-        "Dựng giao diện responsive, REST API, tính năng dựa trên database và tích hợp dịch vụ bên thứ ba.",
+        "Build responsive, reusable interfaces, integrate REST APIs, and implement backend/database features and third-party integrations when required.",
+        "Dựng giao diện responsive dùng lại được, tích hợp REST API, xây dựng tính năng backend/database và tích hợp dịch vụ bên thứ ba.",
       ),
       t(
-        "Work directly with clients: analyse the requirement, estimate scope, troubleshoot, and hand over features that are ready for production.",
-        "Làm việc trực tiếp với khách: phân tích yêu cầu, ước lượng phạm vi, xử lý sự cố và bàn giao tính năng dùng được thật.",
+        "Work directly with clients to clarify requirements, estimate scope, troubleshoot issues, and deliver maintainable production-ready features.",
+        "Làm việc trực tiếp với khách để làm rõ yêu cầu, ước lượng scope, xử lý lỗi và bàn giao tính năng sẵn sàng cho production.",
       ),
       t(
-        "Apply technical SEO and performance practice: semantic HTML, structured data, metadata, image optimisation, lazy loading, caching and Core Web Vitals.",
-        "Áp dụng SEO kỹ thuật và tối ưu hiệu năng: HTML ngữ nghĩa, dữ liệu có cấu trúc, metadata, tối ưu ảnh, lazy loading, caching và Core Web Vitals.",
+        "Apply technical SEO and performance practices including semantic HTML, metadata, image optimization, lazy loading, caching, and Core Web Vitals improvements.",
+        "Áp dụng các kỹ thuật SEO và tối ưu hiệu năng bao gồm semantic HTML, metadata, tối ưu hình ảnh, lazy loading, caching và Core Web Vitals.",
       ),
     ],
     stack: ["React", "Next.js", "Node.js", "NestJS", "Laravel", "C#", "WordPress", "Payload CMS", "Technical SEO"],

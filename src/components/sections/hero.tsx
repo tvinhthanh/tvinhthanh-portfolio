@@ -18,8 +18,9 @@ export function Hero() {
       className="relative flex min-h-[86svh] flex-col justify-end px-5 pb-14 pt-24 sm:px-8 lg:min-h-[94svh] lg:px-16 lg:pb-20"
     >
       <div className="doc-wide grid gap-12 lg:grid-cols-12 lg:items-center">
-        {/* Left column: Profile statements and CTAs */}
-        <div className="lg:col-span-7">
+        {/* Left column: Profile statements and CTAs. The shield keeps the
+            statement line readable where the qi river crosses it. */}
+        <div className="text-shield lg:col-span-7">
           <Reveal>
             <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/60 px-3 py-1 text-step--2 backdrop-blur-md">
               <span className="pulse h-1.5 w-1.5 rounded-full bg-status-live" />
@@ -69,9 +70,14 @@ export function Hero() {
             <dl className="mono mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 text-step--2 uppercase tracking-[0.13em] text-ink-faint">
               <div className="flex items-center gap-2">
                 <dt className="sr-only">Location</dt>
-                <dd>
+                {/* Two levels, both AA: the city leads at --ink-soft, the reading
+                    sits back at --ink-faint. --hairline is a border colour and
+                    rendered this line at ~1.5:1. */}
+                <dd className="text-ink-soft">
                   <T v={profile.location} />
-                  <span aria-hidden="true" className="ml-2 text-hairline">
+                  {/* One reading, one line — it was breaking before the final
+                      "E" on a narrow screen. */}
+                  <span aria-hidden="true" className="ml-2 whitespace-nowrap text-ink-faint">
                     {COORDS}
                   </span>
                 </dd>

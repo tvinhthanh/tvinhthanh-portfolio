@@ -89,46 +89,46 @@ export function FeaturedCard({ project, detail, delay }: Props) {
         {/* COVER — the visual anchor. Sigil at full scale, index numeral as a
             secondary mark, and a warm gold wash so the card has an image even
             without a screenshot. */}
-        <div className="relative aspect-[16/6] w-full overflow-hidden border-b border-line-soft bg-surface-2/40 sm:aspect-[16/5]">
+        <div className="relative aspect-[16/6] w-full overflow-hidden border-b border-line-soft bg-gradient-to-b from-surface-2/60 via-surface-2/20 to-transparent sm:aspect-[16/5]">
           <span
             aria-hidden="true"
-            className="absolute inset-0 text-accent opacity-40 transition-all duration-700 group-hover:opacity-70 group-hover:scale-105"
+            className="absolute inset-0 text-accent opacity-50 transition-all duration-700 group-hover:opacity-85 group-hover:scale-105"
           >
             <Sigil seed={project.id} className="h-full w-full" />
           </span>
 
-          {/* Gradient rest so the sigil recedes toward the reading edge */}
+          {/* Gradient rest so the constellation recedes toward the reading edge */}
           <span
             aria-hidden="true"
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, transparent 0%, transparent 55%, color-mix(in srgb, var(--paper) 62%, transparent) 100%)",
+                "linear-gradient(180deg, transparent 0%, transparent 40%, color-mix(in srgb, var(--paper) 70%, transparent) 100%)",
             }}
           />
 
-          {/* The oversized index */}
+          {/* The refined index watermark */}
           <span
             aria-hidden="true"
-            className="display pointer-events-none absolute right-6 top-4 select-none text-[clamp(4.5rem,10vw,7.5rem)] leading-none text-accent/65 transition-colors duration-300 group-hover:text-accent font-medium sm:right-10"
+            className="display pointer-events-none absolute right-6 top-3 select-none text-[clamp(2.75rem,5.5vw,4.25rem)] leading-none text-accent/40 transition-colors duration-300 group-hover:text-accent/65 font-medium sm:right-8"
           >
             {detail.index}
           </span>
 
           {/* Category & Artifact chips, top-left */}
-          <div className="absolute left-6 top-6 flex items-center gap-2 sm:left-10">
-            <span className="mono rounded-chip border border-line bg-paper/80 px-2.5 py-1 text-step--2 uppercase tracking-[0.14em] text-ink-soft backdrop-blur-md">
+          <div className="absolute left-6 top-5 flex items-center gap-2 sm:left-8">
+            <span className="mono rounded-chip border border-line bg-paper/80 px-2.5 py-0.5 text-step--2 uppercase tracking-[0.14em] text-ink-soft backdrop-blur-md">
               <T v={categoryLabel[project.category]} />
             </span>
-            <span className="mono hidden sm:inline-flex rounded-chip border border-accent/30 bg-accent/10 px-2.5 py-1 text-step--2 uppercase tracking-[0.12em] text-accent backdrop-blur-md">
+            <span className="mono hidden sm:inline-flex rounded-chip border border-accent/30 bg-accent/10 px-2.5 py-0.5 text-step--2 uppercase tracking-[0.12em] text-accent backdrop-blur-md">
               <T v={labels.artifactTag} />
             </span>
           </div>
         </div>
 
         {/* HEADER — title + one-line summary, at recruiter-scan size. */}
-        <div className="relative px-6 pb-5 pt-7 sm:px-10 sm:pt-9">
-          <h3 className="display text-step-4 text-ink">
+        <div className="relative px-6 pb-4 pt-6 sm:px-8 sm:pt-7">
+          <h3 className="display text-step-3 text-ink">
             {source ? (
               <a
                 href={source}
