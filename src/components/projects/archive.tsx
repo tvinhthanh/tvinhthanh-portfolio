@@ -119,6 +119,15 @@ export function Archive() {
                       >
                         <T v={p.name} />
                       </a>
+                    ) : p.demoUrl ? (
+                      <a
+                        href={p.demoUrl}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="text-step--1 font-medium text-ink no-underline transition-colors hover:text-accent"
+                      >
+                        <T v={p.name} />
+                      </a>
                     ) : (
                       <span className="text-step--1 font-medium text-ink">
                         <T v={p.name} />
@@ -128,7 +137,21 @@ export function Archive() {
                       <T v={p.summary} />
                     </span>
                   </th>
-                  <td className="py-3.5 pr-6 text-step--2 text-ink-soft">{p.built.join(" · ")}</td>
+                  <td className="py-3.5 pr-6 text-step--2 text-ink-soft">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span>{p.built.join(" · ")}</span>
+                      {p.demoUrl ? (
+                        <a
+                          href={p.demoUrl}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="mono inline-flex items-center gap-1 rounded-chip border border-accent/40 bg-accent-wash px-1.5 py-0.5 text-[0.625rem] text-accent uppercase tracking-wider no-underline transition-colors hover:border-accent"
+                        >
+                          Demo ↗
+                        </a>
+                      ) : null}
+                    </div>
+                  </td>
                   <td className="tnum whitespace-nowrap py-3.5 text-step--2 text-ink-soft">
                     {formatDate(p.updated)}
                   </td>

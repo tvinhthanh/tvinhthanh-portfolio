@@ -129,7 +129,16 @@ export function FeaturedCard({ project, detail, delay }: Props) {
         {/* HEADER — title + one-line summary, at recruiter-scan size. */}
         <div className="relative px-6 pb-4 pt-6 sm:px-8 sm:pt-7">
           <h3 className="display text-step-3 text-ink">
-            {source ? (
+            {project.demoUrl ? (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-ink no-underline transition-colors duration-200 hover:text-accent"
+              >
+                <T v={project.name} />
+              </a>
+            ) : source ? (
               <a
                 href={source}
                 target="_blank"
@@ -235,6 +244,29 @@ export function FeaturedCard({ project, detail, delay }: Props) {
             {project.language ? <span className="text-ink-soft">{project.language}</span> : null}
             <span className="tnum">{formatDate(project.updated)}</span>
             {project.stars > 0 ? <span className="tnum">★ {project.stars}</span> : null}
+            {project.demoUrl ? (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-flex items-center gap-1.5 rounded-chip border border-accent/40 bg-accent-wash px-2.5 py-1 text-accent no-underline backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-accent/20 hover:shadow-[0_0_14px_rgba(237,212,154,0.3)]"
+              >
+                <span>Live Demo</span>
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M7 17 17 7M8 7h9v9" />
+                </svg>
+              </a>
+            ) : null}
             {source ? (
               <a
                 href={source}

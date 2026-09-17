@@ -63,6 +63,17 @@ export function Hero() {
                   <path d="M7 17 17 7M8 7h9v9" />
                 </svg>
               </a>
+              <a
+                href={`mailto:${profile.email}`}
+                className="inline-flex h-12 items-center gap-2 rounded-base border border-line-soft bg-surface-2/40 px-4 text-step--1 text-ink-soft no-underline backdrop-blur-md transition-all duration-200 hover:border-accent/60 hover:text-accent hover:-translate-y-0.5"
+                title={profile.email}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect width="20" height="16" x="2" y="4" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+                <span>{profile.email}</span>
+              </a>
             </div>
           </Reveal>
 

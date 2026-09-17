@@ -5,6 +5,7 @@ import { Contact } from "@/components/sections/contact";
 import { Experience } from "@/components/sections/experience";
 import { Hero } from "@/components/sections/hero";
 import { Intro } from "@/components/sections/intro";
+import { LabSection } from "@/components/lab/lab-section";
 import { Philosophy } from "@/components/sections/philosophy";
 import { Projects } from "@/components/sections/projects";
 import { Background, Stack } from "@/components/sections/stack";
@@ -40,6 +41,7 @@ export default function Home() {
               this is the second of three deliberate exposures (hero → work →
               contact) that make the scene a signature, not a wallpaper. */}
           <div className="px-5 sm:px-8 lg:px-16">
+            <LabSection />
             <Projects />
           </div>
 

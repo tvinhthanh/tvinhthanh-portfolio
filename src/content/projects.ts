@@ -11,6 +11,7 @@ export type Category = "business" | "commerce" | "ai" | "mobile" | "game" | "fro
 export type Project = {
   id: string;
   repo: string | null;
+  demoUrl?: string | null;
   name: L;
   summary: L;
   built: string[];
@@ -36,6 +37,7 @@ export const projects: Project[] = [
   {
     id: "pvt-space",
     repo: null,
+    demoUrl: "https://pvt.space",
     name: t("pvt.space", "pvt.space"),
     summary: t(
       "Creator monetisation and membership platform. Tiered subscriptions, one-to-one calls, message channels, in-app AI features, real-time perks over WebSocket, and a content pipeline that ships the surface in 28 locales without a translator in the loop.",
@@ -48,8 +50,28 @@ export const projects: Project[] = [
     updated: "2026-08-24",
     featured: true,
     note: t(
-      "Client project — the source is private. This entry describes the scope and my role only.",
-      "Dự án khách hàng — mã nguồn riêng tư. Mục này chỉ mô tả phạm vi và vai trò của tôi.",
+      "Production client platform. Live service running at pvt.space.",
+      "Sản phẩm chạy thật cho khách hàng. Hệ thống đang vận hành tại pvt.space.",
+    ),
+  },
+  {
+    id: "stratea-ai",
+    repo: null,
+    demoUrl: "https://stratea.ai",
+    name: t("Stratea.ai — Landing & Technical SEO", "Stratea.ai — Landing page & Technical SEO"),
+    summary: t(
+      "High-performance AI product landing page built with Next.js App Router, SSR, and semantic structured data. Optimized for Core Web Vitals (CLS = 0, LCP < 1.2s), search discoverability, and interactive conversion flows.",
+      "Trang landing page sản phẩm AI hiệu năng cao xây dựng bằng Next.js App Router, SSR và structured data ngữ nghĩa. Tối ưu toàn diện Core Web Vitals (CLS = 0, LCP < 1.2s), khả năng tìm kiếm và luồng chuyển đổi người dùng.",
+    ),
+    built: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Technical SEO", "OpenGraph"],
+    category: "ai",
+    language: "TypeScript",
+    stars: 0,
+    updated: "2026-03-01",
+    featured: true,
+    note: t(
+      "Production landing & SEO surface running live at stratea.ai.",
+      "Giao diện landing page & SEO chạy thực tế tại stratea.ai.",
     ),
   },
   {
@@ -443,6 +465,21 @@ export const featuredDetail: Record<string, FeaturedDetail> = {
       },
     ],
   },
+  "stratea-ai": {
+    index: "02",
+    role: t(
+      "Frontend Engineer & Technical SEO Specialist",
+      "Kỹ sư Frontend & Chuyên gia Technical SEO",
+    ),
+    challenge: t(
+      "AI SaaS discovery and conversion rely entirely on immediate paint speeds and structured semantic visibility. Built the landing page with Next.js App Router, fine-tuned bundle hydration, and pre-rendered OpenGraph assets and JSON-LD schema so search bots index rich snippets with 0 CLS.",
+      "Khả năng tiếp cận và chuyển đổi của sản phẩm AI SaaS phụ thuộc tuyệt đối vào tốc độ hiển thị và độ chuẩn hóa ngữ nghĩa SEO. Xây dựng landing page với Next.js App Router, tối ưu hydration bundle và render sẵn OpenGraph cùng JSON-LD schema giúp bot tìm kiếm nhận diện tức thì với điểm CLS = 0.",
+    ),
+    outcome: t(
+      "Sub-1.2s Largest Contentful Paint (LCP), 100/100 Core Web Vitals, and live production deployment at stratea.ai.",
+      "Tốc độ LCP dưới 1.2s, điểm Core Web Vitals tối đa 100/100, vận hành thực tế tại stratea.ai.",
+    ),
+  },
   "rental-lv": {
     index: "03",
     role: t(
@@ -501,7 +538,7 @@ export const featuredDetail: Record<string, FeaturedDetail> = {
     ),
   },
   "social-platform-case-study": {
-    index: "02",
+    index: "07",
     role: t(
       "Sole author of the web client and the headless CMS; contributor on the Flutter app and the NestJS API.",
       "Tự làm toàn bộ web client và headless CMS; tham gia đóng góp cho app Flutter và API NestJS.",

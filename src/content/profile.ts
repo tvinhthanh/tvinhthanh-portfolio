@@ -69,6 +69,7 @@ export const pages: PageLink[] = [
   { id: "home", label: t("Home", "Trang chủ"), aside: t("Overview", "Tổng quan") },
   { id: "intro", label: t("Intro", "Giới thiệu"), aside: t("Engineer Profile", "Hồ sơ kỹ sư") },
   { id: "philosophy", label: t("Philosophy", "Triết lý"), aside: t("Engineering Principles", "Nguyên tắc kỹ thuật") },
+  { id: "lab", label: t("3D Lab", "3D Lab"), aside: t("WebGL & Animations", "WebGL & Đồ họa") },
   { id: "projects", label: t("Projects", "Dự án"), aside: t("Featured Works", "Dự án tiêu biểu") },
   { id: "experience", label: t("Experience", "Kinh nghiệm"), aside: t("Career Path", "Quá trình làm việc") },
   { id: "stack", label: t("Stack", "Công nghệ"), aside: t("Tools & Capabilities", "Công nghệ & Kỹ năng") },
