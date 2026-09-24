@@ -4,30 +4,31 @@ import { useCallback, useState } from "react";
 import { T, t } from "@/lib/i18n";
 
 const coreData = {
-  statusBadge: t("Full-stack & Mobile", "Kỹ sư Full-stack & Mobile"),
-  architectureSub: t("Production-Grade Systems", "Hệ Thống Thực Chiến"),
-  pulseHint: t("Click core to pulse interactive scene", "Nhấp để tương tác không gian 3D"),
+  statusBadge: t("Telemetry: Online", "Telemetry: Trực tuyến"),
+  architectureSub: t("Track Spec · V12 Full-Stack", "Cấu hình xe đua · V12 Full-Stack"),
+  pulseHint: t("Ignition: Click to launch pulse", "Động cơ: Nhấp để tăng tốc không gian"),
 };
+
 
 const stackDomains = [
   {
-    label: t("Web & UI", "Web & UI"),
+    label: t("Aero Cockpit (UI)", "Khí động học (UI)"),
     items: ["React 19", "Next.js", "TypeScript", "Tailwind"],
     highlight: true,
   },
   {
-    label: t("Mobile", "Mobile"),
-    items: ["React Native", "Flutter", "Android", "Cross-plat"],
+    label: t("Mobile Chassis", "Khung gầm Mobile"),
+    items: ["React Native", "Flutter", "iOS / Android"],
     highlight: true,
   },
   {
-    label: t("Backend", "Backend"),
-    items: ["NestJS", "Node.js", "WebSocket", "BullMQ"],
+    label: t("Engine Powertrain", "Động cơ dẫn động"),
+    items: ["NestJS", "Node.js", "WebSocket", "Redis Fan-out"],
     highlight: false,
   },
   {
-    label: t("Cloud & AI", "Cloud & AI"),
-    items: ["PostgreSQL", "Redis", "Docker", "OpenAI"],
+    label: t("Telemetry & AI", "Cảm biến & AI"),
+    items: ["PostgreSQL RLS", "OpenAI Streaming", "Docker"],
     highlight: false,
   },
 ];
@@ -42,46 +43,46 @@ export function HeroCore() {
   }, []);
 
   return (
-    <div className="panel glow-subtle relative overflow-hidden p-5 sm:p-6">
-      {/* Luminous corner accents */}
+    <div className="cockpit-panel rounded-card glow-subtle relative overflow-hidden p-5 sm:p-6">
+      {/* Corner aerodynamic light flares */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-accent/15 blur-2xl"
+        className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-accent/20 blur-2xl"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-16 -left-16 h-36 w-36 rounded-full bg-status-live/10 blur-2xl"
+        className="pointer-events-none absolute -bottom-16 -left-16 h-36 w-36 rounded-full bg-status-live/15 blur-2xl"
       />
 
-      {/* Header status bar */}
+      {/* Header telemetry status bar */}
       <div className="flex items-center justify-between border-b border-line-soft pb-3">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
             <span className="pulse absolute inline-flex h-full w-full rounded-full bg-status-live opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-status-live" />
           </span>
-          <span className="mono text-[0.6875rem] uppercase tracking-[0.14em] text-accent font-medium">
+          <span className="mono text-[0.6875rem] uppercase tracking-[0.16em] text-accent font-semibold">
             <T v={coreData.statusBadge} />
           </span>
         </div>
-        <span className="mono text-[0.6875rem] text-ink-faint">
+        <span className="mono text-[0.6875rem] uppercase tracking-[0.12em] text-ink-faint">
           <T v={coreData.architectureSub} />
         </span>
       </div>
 
-      {/* Center: The Celestial Core */}
+      {/* Center: The Tachometer Ignition Core */}
       <div className="relative my-4 flex flex-col items-center justify-center">
         <button
           type="button"
           onClick={channelQi}
           onMouseEnter={channelQi}
           onFocus={channelQi}
-          aria-label="Channel pulse into the celestial world"
-          className="group relative flex h-32 w-32 cursor-pointer items-center justify-center rounded-full transition-transform duration-300 active:scale-95 focus:outline-none focus-visible:outline-none"
+          aria-label="Ignition engine pulse"
+          className="group relative flex h-34 w-34 cursor-pointer items-center justify-center rounded-full transition-transform duration-300 active:scale-95 focus:outline-none focus-visible:outline-none"
         >
-          {/* Outer rotating celestial ring */}
+          {/* Outer rotating tachometer gauge ring with tick notches */}
           <svg
-            className="celestial-spin absolute inset-0 h-full w-full text-accent/30 transition-colors duration-300 group-hover:text-accent/60"
+            className="celestial-spin absolute inset-0 h-full w-full text-accent/35 transition-colors duration-300 group-hover:text-accent/70"
             viewBox="0 0 144 144"
             fill="none"
           >
@@ -90,18 +91,19 @@ export function HeroCore() {
               cy="72"
               r="68"
               stroke="currentColor"
-              strokeWidth="1"
-              strokeDasharray="4 8"
+              strokeWidth="1.2"
+              strokeDasharray="4 6"
             />
-            <circle cx="72" cy="4" r="2.5" fill="currentColor" />
-            <circle cx="72" cy="140" r="2.5" fill="currentColor" />
-            <circle cx="4" cy="72" r="2.5" fill="currentColor" />
-            <circle cx="140" cy="72" r="2.5" fill="currentColor" />
+            {/* Speedometer tick accents */}
+            <circle cx="72" cy="4" r="3" fill="currentColor" />
+            <circle cx="72" cy="140" r="3" fill="currentColor" />
+            <circle cx="4" cy="72" r="3" fill="currentColor" />
+            <circle cx="140" cy="72" r="3" fill="currentColor" />
           </svg>
 
-          {/* Inner counter-rotating ring */}
+          {/* Inner counter-rotating aero turbine ring */}
           <svg
-            className="celestial-spin-rev absolute inset-2.5 h-27 w-27 text-hairline transition-colors duration-300 group-hover:text-accent/40"
+            className="celestial-spin-rev absolute inset-2.5 h-29 w-29 text-accent/20 transition-colors duration-300 group-hover:text-accent/50"
             viewBox="0 0 120 120"
             fill="none"
           >
@@ -111,43 +113,45 @@ export function HeroCore() {
               r="56"
               stroke="currentColor"
               strokeWidth="1"
-              strokeDasharray="12 12"
+              strokeDasharray="14 10"
             />
+            {/* Aerodynamic hexagon core cage */}
             <polygon
-              points="60,10 103,35 103,85 60,110 17,85 17,35"
+              points="60,8 105,34 105,86 60,112 15,86 15,34"
               stroke="currentColor"
-              strokeWidth="0.8"
-              strokeOpacity="0.4"
+              strokeWidth="1"
+              strokeOpacity="0.5"
               fill="none"
             />
           </svg>
 
-          {/* Center Orb */}
+          {/* Center Engine Ignition Orb */}
           <div
-            className={`relative flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-300 ${
+            className={`relative flex h-16 w-16 flex-col items-center justify-center rounded-full border transition-all duration-300 ${
               pulsing
-                ? "border-accent bg-accent/25 shadow-[0_0_24px_rgba(237,212,154,0.6)]"
-                : "border-accent/40 bg-surface-2/70 shadow-[0_0_12px_rgba(237,212,154,0.15)] group-hover:border-accent group-hover:shadow-[0_0_20px_rgba(237,212,154,0.35)]"
+                ? "border-accent bg-accent/30 shadow-[0_0_32px_rgba(237,212,154,0.7)] scale-105"
+                : "border-accent/50 bg-surface-2/80 shadow-[0_0_16px_rgba(237,212,154,0.2)] group-hover:border-accent group-hover:shadow-[0_0_24px_rgba(237,212,154,0.4)]"
             }`}
           >
-            <span className="mono text-step--1 font-medium text-accent">TVT</span>
+            <span className="mono text-step-0 font-bold tracking-wider text-accent">START</span>
+            <span className="mono text-[0.5625rem] uppercase tracking-widest text-ink-faint">ENGINE</span>
           </div>
         </button>
 
-        <p className="mono mt-1 text-[0.625rem] uppercase tracking-[0.12em] text-ink-faint transition-colors duration-200 group-hover:text-accent">
+        <p className="mono mt-1 text-[0.625rem] uppercase tracking-[0.14em] text-ink-faint transition-colors duration-200 group-hover:text-accent">
           <T v={coreData.pulseHint} />
         </p>
       </div>
 
-      {/* Telemetry Stack Grid - Sleek Developer Badges */}
-      <div className="grid grid-cols-2 gap-2 pt-1">
+      {/* Drivetrain Powertrain Stack Grid */}
+      <div className="grid grid-cols-2 gap-2 border-t border-line-soft pt-4 mt-3">
         {stackDomains.map((domain) => (
           <div
             key={domain.label.en}
-            className="rounded-base border border-line-soft bg-surface-2/30 p-2.5 transition-colors duration-200 hover:border-line"
+            className="rounded-base border border-line-soft bg-surface-2/40 p-2.5 transition-colors duration-200 hover:border-line hover:bg-surface-2/60"
           >
             <span
-              className={`mono text-[0.625rem] font-medium uppercase tracking-[0.14em] ${
+              className={`mono text-[0.625rem] font-semibold uppercase tracking-[0.14em] ${
                 domain.highlight ? "text-accent" : "text-ink-faint"
               }`}
             >
@@ -157,7 +161,7 @@ export function HeroCore() {
               {domain.items.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-chip border border-line-soft/80 bg-paper/60 px-1.5 py-0.5 text-[0.6875rem] font-normal leading-tight text-ink-soft transition-colors hover:border-accent/40 hover:text-accent"
+                  className="rounded-chip border border-line-soft/80 bg-paper/70 px-1.5 py-0.5 text-[0.6875rem] font-normal leading-tight text-ink-soft transition-colors hover:border-accent/40 hover:text-accent"
                 >
                   {tech}
                 </span>

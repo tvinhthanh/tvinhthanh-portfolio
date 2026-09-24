@@ -1,6 +1,6 @@
 import type { L } from "@/lib/i18n";
 
-export type LabModelId = "ai-stream" | "architecture" | "webrtc-mesh";
+export type LabModelId = "aero-chassis" | "powertrain" | "telemetry-hud";
 
 export type LabModelConfig = {
   id: LabModelId;
@@ -14,15 +14,14 @@ export type LabModelConfig = {
 
 export type LabState = {
   modelId: LabModelId;
-  // AI Stream controls
-  streamState: "streaming" | "burst" | "idle";
-  streamSpeed: number;
-  // Architecture controls
-  exploded: number; // 0.0 to 1.0
-  activeTier: number | null; // 1, 2, 3, 4
-  // WebRTC controls
-  networkMode: "p2p-direct" | "stun-reflexive" | "turn-relay" | "reconnecting";
-  packetJitter: number;
+  // Aero chassis controls
+  exploded: number; // 0.0 to 1.0 (bodywork disassembly)
+  // Powertrain controls
+  rpm: number; // 1000 to 9000 RPM
+  driveMode: "sport" | "track" | "corsa";
+  // Telemetry controls
+  speedKmh: number;
+  gear: number;
   // Global controls
   wireframe: boolean;
   autoRotate: boolean;

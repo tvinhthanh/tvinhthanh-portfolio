@@ -155,7 +155,8 @@ export function Rail() {
         <a href="#home" className="display text-step-1 text-ink no-underline">
           {profile.name}
         </a>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
+          <LangToggle />
           <ThemeToggle />
           <button
             type="button"

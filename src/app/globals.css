@@ -197,7 +197,7 @@
   --color-line-soft: var(--line-soft);
   --color-hairline: var(--hairline);
 
-  --font-display: var(--font-title), "Iowan Old Style", Georgia, serif;
+  --font-display: var(--font-title), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-code), ui-monospace, monospace;
 
@@ -283,13 +283,12 @@ body {
   stroke-opacity: 1;
 }
 
-/* Display face: the name and section titles only. Cormorant is drawn for
-   large sizes — below ~24px it loses its colour, so it never sets body text. */
+/* Display face: high-performance, aerodynamic, confident technical typography */
 .display {
-  font-family: var(--font-title), "Iowan Old Style", Georgia, serif;
-  font-weight: 500;
-  letter-spacing: -0.005em;
-  line-height: 1.06;
+  font-family: var(--font-title), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
 }
 
 .mono {
@@ -681,3 +680,49 @@ body {
     animation: none;
   }
 }
+
+/* ============================================================
+   HIGH-PERFORMANCE MOTORSPORT & COCKPIT TELEMETRY STYLING
+   ============================================================ */
+
+.cockpit-panel {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--surface) 95%, transparent) 0%,
+    color-mix(in srgb, var(--surface-2) 90%, transparent) 100%
+  );
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.45);
+  position: relative;
+}
+
+.cockpit-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 5%, var(--accent) 50%, transparent 95%);
+  opacity: 0.7;
+}
+
+.hud-pill {
+  font-family: var(--font-code), ui-monospace, monospace;
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 60%, transparent);
+  backdrop-filter: blur(8px);
+  padding: 0.25rem 0.65rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hud-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 12px rgba(237, 212, 154, 0.25);
+}
+

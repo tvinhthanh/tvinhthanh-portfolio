@@ -1,15 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, Cormorant_Garamond, JetBrains_Mono } from "next/font/google";
+import { Be_Vietnam_Pro, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { profile } from "@/content/profile";
 import "./globals.css";
 
-/* Display — Cormorant Garamond. Old, high-contrast, quiet: it carries the
-   world without shouting, and it has a real Vietnamese cut. */
-const title = Cormorant_Garamond({
+/* Display — Space Grotesk. Aerodynamic, high-speed, technical typography
+   calibrated for automotive and motorsport telemetry with native Vietnamese cut. */
+const title = Space_Grotesk({
   variable: "--font-title",
   subsets: ["latin", "latin-ext", "vietnamese"],
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: ["500", "600", "700"],
 });
 
 /* Body — Be Vietnam Pro, drawn for Vietnamese. Tone marks are designed rather

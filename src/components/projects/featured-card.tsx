@@ -192,23 +192,25 @@ export function FeaturedCard({ project, detail, delay }: Props) {
             <p className="mono text-step--2 uppercase tracking-[0.14em] text-ink-faint">
               <T v={labels.split} />
             </p>
-            <table className="mt-3 w-full border-collapse text-left">
-              <tbody>
-                {detail.breakdown.map((row) => (
-                  <tr key={row.surface} className="border-b border-line-soft last:border-b-0">
-                    <th scope="row" className="py-2 pr-4 text-step--1 font-normal text-ink">
-                      {row.surface}
-                    </th>
-                    <td className="tnum mono py-2 pr-4 text-step--2 text-accent">
-                      {row.share}
-                    </td>
-                    <td className="py-2 text-step--2 text-ink-faint">
-                      <T v={row.note} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="overflow-x-auto -mx-2 px-2">
+              <table className="mt-3 w-full border-collapse text-left min-w-[320px]">
+                <tbody>
+                  {detail.breakdown.map((row) => (
+                    <tr key={row.surface} className="border-b border-line-soft last:border-b-0">
+                      <th scope="row" className="py-2 pr-4 text-step--1 font-normal text-ink whitespace-nowrap">
+                        {row.surface}
+                      </th>
+                      <td className="tnum mono py-2 pr-4 text-step--2 text-accent whitespace-nowrap">
+                        {row.share}
+                      </td>
+                      <td className="py-2 text-step--2 text-ink-faint">
+                        <T v={row.note} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             {detail.breakdown.some((r) => r.share.includes("/")) ? (
               <p className="mt-2 text-step--2 text-ink-faint">commits</p>
             ) : null}
