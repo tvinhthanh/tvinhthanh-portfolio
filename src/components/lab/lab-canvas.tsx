@@ -12,6 +12,7 @@ import type { LabState } from "./types";
 type Props = {
   state: LabState;
   isIntersecting: boolean;
+  reducedMotion: boolean;
 };
 
 function LoadingFallback() {
@@ -23,12 +24,13 @@ function LoadingFallback() {
   );
 }
 
-export function LabCanvas({ state, isIntersecting }: Props) {
+export function LabCanvas({ state, isIntersecting, reducedMotion }: Props) {
   return (
     <Canvas
-      camera={{ position: [0, 0.5, 4.2], fov: 45 }}
+      camera={{ position: [5, 3, 7], fov: 50 }}
       dpr={[1, 1.5]}
-      frameloop={isIntersecting ? "always" : "never"}
+      frameloop={isIntersecting ? (reducedMotion ? "demand" : "always") : "never"}
+      fallback={<div className="p-8 text-ink-soft">3D preview unavailable / Không hỗ trợ xem 3D.</div>}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       className="h-full w-full !touch-pan-y"
       style={{ touchAction: "pan-y" }}
@@ -43,7 +45,7 @@ export function LabCanvas({ state, isIntersecting }: Props) {
           <AeroChassis
             exploded={state.exploded}
             wireframe={state.wireframe}
-            autoRotate={state.autoRotate}
+            autoRotate={state.autoRotate && !reducedMotion}
           />
         )}
 
@@ -52,7 +54,7 @@ export function LabCanvas({ state, isIntersecting }: Props) {
             rpm={state.rpm}
             driveMode={state.driveMode}
             wireframe={state.wireframe}
-            autoRotate={state.autoRotate}
+            autoRotate={state.autoRotate && !reducedMotion}
           />
         )}
 
@@ -63,7 +65,7 @@ export function LabCanvas({ state, isIntersecting }: Props) {
             gear={state.gear}
             driveMode={state.driveMode}
             wireframe={state.wireframe}
-            autoRotate={state.autoRotate}
+            autoRotate={state.autoRotate && !reducedMotion}
           />
         )}
 
@@ -79,8 +81,8 @@ export function LabCanvas({ state, isIntersecting }: Props) {
 
       <OrbitControls
         enablePan={false}
-        minDistance={2.0}
-        maxDistance={7.5}
+        minDistance={4}
+        maxDistance={12}
         autoRotate={false}
         touches={{
           ONE: -1 as unknown as THREE.TOUCH,

@@ -1,18 +1,18 @@
-import { education, languages, pages } from "@/content/profile";
+import { education, languages, getPage } from "@/content/profile";
 import { T, t } from "@/lib/i18n";
 import { ArsenalShowcase } from "../ui/arsenal-showcase";
 import { ExpertiseMap } from "../ui/expertise-map";
 import { Reveal } from "../ui/reveal";
 import { Section } from "../ui/section";
 
-const stackPage = pages[5];
-const backgroundPage = pages[6];
+const stackPage = getPage("stack");
+const backgroundPage = getPage("background");
 
 export function Stack() {
   return (
     <Section
       id="stack"
-      index="05"
+      index="06"
       wide
       title={stackPage.label}
       aside={stackPage.aside}
@@ -21,6 +21,11 @@ export function Stack() {
         "Chín mảng quanh một lõi. Độ dày cung và mật độ điểm cho thấy mảng nào rộng nhất — rê chuột hoặc chạm vào một cung để xem bên trong có gì.",
       )}
     >
+      <div
+        className="robot-anchor robot-anchor--stack"
+        data-robot-anchor="stack"
+        aria-hidden="true"
+      />
       <Reveal>
         <ArsenalShowcase />
       </Reveal>
@@ -34,7 +39,7 @@ export function Stack() {
 
 export function Background() {
   return (
-    <Section id="background" index="06" title={backgroundPage.label} aside={backgroundPage.aside}>
+    <Section id="background" index="07" title={backgroundPage.label} aside={backgroundPage.aside}>
       <div>
         <Reveal className="grid gap-x-10 gap-y-3 border-t border-line py-7 md:grid-cols-[minmax(0,10rem)_minmax(0,1fr)]">
           <p className="mono pt-1 text-step--2 uppercase tracking-[0.14em] text-ink-faint">

@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
+import { useLang } from "@/lib/use-lang";
+import { useRobotSettings } from "@/components/robot/robot-settings";
 
 /* Both controls read their state straight off <html>. The boot script has
    already written it before first paint, so there is one source of truth and
@@ -67,7 +69,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-      className="grid h-9 w-9 place-items-center rounded-base border border-transparent text-ink-faint transition-colors duration-200 hover:border-line hover:text-accent"
+      className="grid h-11 w-11 shrink-0 place-items-center rounded-base border border-line bg-surface text-ink-soft transition-colors duration-200 hover:border-accent hover:text-accent"
     >
       <svg
         width="16"
@@ -97,75 +99,55 @@ type Lang = "en" | "vi";
 
 const readLang = (): Lang => (document.documentElement.dataset.lang === "vi" ? "vi" : "en");
 
-const flags = {
-  en: (
-    <svg width="18" height="12" viewBox="0 0 640 480" className="rounded-[2px] shadow-xs shrink-0 block" aria-hidden="true">
-      <path fill="#012169" d="M0 0h640v480H0z"/>
-      <path fill="#FFF" d="m75 0 244 181L562 0h78v62L439 240l201 177v63h-77L320 299 78 480H0v-63l201-177L0 62V0h75z"/>
-      <path fill="#C8102E" d="m424 288 216 162v30h-40L384 318v-30zm-208 0L0 450v30h40l216-162v-30zM0 0l216 162v30h-40L0 30V0zm640 0L424 162v30h40l176-132V0z"/>
-      <path fill="#FFF" d="M240 0h160v480H240zM0 160h640v160H0z"/>
-      <path fill="#C8102E" d="M267 0h106v480H267zM0 187h640v106H0z"/>
-    </svg>
-  ),
-  vi: (
-    <svg width="18" height="12" viewBox="0 0 640 480" className="rounded-[2px] shadow-xs shrink-0 block" aria-hidden="true">
-      <path fill="#da251d" d="M0 0h640v480H0z"/>
-      <path
-        fill="#ff0"
-        d="m320 102 42.4 130.4h137.2l-111 80.6 42.4 130.4-111-80.6-111 80.6 42.4-130.4-111-80.6h137.2z"
-      />
-    </svg>
-  ),
-};
-
-export function LangToggle() {
+export function LangToggle({ compact = false }: { compact?: boolean }) {
   const lang = useSyncExternalStore(subscribe, readLang, () => "en" as Lang);
-
-  const set = useCallback((next: Lang) => {
+  const set = (next: Lang) => {
     document.documentElement.dataset.lang = next;
     document.documentElement.lang = next;
-    try {
-      localStorage.setItem("lang", next);
-    } catch {
-      // Same as the theme: applies now, may not persist.
-    }
-  }, []);
+    try { localStorage.setItem("lang", next); } catch { /* Storage may be blocked. */ }
+  };
 
   return (
-    <div
-      role="group"
-      aria-label="Language"
-      className="inline-flex items-center rounded-full border border-line-soft bg-surface-2/40 px-2.5 py-1.5 backdrop-blur-md"
-    >
-      {(["en", "vi"] as const).map((code) => {
-        const active = lang === code;
-        return (
-          <button
-            key={code}
-            type="button"
-            onClick={() => set(code)}
-            aria-pressed={active}
-            className={`group inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[0.6875rem] font-medium tracking-wider transition-all duration-300 ${
-              active
-                ? "text-accent"
-                : "text-ink-faint hover:text-ink"
-            }`}
-          >
-            <span
-              className={`flex items-center shrink-0 transition-all duration-300 ${
-                active
-                  ? "grayscale-0 opacity-100 drop-shadow-[0_0_8px_rgba(237,212,154,0.4)]"
-                  : "grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-75"
-              }`}
-            >
-              {flags[code]}
-            </span>
-            <span className={`mono uppercase text-[0.6875rem] font-medium leading-none transition-colors duration-200 ${active ? "text-accent font-semibold" : "text-ink-faint group-hover:text-ink"}`}>
-              {code}
-            </span>
-          </button>
-        );
-      })}
+    <div className={compact ? "relative w-[4.25rem] shrink-0" : "relative min-w-0 flex-1"}>
+      <select
+        aria-label={lang === "vi" ? "Ngôn ngữ" : "Language"}
+        value={lang}
+        onChange={(event) => set(event.target.value as Lang)}
+        className="h-11 w-full cursor-pointer appearance-none rounded-base border border-line bg-surface pl-3 pr-8 text-step--1 font-medium text-ink transition-colors hover:border-accent"
+      >
+        <option value="en">{compact ? "EN" : "English"}</option>
+        <option value="vi">{compact ? "VI" : "Tiếng Việt"}</option>
+      </select>
+      <svg aria-hidden="true" className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-ink-faint" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m6 9 6 6 6-6" />
+      </svg>
     </div>
+  );
+}
+
+export function RobotToggle() {
+  const { enabled, toggle } = useRobotSettings();
+  const lang = useLang();
+  const label = lang === "vi" ? "Robot 3D" : "3D companion";
+  const status = enabled ? (lang === "vi" ? "Bật" : "On") : (lang === "vi" ? "Tắt" : "Off");
+
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      aria-pressed={enabled}
+      title={label + ": " + status}
+      onClick={toggle}
+      className={"grid h-11 w-11 shrink-0 place-items-center rounded-base border transition-colors " + (enabled ? "border-accent/40 bg-accent-wash text-accent hover:border-accent" : "border-line bg-surface text-ink-faint hover:border-accent hover:text-ink")}
+    >
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 3v3M9 18v3m6-3v3M3 10v4m18-4v4" />
+        <circle cx="12" cy="2" r="1" fill="currentColor" stroke="none" />
+        <rect x="5" y="6" width="14" height="12" rx="4" />
+        <circle cx="9" cy="11" r="1.2" fill="currentColor" stroke="none" />
+        <circle cx="15" cy="11" r="1.2" fill="currentColor" stroke="none" />
+        <path d="M9 15h6" />
+      </svg>
+    </button>
   );
 }

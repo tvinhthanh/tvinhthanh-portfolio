@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { pages, profile } from "@/content/profile";
 import { T, t } from "@/lib/i18n";
-import { LangToggle, ThemeToggle } from "./controls";
+import { LangToggle, RobotToggle, ThemeToggle } from "./controls";
 
 function useActiveSection() {
   const [active, setActive] = useState("home");
@@ -101,9 +101,10 @@ function Ledger() {
         ))}
       </ul>
 
-      <div className="flex items-center justify-between gap-2 border-t border-line pt-4">
-        <LangToggle />
+      <div className="flex items-center gap-1.5 border-t border-line pt-4">
+        <LangToggle compact />
         <ThemeToggle />
+        <RobotToggle />
       </div>
     </div>
   );
@@ -155,8 +156,8 @@ export function Rail() {
         <a href="#home" className="display text-step-1 text-ink no-underline">
           {profile.name}
         </a>
-        <div className="flex items-center gap-1.5">
-          <LangToggle />
+        <div className="flex shrink-0 items-center gap-1.5">
+          <LangToggle compact />
           <ThemeToggle />
           <button
             type="button"

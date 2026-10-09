@@ -10,7 +10,7 @@ import { Sigil } from "./sigil";
 const labels = {
   role: t("Role", "Vai trò"),
   challenge: t("The hard part", "Phần khó"),
-  outcome: t("Impact", "Kết quả"),
+  outcome: t("Delivered", "Đã triển khai"),
   updated: t("Updated", "Cập nhật"),
   source: t("View source", "Xem mã nguồn"),
   study: t("Read the case study", "Đọc case study"),
@@ -68,7 +68,7 @@ export function FeaturedCard({ project, detail, delay }: Props) {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onFocusCapture={pulse}
-        className="panel group relative overflow-hidden transition-all duration-300 hover:border-hairline hover:-translate-y-1"
+        className="panel project-card group relative overflow-hidden transition-all duration-300 hover:border-hairline hover:-translate-y-1"
       >
         {/* Dynamic Cursor Spotlight */}
         <div
@@ -89,7 +89,7 @@ export function FeaturedCard({ project, detail, delay }: Props) {
         {/* COVER — the visual anchor. Sigil at full scale, index numeral as a
             secondary mark, and a warm gold wash so the card has an image even
             without a screenshot. */}
-        <div className="relative aspect-[16/6] w-full overflow-hidden border-b border-line-soft bg-gradient-to-b from-surface-2/60 via-surface-2/20 to-transparent sm:aspect-[16/5]">
+        <div className="relative aspect-[16/3] w-full overflow-hidden border-b border-line-soft bg-gradient-to-b from-surface-2/60 via-surface-2/20 to-transparent sm:aspect-[16/3]">
           <span
             aria-hidden="true"
             className="absolute inset-0 text-accent opacity-50 transition-all duration-700 group-hover:opacity-85 group-hover:scale-105"
@@ -120,9 +120,15 @@ export function FeaturedCard({ project, detail, delay }: Props) {
             <span className="mono rounded-chip border border-line bg-paper/80 px-2.5 py-0.5 text-step--2 uppercase tracking-[0.14em] text-ink-soft backdrop-blur-md">
               <T v={categoryLabel[project.category]} />
             </span>
-            <span className="mono hidden sm:inline-flex rounded-chip border border-accent/30 bg-accent/10 px-2.5 py-0.5 text-step--2 uppercase tracking-[0.12em] text-accent backdrop-blur-md">
-              <T v={labels.artifactTag} />
-            </span>
+            {project.rulesUrl ? (
+              <span className="mono inline-flex rounded-chip border border-accent/40 bg-accent/15 px-2.5 py-0.5 text-step--2 uppercase tracking-[0.12em] text-accent backdrop-blur-md font-semibold">
+                AI-Native Workflow
+              </span>
+            ) : (
+              <span className="mono hidden sm:inline-flex rounded-chip border border-accent/30 bg-accent/10 px-2.5 py-0.5 text-step--2 uppercase tracking-[0.12em] text-accent backdrop-blur-md">
+                <T v={labels.artifactTag} />
+              </span>
+            )}
           </div>
         </div>
 
@@ -159,21 +165,13 @@ export function FeaturedCard({ project, detail, delay }: Props) {
 
         {/* 10-SECOND SCAN — Role · Challenge · Impact on one row for desktop,
             stacked for mobile. Body copy stays at step-0 so it is readable. */}
-        <div className="grid gap-x-8 gap-y-6 border-t border-line-soft px-6 py-7 sm:px-10 md:grid-cols-3">
+        <div className="grid gap-x-8 gap-y-6 border-t border-line-soft px-6 py-7 sm:px-10 md:grid-cols-2">
           <div>
             <p className="mono text-step--2 uppercase tracking-[0.14em] text-ink-faint">
               <T v={labels.role} />
             </p>
             <p className="mt-2 text-step-0 leading-[1.55] text-ink">
               <T v={detail.role} />
-            </p>
-          </div>
-          <div>
-            <p className="mono text-step--2 uppercase tracking-[0.14em] text-ink-faint">
-              <T v={labels.challenge} />
-            </p>
-            <p className="mt-2 text-step-0 leading-[1.6] text-ink-soft">
-              <T v={detail.challenge} />
             </p>
           </div>
           <div>
@@ -186,6 +184,14 @@ export function FeaturedCard({ project, detail, delay }: Props) {
           </div>
         </div>
 
+        <details className="border-t border-line-soft">
+          <summary className="cursor-pointer px-6 py-4 text-step--1 font-medium text-ink sm:px-10">
+            <T v={t("Engineering decisions & ownership", "Quyết định kỹ thuật & phần việc của tôi")} />
+          </summary>
+          <div className="px-6 pb-6 sm:px-10">
+            <p className="mono text-step--2 uppercase tracking-[0.14em] text-ink-faint"><T v={labels.challenge} /></p>
+            <p className="mt-2 max-w-[72ch] text-step-0 leading-relaxed text-ink-soft"><T v={detail.challenge} /></p>
+          </div>
         {/* Optional breakdown table */}
         {detail.breakdown ? (
           <div className="border-t border-line-soft px-6 py-6 sm:px-10">
@@ -216,6 +222,8 @@ export function FeaturedCard({ project, detail, delay }: Props) {
             ) : null}
           </div>
         ) : null}
+
+        </details>
 
         {project.note ? (
           <p className="mx-6 mb-5 border-l border-hairline pl-4 text-step--2 text-ink-faint sm:mx-10">
@@ -254,6 +262,29 @@ export function FeaturedCard({ project, detail, delay }: Props) {
                 className="inline-flex items-center gap-1.5 rounded-chip border border-accent/40 bg-accent-wash px-2.5 py-1 text-accent no-underline backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-accent/20 hover:shadow-[0_0_14px_rgba(237,212,154,0.3)]"
               >
                 <span>Live Demo</span>
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M7 17 17 7M8 7h9v9" />
+                </svg>
+              </a>
+            ) : null}
+            {project.rulesUrl ? (
+              <a
+                href={project.rulesUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-flex items-center gap-1.5 rounded-chip border border-accent/60 bg-accent/15 px-2.5 py-1 text-accent font-medium no-underline backdrop-blur-sm transition-all duration-200 hover:border-accent hover:bg-accent/25 hover:shadow-[0_0_14px_rgba(237,212,154,0.3)]"
+              >
+                <span>View AI Rules (.ai)</span>
                 <svg
                   width="10"
                   height="10"

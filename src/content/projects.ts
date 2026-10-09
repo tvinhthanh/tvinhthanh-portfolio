@@ -12,6 +12,7 @@ export type Project = {
   id: string;
   repo: string | null;
   demoUrl?: string | null;
+  rulesUrl?: string | null;
   name: L;
   summary: L;
   built: string[];
@@ -55,13 +56,48 @@ export const projects: Project[] = [
     ),
   },
   {
+    id: "cms-pos",
+    repo: "cms-pos",
+    rulesUrl: "https://github.com/tvinhthanh/cms-pos/tree/main/.ai",
+    name: t("Point of sale & AI workflow", "Hệ thống bán hàng tại quầy & AI workflow"),
+    summary: t(
+      "POS and simplified accounting for small F&B shops. AI-assisted development workflow with reusable architecture, security, database, testing and code-review rules. Recipe-based COGS with weighted-average costing, shift reconciliation, live kitchen display.",
+      "POS và kế toán rút gọn cho quán F&B. Quy trình phát triển AI-assisted với bộ quy tắc dùng lại được về kiến trúc, bảo mật, database, kiểm thử và review code. Giá vốn theo công thức với bình quân gia quyền, đối soát ca, màn hình bếp thời gian thực.",
+    ),
+    built: ["FastAPI", "Celery", "Redis", "WebSocket", "Next.js", "Docker", ".ai Rules"],
+    category: "business",
+    language: "TypeScript",
+    stars: 0,
+    updated: "2026-08-24",
+    featured: true,
+    note: t(
+      "AI-Native case study: Built using reusable .ai engineering rules (architecture, DB safety, security, test gates).",
+      "AI-Native case study: Phát triển dựa trên bộ quy tắc kỹ thuật .ai (kiến trúc, an toàn DB, bảo mật, kiểm thử).",
+    ),
+  },
+  {
+    id: "rental-lv",
+    repo: "rental-lv",
+    name: t("Vehicle rental platform", "Nền tảng cho thuê xe"),
+    summary: t(
+      "Multi-tenant vehicle rental, end to end: booking → contract → deposit → handover → return → invoice → surcharge, with fleet documents, layered pricing and loyalty on top.",
+      "Cho thuê xe đa chi nhánh, trọn vòng đời: đặt xe → hợp đồng → cọc → giao xe → nhận xe → hoá đơn → phụ phí, kèm hồ sơ đội xe, bảng giá nhiều tầng và loyalty.",
+    ),
+    built: ["NestJS", "Prisma", "MongoDB", "Next.js App Router", "pnpm monorepo"],
+    category: "business",
+    language: "TypeScript",
+    stars: 2,
+    updated: "2026-08-24",
+    featured: true,
+  },
+  {
     id: "stratea-ai",
     repo: null,
     demoUrl: "https://stratea.ai",
     name: t("Stratea.ai — Landing & Technical SEO", "Stratea.ai — Landing page & Technical SEO"),
     summary: t(
-      "High-performance AI product landing page built with Next.js App Router, SSR, and semantic structured data. Optimized for Core Web Vitals (CLS = 0, LCP < 1.2s), search discoverability, and interactive conversion flows.",
-      "Trang landing page sản phẩm AI hiệu năng cao xây dựng bằng Next.js App Router, SSR và structured data ngữ nghĩa. Tối ưu toàn diện Core Web Vitals (CLS = 0, LCP < 1.2s), khả năng tìm kiếm và luồng chuyển đổi người dùng.",
+      "High-performance AI product landing page built with Next.js App Router, SSR, and semantic structured data. Built for fast rendering, search discoverability, and interactive conversion flows.",
+      "Trang landing page sản phẩm AI hiệu năng cao xây dựng bằng Next.js App Router, SSR và structured data ngữ nghĩa. Tập trung vào tốc độ hiển thị, khả năng tìm kiếm và luồng chuyển đổi người dùng.",
     ),
     built: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Technical SEO", "OpenGraph"],
     category: "ai",
@@ -100,36 +136,6 @@ export const projects: Project[] = [
       "The client owns the source. The public repository documents the architecture and exactly which parts were mine — no code.",
       "Khách hàng giữ mã nguồn. Repository công khai chỉ ghi lại kiến trúc và đúng phần việc của tôi — không có code.",
     ),
-  },
-  {
-    id: "rental-lv",
-    repo: "rental-lv",
-    name: t("Vehicle rental platform", "Nền tảng cho thuê xe"),
-    summary: t(
-      "Multi-tenant vehicle rental, end to end: booking → contract → deposit → handover → return → invoice → surcharge, with fleet documents, layered pricing and loyalty on top.",
-      "Cho thuê xe đa chi nhánh, trọn vòng đời: đặt xe → hợp đồng → cọc → giao xe → nhận xe → hoá đơn → phụ phí, kèm hồ sơ đội xe, bảng giá nhiều tầng và loyalty.",
-    ),
-    built: ["NestJS", "Prisma", "MongoDB", "Next.js App Router", "pnpm monorepo"],
-    category: "business",
-    language: "TypeScript",
-    stars: 2,
-    updated: "2026-08-24",
-    featured: true,
-  },
-  {
-    id: "cms-pos",
-    repo: "cms-pos",
-    name: t("Point of sale", "Hệ thống bán hàng tại quầy"),
-    summary: t(
-      "POS and simplified accounting for small F&B shops. Recipe-based COGS with weighted-average costing, shift reconciliation, live kitchen display.",
-      "POS và kế toán rút gọn cho quán F&B nhỏ. Giá vốn theo công thức với bình quân gia quyền, đối soát ca, màn hình bếp cập nhật trực tiếp.",
-    ),
-    built: ["FastAPI", "Celery", "Redis", "WebSocket", "Next.js", "Docker"],
-    category: "business",
-    language: "TypeScript",
-    stars: 0,
-    updated: "2026-08-24",
-    featured: true,
   },
   {
     id: "trangsuc",
@@ -465,20 +471,37 @@ export const featuredDetail: Record<string, FeaturedDetail> = {
       },
     ],
   },
-  "stratea-ai": {
+  "cms-pos": {
     index: "02",
     role: t(
-      "Frontend Engineer & Technical SEO Specialist",
-      "Kỹ sư Frontend & Chuyên gia Technical SEO",
+      "Full-stack & AI Workflow Author — Python services, Next.js back office, and reusable agent rules (.ai/)",
+      "Full-stack & Tác giả AI Workflow — service Python, back office Next.js, và bộ quy tắc agent (.ai/)",
     ),
     challenge: t(
-      "AI SaaS discovery and conversion rely entirely on immediate paint speeds and structured semantic visibility. Built the landing page with Next.js App Router, fine-tuned bundle hydration, and pre-rendered OpenGraph assets and JSON-LD schema so search bots index rich snippets with 0 CLS.",
-      "Khả năng tiếp cận và chuyển đổi của sản phẩm AI SaaS phụ thuộc tuyệt đối vào tốc độ hiển thị và độ chuẩn hóa ngữ nghĩa SEO. Xây dựng landing page với Next.js App Router, tối ưu hydration bundle và render sẵn OpenGraph cùng JSON-LD schema giúp bot tìm kiếm nhận diện tức thì với điểm CLS = 0.",
+      "Recipe-based cost of goods with weighted-average costing on an immutable cashbook, developed under an AI-native engineering workflow: establishing context engineering rules, architectural guardrails, database invariants, and review checklists so AI coding agents build production-grade code without hallucinating business constraints.",
+      "Giá vốn theo công thức với bình quân gia quyền trên sổ quỹ bất biến, phát triển theo quy trình AI-native: thiết lập quy tắc context engineering, ranh giới kiến trúc, bất biến database và checklist review để AI coding agent sinh code chuẩn production không sai lệch nghiệp vụ.",
     ),
     outcome: t(
-      "Sub-1.2s Largest Contentful Paint (LCP), 100/100 Core Web Vitals, and live production deployment at stratea.ai.",
-      "Tốc độ LCP dưới 1.2s, điểm Core Web Vitals tối đa 100/100, vận hành thực tế tại stratea.ai.",
+      "Shift reconciliation, background costing via Celery/Redis, live kitchen display over WebSocket, and an open-source .ai/ rule suite covering 19 engineering policies.",
+      "Đối soát ca, tính giá vốn nền qua Celery/Redis, màn hình bếp qua WebSocket, cùng bộ quy tắc .ai/ nguồn mở bao gồm 19 chính sách kỹ thuật.",
     ),
+    breakdown: [
+      {
+        surface: "Backend & Ledger",
+        share: "FastAPI + Celery",
+        note: t("COGS, cashbook, shift audit", "Giá vốn, sổ quỹ, đối soát ca"),
+      },
+      {
+        surface: "Kitchen Display & UI",
+        share: "WebSocket + Next.js",
+        note: t("Real-time orders & back office", "Đơn thời gian thực & back office"),
+      },
+      {
+        surface: "AI Context Engineering",
+        share: ".ai/ (19 rules)",
+        note: t("Architecture, DB safety, security & test gates", "Kiến trúc, an toàn DB, bảo mật & cổng test"),
+      },
+    ],
   },
   "rental-lv": {
     index: "03",
@@ -495,50 +518,23 @@ export const featuredDetail: Record<string, FeaturedDetail> = {
       "38 module backend, 39 model dữ liệu, bảng giá nhiều tầng, loyalty và nội dung SEO trong một pnpm monorepo.",
     ),
   },
-  "cms-pos": {
+  "stratea-ai": {
     index: "04",
     role: t(
-      "Full-stack — Python services and the Next.js back office",
-      "Full-stack — service Python và back office Next.js",
+      "Frontend Engineer & Technical SEO Specialist",
+      "Kỹ sư Frontend & Chuyên gia Technical SEO",
     ),
     challenge: t(
-      "Recipe-based cost of goods with weighted-average costing, on a cashbook that rejects UPDATE and DELETE — so changing a recipe next month cannot rewrite last month's profit.",
-      "Giá vốn theo công thức với bình quân gia quyền, trên một sổ quỹ từ chối UPDATE và DELETE — nên tháng sau sửa công thức cũng không viết lại được lợi nhuận tháng trước.",
+      "Used server-rendered content, semantic markup, metadata, OpenGraph assets and JSON-LD to make the product readable before client hydration and easier for search engines to understand.",
+      "Dùng nội dung render phía server, HTML ngữ nghĩa, metadata, OpenGraph và JSON-LD để sản phẩm đọc được trước hydration và giúp công cụ tìm kiếm hiểu nội dung.",
     ),
     outcome: t(
-      "Shift reconciliation, background costing through Celery and Redis, and a kitchen display that updates over WebSocket.",
-      "Đối soát ca, tính giá vốn nền bằng Celery và Redis, và màn hình bếp cập nhật qua WebSocket.",
-    ),
-  },
-  trangsuc: {
-    index: "05",
-    role: t(
-      "Frontend, backend-for-frontend, and Payload CMS backoffice",
-      "Frontend, lớp backend-for-frontend và backoffice Payload CMS",
-    ),
-    challenge: t(
-      "One storefront serving three markets: live multi-currency pricing, 3D product inspection, and an integrated Payload CMS admin backoffice for product catalog and order management, with every credential kept behind a server-side proxy so the browser never holds one.",
-      "Một cửa hàng phục vụ ba thị trường: giá đa tiền tệ cập nhật trực tiếp, xem sản phẩm 3D, và backoffice quản trị Payload CMS cho catalog sản phẩm cùng đơn hàng, mọi credential nằm sau proxy phía server để trình duyệt không bao giờ giữ.",
-    ),
-    outcome: t(
-      "Next.js 16 and React 19 with Payload CMS backoffice on Supabase.",
-      "Next.js 16 và React 19 kết hợp quản trị backoffice Payload CMS trên Supabase.",
-    ),
-  },
-  WMS: {
-    index: "06",
-    role: t("Full-stack — .NET API and React client", "Full-stack — API .NET và client React"),
-    challenge: t(
-      "Traceability down to the individual serial. InventoryLog is the source of truth and the stock figure is derived from it, so a stock take records the difference instead of overwriting the number.",
-      "Truy vết xuống tới từng serial. InventoryLog là nguồn sự thật còn con số tồn được suy ra từ đó, nên kiểm kê ghi lại phần chênh lệch thay vì ghi đè con số.",
-    ),
-    outcome: t(
-      "Picking, stock takes and a damage workflow gated behind approval.",
-      "Soạn hàng, kiểm kê và luồng xử lý hàng hỏng bắt buộc qua duyệt.",
+      "Production landing page at stratea.ai with server-rendered content, social previews, and structured data.",
+      "Landing page vận hành tại stratea.ai với nội dung render phía server, bản xem trước chia sẻ và dữ liệu có cấu trúc.",
     ),
   },
   "social-platform-case-study": {
-    index: "07",
+    index: "05",
     role: t(
       "Sole author of the web client and the headless CMS; contributor on the Flutter app and the NestJS API.",
       "Tự làm toàn bộ web client và headless CMS; tham gia đóng góp cho app Flutter và API NestJS.",
@@ -574,8 +570,35 @@ export const featuredDetail: Record<string, FeaturedDetail> = {
       },
     ],
   },
-  "lv-be": {
+  trangsuc: {
+    index: "06",
+    role: t(
+      "Frontend, backend-for-frontend, and Payload CMS backoffice",
+      "Frontend, lớp backend-for-frontend và backoffice Payload CMS",
+    ),
+    challenge: t(
+      "One storefront serving three markets: live multi-currency pricing, 3D product inspection, and an integrated Payload CMS admin backoffice for product catalog and order management, with every credential kept behind a server-side proxy so the browser never holds one.",
+      "Một cửa hàng phục vụ ba thị trường: giá đa tiền tệ cập nhật trực tiếp, xem sản phẩm 3D, và backoffice quản trị Payload CMS cho catalog sản phẩm cùng đơn hàng, mọi credential nằm sau proxy phía server để trình duyệt không bao giờ giữ.",
+    ),
+    outcome: t(
+      "Next.js 16 and React 19 with Payload CMS backoffice on Supabase.",
+      "Next.js 16 và React 19 kết hợp quản trị backoffice Payload CMS trên Supabase.",
+    ),
+  },
+  WMS: {
     index: "07",
+    role: t("Full-stack — .NET API and React client", "Full-stack — API .NET và client React"),
+    challenge: t(
+      "Traceability down to the individual serial. InventoryLog is the source of truth and the stock figure is derived from it, so a stock take records the difference instead of overwriting the number.",
+      "Truy vết xuống tới từng serial. InventoryLog là nguồn sự thật còn con số tồn được suy ra từ đó, nên kiểm kê ghi lại phần chênh lệch thay vì ghi đè con số.",
+    ),
+    outcome: t(
+      "Picking, stock takes and a damage workflow gated behind approval.",
+      "Soạn hàng, kiểm kê và luồng xử lý hàng hỏng bắt buộc qua duyệt.",
+    ),
+  },
+  "lv-be": {
+    index: "08",
     role: t("Backend — ASP.NET Core and EF Core", "Backend — ASP.NET Core và EF Core"),
     challenge: t(
       "Specs are templated per category, so adding a whole product category needs no migration. Variants are priced individually and orders snapshot what was true at checkout.",

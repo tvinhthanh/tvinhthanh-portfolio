@@ -10,11 +10,14 @@ import { Philosophy } from "@/components/sections/philosophy";
 import { Projects } from "@/components/sections/projects";
 import { Background, Stack } from "@/components/sections/stack";
 import { World } from "@/components/world";
+import { RobotStage } from "@/components/robot/robot-stage";
+import { RobotSettingsProvider } from "@/components/robot/robot-settings";
 
 export default function Home() {
   return (
-    <>
+    <RobotSettingsProvider>
       <World />
+      <RobotStage />
 
       <div className="relative z-10 lg:pl-[var(--rail)]">
         <a
@@ -30,34 +33,23 @@ export default function Home() {
         <main id="main">
           <Hero />
 
-          {/* Wave-quiet strip: paper closes over the scene so the document
-              reads without competing motion behind it. */}
-          <div className="quiet-strip px-5 sm:px-8 lg:px-16">
+          <div className="reading-strip px-5 sm:px-8 lg:px-16">
             <Intro />
-            <Philosophy />
-          </div>
-
-          {/* Wave-visible: the projects breathe with the world behind them —
-              this is the second of three deliberate exposures (hero → work →
-              contact) that make the scene a signature, not a wallpaper. */}
-          <div className="px-5 sm:px-8 lg:px-16">
-            <LabSection />
             <Projects />
-          </div>
-
-          <div className="quiet-strip px-5 sm:px-8 lg:px-16">
             <Experience />
+            <Philosophy />
+            <LabSection />
             <Stack />
             <Background />
           </div>
 
-          <div className="px-5 pb-[var(--s-section)] sm:px-8 lg:px-16">
+          <div className="reading-strip px-5 pb-[var(--s-section)] sm:px-8 lg:px-16">
             <Contact />
           </div>
         </main>
 
         <Footer />
       </div>
-    </>
+    </RobotSettingsProvider>
   );
 }

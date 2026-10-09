@@ -1,4 +1,5 @@
-import { profile } from "@/content/profile";
+import Image from "next/image";
+import { profile, resumes } from "@/content/profile";
 import { T, t } from "@/lib/i18n";
 import { Reveal } from "../ui/reveal";
 import { HeroCore } from "./hero-core";
@@ -78,6 +79,13 @@ export function Hero() {
           </Reveal>
 
           <Reveal delay={340}>
+            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-step--1">
+              {resumes.map((cv) => (
+                <a key={cv.file} href={cv.file} download className="text-ink underline decoration-line underline-offset-4 hover:text-accent">
+                  <T v={cv.label} /> (PDF)
+                </a>
+              ))}
+            </div>
             <dl className="mono mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 text-step--2 uppercase tracking-[0.13em] text-ink-faint">
               <div className="flex items-center gap-2">
                 <dt className="sr-only">Location</dt>
@@ -88,7 +96,7 @@ export function Hero() {
                   <T v={profile.location} />
                   {/* One reading, one line — it was breaking before the final
                       "E" on a narrow screen. */}
-                  <span aria-hidden="true" className="ml-2 whitespace-nowrap text-ink-faint">
+                  <span aria-hidden="true" className="mt-1 block whitespace-nowrap text-ink-faint sm:ml-2 sm:mt-0 sm:inline">
                     {COORDS}
                   </span>
                 </dd>
@@ -108,9 +116,24 @@ export function Hero() {
           </Reveal>
         </div>
 
-        {/* Right column: Interactive System Core */}
-        <div className="lg:col-span-5">
-          <Reveal delay={200}>
+        {/* Right column: 3D Companion Hero Stage & Interactive System Core */}
+        <div className="relative lg:col-span-5 flex flex-col items-center">
+          <div
+            className="robot-anchor robot-anchor--hero"
+            data-robot-anchor="hero"
+            aria-label="3D Interactive Companion"
+          >
+            <span className="robot-loader" aria-hidden="true" />
+            <Image
+              className="robot-poster"
+              src="/models/robot-poster.webp"
+              alt="3D Assistant Companion"
+              width={400}
+              height={432}
+              priority
+            />
+          </div>
+          <Reveal delay={200} className="w-full">
             <HeroCore />
           </Reveal>
         </div>

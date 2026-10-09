@@ -19,7 +19,7 @@ export const MODEL_CONFIGS: Record<LabModelId, LabModelConfig> = {
       "Carbon Composite",
       "Active Aerodynamics",
       "Kinetic Disassembly",
-      "Sub-1.2s Paint",
+      "On-demand WebGL",
     ],
     protocol: "Aero Kinematics",
     metric: "Downforce: 650kg @ 240km/h",

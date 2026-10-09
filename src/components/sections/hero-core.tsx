@@ -4,31 +4,31 @@ import { useCallback, useState } from "react";
 import { T, t } from "@/lib/i18n";
 
 const coreData = {
-  statusBadge: t("Telemetry: Online", "Telemetry: Trực tuyến"),
-  architectureSub: t("Track Spec · V12 Full-Stack", "Cấu hình xe đua · V12 Full-Stack"),
-  pulseHint: t("Ignition: Click to launch pulse", "Động cơ: Nhấp để tăng tốc không gian"),
+  statusBadge: t("Interactive demo", "Demo tương tác"),
+  architectureSub: t("Full-stack toolkit", "Công nghệ Full-stack"),
+  pulseHint: t("Click to preview the animation", "Nhấp để xem hiệu ứng"),
 };
 
 
 const stackDomains = [
   {
-    label: t("Aero Cockpit (UI)", "Khí động học (UI)"),
+    label: t("Frontend", "Frontend"),
     items: ["React 19", "Next.js", "TypeScript", "Tailwind"],
     highlight: true,
   },
   {
-    label: t("Mobile Chassis", "Khung gầm Mobile"),
+    label: t("Mobile", "Mobile"),
     items: ["React Native", "Flutter", "iOS / Android"],
     highlight: true,
   },
   {
-    label: t("Engine Powertrain", "Động cơ dẫn động"),
+    label: t("Backend", "Backend"),
     items: ["NestJS", "Node.js", "WebSocket", "Redis Fan-out"],
     highlight: false,
   },
   {
-    label: t("Telemetry & AI", "Cảm biến & AI"),
-    items: ["PostgreSQL RLS", "OpenAI Streaming", "Docker"],
+    label: t("Data & AI", "Dữ liệu & AI"),
+    items: ["PostgreSQL RLS", "Context Engineering", "Docker"],
     highlight: false,
   },
 ];
@@ -77,8 +77,8 @@ export function HeroCore() {
           onClick={channelQi}
           onMouseEnter={channelQi}
           onFocus={channelQi}
-          aria-label="Ignition engine pulse"
-          className="group relative flex h-34 w-34 cursor-pointer items-center justify-center rounded-full transition-transform duration-300 active:scale-95 focus:outline-none focus-visible:outline-none"
+          aria-label="Preview animation"
+          className="group relative flex h-34 w-34 cursor-pointer items-center justify-center rounded-full transition-transform duration-300 active:scale-95"
         >
           {/* Outer rotating tachometer gauge ring with tick notches */}
           <svg
@@ -133,8 +133,8 @@ export function HeroCore() {
                 : "border-accent/50 bg-surface-2/80 shadow-[0_0_16px_rgba(237,212,154,0.2)] group-hover:border-accent group-hover:shadow-[0_0_24px_rgba(237,212,154,0.4)]"
             }`}
           >
-            <span className="mono text-step-0 font-bold tracking-wider text-accent">START</span>
-            <span className="mono text-[0.5625rem] uppercase tracking-widest text-ink-faint">ENGINE</span>
+            <span className="mono text-step-0 font-bold tracking-wider text-accent">PLAY</span>
+            <span className="mono text-[0.5625rem] uppercase tracking-widest text-ink-faint">DEMO</span>
           </div>
         </button>
 

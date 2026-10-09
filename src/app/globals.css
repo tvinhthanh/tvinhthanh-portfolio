@@ -244,6 +244,7 @@
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
   -webkit-text-size-adjust: 100%;
@@ -726,3 +727,280 @@ body {
   box-shadow: 0 0 12px rgba(237, 212, 154, 0.25);
 }
 
+/* ============================================================
+   ROBOT 3D COMPANION, GPU FALLBACK & RESPONSIVE ANCHORS
+   ============================================================ */
+
+.robot-stage {
+  position: fixed;
+  inset: 0;
+  width: auto;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 25;
+}
+
+#robot-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+body[data-robot="ready"] #robot-canvas {
+  opacity: 1;
+}
+
+/* Pulsing loader placeholder while Three.js and GLB stream in */
+.robot-loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60px;
+  height: 60px;
+  margin: -30px 0 0 -30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(237, 212, 154, 0.55) 0 30%, rgba(237, 212, 154, 0) 70%);
+  animation: robot-loader-pulse 1.4s ease-in-out infinite;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+body[data-robot] .robot-loader {
+  opacity: 0;
+  animation: none;
+}
+
+/* Static robot poster when WebGL is missing, software-only (GPU fallback), or error */
+.robot-poster {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  pointer-events: none;
+}
+
+body[data-robot="paused"] .robot-poster,
+body[data-robot="paused"] .robot-loader {
+  display: none;
+}
+
+body[data-robot="fallback"] .robot-poster,
+body[data-robot="error"] .robot-poster {
+  display: block;
+}
+
+@keyframes robot-loader-pulse {
+  0%, 100% {
+    transform: scale(0.7);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.9;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robot-loader {
+    animation: none;
+  }
+}
+
+.robot-anchor {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* --- Hero Anchor: designated stage box with 0 CLS --- */
+.robot-anchor--hero {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 270px;
+  margin: 0 auto 1.5rem auto;
+}
+
+@media (min-width: 1024px) {
+  .robot-anchor--hero {
+    max-width: 340px;
+    height: 270px;
+    margin-bottom: 1.25rem;
+  }
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  /* Middle screens / Tablet */
+  .robot-anchor--hero {
+    max-width: 280px;
+    height: 240px;
+    margin: 1.25rem auto 1.75rem auto;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Mobile */
+  .robot-anchor--hero {
+    max-width: 220px;
+    height: 200px;
+    margin: 1rem auto 1.5rem auto;
+  }
+}
+
+/* --- Intro Anchor --- */
+.robot-anchor--intro {
+  position: absolute;
+  right: 0;
+  top: -190px;
+  width: 170px;
+  height: 200px;
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  /* Middle screens / Tablet */
+  .robot-anchor--intro {
+    right: 1.5rem;
+    top: -160px;
+    width: 140px;
+    height: 170px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Mobile */
+  .robot-anchor--intro {
+    right: 0.5rem;
+    top: -130px;
+    width: 110px;
+    height: 140px;
+  }
+}
+
+/* --- Philosophy Anchor --- */
+.robot-anchor--philosophy {
+  position: absolute;
+  right: 2.5rem;
+  bottom: 1.5rem;
+  width: 170px;
+  height: 210px;
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  /* Middle screens / Tablet */
+  .robot-anchor--philosophy {
+    right: 1.5rem;
+    bottom: 1.25rem;
+    width: 140px;
+    height: 170px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Mobile */
+  .robot-anchor--philosophy {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: 110px;
+    height: 135px;
+  }
+}
+
+/* --- Projects Anchor --- */
+.robot-anchor--projects {
+  position: absolute;
+  right: 2rem;
+  top: 1rem;
+  width: 180px;
+  height: 220px;
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  /* Middle screens / Tablet */
+  .robot-anchor--projects {
+    right: 1.5rem;
+    top: 0.5rem;
+    width: 135px;
+    height: 170px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Mobile */
+  .robot-anchor--projects {
+    right: 0.5rem;
+    top: 0;
+    width: 110px;
+    height: 135px;
+  }
+}
+
+/* --- Stack Anchor --- */
+.robot-anchor--stack {
+  position: absolute;
+  right: 2rem;
+  top: 1rem;
+  width: 180px;
+  height: 220px;
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  /* Middle screens / Tablet */
+  .robot-anchor--stack {
+    right: 1.5rem;
+    top: 0.5rem;
+    width: 135px;
+    height: 170px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Mobile */
+  .robot-anchor--stack {
+    right: 0.5rem;
+    top: 0;
+    width: 110px;
+    height: 135px;
+  }
+}
+
+/* --- Contact Anchor --- */
+.robot-anchor--contact {
+  position: absolute;
+  right: 3rem;
+  bottom: 2rem;
+  width: 180px;
+  height: 230px;
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  /* Middle screens / Tablet */
+  .robot-anchor--contact {
+    right: 1.5rem;
+    bottom: 1.5rem;
+    width: 140px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Mobile */
+  .robot-anchor--contact {
+    right: 0.75rem;
+    bottom: 1rem;
+    width: 115px;
+    height: 140px;
+  }
+}
+
+
+
+/* Opaque reading surface keeps animated particles behind the document. */
+.reading-strip {
+  position: relative;
+  background: var(--paper);
+}
+.project-card { background: var(--paper); }

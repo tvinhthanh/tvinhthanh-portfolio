@@ -1,9 +1,9 @@
-import { pages, philosophy } from "@/content/profile";
+import { getPage, philosophy } from "@/content/profile";
 import { T, t } from "@/lib/i18n";
 import { Reveal } from "../ui/reveal";
 import { Section } from "../ui/section";
 
-const page = pages[2];
+const page = getPage("philosophy");
 
 const columns = {
   where: t("Where", "Ở đâu"),
@@ -14,7 +14,7 @@ export function Philosophy() {
   return (
     <Section
       id="philosophy"
-      index="02"
+      index="04"
       title={page.label}
       aside={page.aside}
       intro={philosophy.eyebrow}
@@ -22,7 +22,12 @@ export function Philosophy() {
       {/* The hinge of the page: everything above leads here, everything below
           is evidence for it. */}
       <Reveal>
-        <figure className="panel relative overflow-hidden px-6 py-8 sm:px-10 sm:py-10">
+        <figure className="panel relative overflow-visible px-6 py-8 sm:px-10 sm:py-10">
+          <div
+            className="robot-anchor robot-anchor--philosophy"
+            data-robot-anchor="philosophy"
+            aria-hidden="true"
+          />
           <span
             aria-hidden="true"
             className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-accent to-transparent"

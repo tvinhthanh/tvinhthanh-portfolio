@@ -16,7 +16,7 @@ const core = [
   "PostgreSQL",
   "Redis & BullMQ",
   "Docker",
-  "Three.js",
+  "Claude Code / Cursor",
 ];
 
 const label = t("Reached for first", "Dùng nhiều nhất");

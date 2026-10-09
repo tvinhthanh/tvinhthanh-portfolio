@@ -1,9 +1,9 @@
-import { pages, profile, resumes } from "@/content/profile";
+import { getPage, profile, resumes } from "@/content/profile";
 import { T, t } from "@/lib/i18n";
 import { Reveal } from "../ui/reveal";
 import { Section } from "../ui/section";
 
-const page = pages[7];
+const page = getPage("contact");
 
 const channels = [
   { label: t("Email", "Email"), value: profile.email, href: `mailto:${profile.email}` },
@@ -27,7 +27,7 @@ export function Contact() {
   return (
     <Section
       id="contact"
-      index="07"
+      index="08"
       title={page.label}
       aside={page.aside}
       intro={t(
@@ -35,6 +35,11 @@ export function Contact() {
         "Cứ nói sản phẩm của bạn làm gì và hiện đang hỏng ở đâu. Đó thường là cách nhanh nhất để biết tôi có hợp hay không.",
       )}
     >
+      <div
+        className="robot-anchor robot-anchor--contact"
+        data-robot-anchor="contact"
+        aria-hidden="true"
+      />
       <Reveal>
         <a
           href={`mailto:${profile.email}`}

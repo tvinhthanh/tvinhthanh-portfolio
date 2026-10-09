@@ -1,9 +1,9 @@
-import { pages, profile, resumes } from "@/content/profile";
+import { getPage, profile, resumes } from "@/content/profile";
 import { T, t } from "@/lib/i18n";
 import { Reveal } from "../ui/reveal";
 import { Section } from "../ui/section";
 
-const page = pages[1];
+const page = getPage("intro");
 
 export function Intro() {
   return (
@@ -41,7 +41,12 @@ export function Intro() {
           </Reveal>
         </div>
 
-        <Reveal delay={120}>
+        <Reveal delay={120} className="relative">
+          <div
+            className="robot-anchor robot-anchor--intro"
+            data-robot-anchor="intro"
+            aria-hidden="true"
+          />
           {/* The recruiter panel: role, years, stack, impact — the four
               things a hiring reader needs before they decide to keep going.
               Kept at step-0 so it reads without leaning in. */}

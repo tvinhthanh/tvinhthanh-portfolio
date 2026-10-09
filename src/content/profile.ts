@@ -14,22 +14,22 @@ export const profile = {
   initials: "TVT",
 
   discipline: t(
-    "Frontend Engineer · Full-stack Software Engineer",
-    "Frontend Engineer · Kỹ sư phần mềm Full-stack",
+    "Full-Stack Software Engineer · Frontend Engineer",
+    "Kỹ sư phần mềm Full-stack · Frontend",
   ),
   role: t(
-    "Frontend Engineer · Full-stack Software Engineer",
-    "Frontend Engineer · Kỹ sư phần mềm Full-stack",
+    "Full-Stack Software Engineer · Frontend Engineer",
+    "Kỹ sư phần mềm Full-stack · Frontend",
   ),
   statement: t(
-    "Building scalable products, intelligent systems, and digital experiences from interface to infrastructure.",
-    "Xây dựng sản phẩm có khả năng mở rộng, hệ thống thông minh và trải nghiệm số — từ giao diện xuống tới hạ tầng.",
+    "I build React and Next.js products, real-time interfaces, and the backend systems that keep business data consistent.",
+    "Tôi xây dựng sản phẩm React và Next.js, giao diện thời gian thực và hệ thống backend bảo toàn tính nhất quán của dữ liệu nghiệp vụ.",
   ),
 
   location: t("Ho Chi Minh City", "TP. Hồ Chí Minh"),
   locationFull: t("Ho Chi Minh City, Vietnam", "TP. Hồ Chí Minh, Việt Nam"),
   availability: t("Available for opportunities", "Sẵn sàng cho cơ hội mới"),
-  headline: "React · Next.js · TypeScript · Tailwind",
+  headline: "Full-Stack · Next.js · TypeScript · AI Workflows",
 
   email: "tvinhthanhsg@gmail.com",
   phone: "+84 797 200 168",
@@ -41,16 +41,16 @@ export const profile = {
   siteUrl: "https://truongvinhthanh.dev",
 
   intro: t(
-    "I build business systems: rental, point-of-sale, warehouse, e-commerce. The part I care about is the part that usually gets skipped — the data model, where the transaction boundary sits, and what the system does when the happy path doesn't happen.",
-    "Tôi làm hệ thống nghiệp vụ: cho thuê xe, bán hàng tại quầy, kho, thương mại điện tử. Phần tôi quan tâm lại là phần hay bị bỏ qua — mô hình dữ liệu, ranh giới transaction nằm ở đâu, và hệ thống xử lý thế nào khi luồng thuận lợi không xảy ra.",
+    "I build business systems: point-of-sale, rental, warehouse, e-commerce. The part I care about is the part that usually gets skipped — the data model, where the transaction boundary sits, and what the system does when the happy path doesn't happen.",
+    "Tôi làm hệ thống nghiệp vụ: bán hàng tại quầy, cho thuê xe, kho, thương mại điện tử. Phần tôi quan tâm lại là phần hay bị bỏ qua — mô hình dữ liệu, ranh giới transaction nằm ở đâu, và hệ thống xử lý thế nào khi luồng thuận lợi không xảy ra.",
   ),
   introSecondary: t(
-    "Lately most of my time goes to AI coding agents: reusable skill packs and workflow rules that make an agent behave like a senior engineer instead of a code generator.",
-    "Gần đây phần lớn thời gian của tôi dành cho AI coding agent: các skill pack dùng lại được và bộ quy tắc workflow, để agent hành xử như một kỹ sư senior chứ không phải máy sinh code.",
+    "Lately most of my time goes to AI coding agents and context engineering: I maintain reusable AI engineering rules covering architecture, database safety, security, testing and code review.",
+    "Gần đây phần lớn thời gian của tôi dành cho AI coding agent và context engineering: tôi duy trì bộ quy tắc kỹ thuật dùng lại được cho AI bao gồm kiến trúc, an toàn database, bảo mật, kiểm thử và review code.",
   ),
 
   facts: [
-    { label: t("Role", "Vai trò"), value: t("Frontend Engineer · Full-stack Software Engineer", "Frontend Engineer · Kỹ sư phần mềm Full-stack") },
+    { label: t("Role", "Vai trò"), value: t("Full-Stack Software Engineer · Frontend Engineer", "Kỹ sư phần mềm Full-stack · Frontend") },
     { label: t("Based in", "Ở tại"), value: t("Ho Chi Minh City, Vietnam", "TP. Hồ Chí Minh, Việt Nam") },
     { label: t("Experience", "Kinh nghiệm"), value: t("3+ years in production", "3+ năm với sản phẩm chạy thật") },
     { label: t("Public repositories", "Repository công khai"), value: t("31 on GitHub", "31 trên GitHub") },
@@ -65,17 +65,23 @@ export const profile = {
 
 export type PageLink = { id: string; label: L; aside: L };
 
-export const pages: PageLink[] = [
+export const pages = [
   { id: "home", label: t("Home", "Trang chủ"), aside: t("Overview", "Tổng quan") },
   { id: "intro", label: t("Intro", "Giới thiệu"), aside: t("Engineer Profile", "Hồ sơ kỹ sư") },
-  { id: "philosophy", label: t("Philosophy", "Triết lý"), aside: t("Engineering Principles", "Nguyên tắc kỹ thuật") },
-  { id: "lab", label: t("3D Lab", "3D Lab"), aside: t("WebGL & Animations", "WebGL & Đồ họa") },
   { id: "projects", label: t("Projects", "Dự án"), aside: t("Featured Works", "Dự án tiêu biểu") },
   { id: "experience", label: t("Experience", "Kinh nghiệm"), aside: t("Career Path", "Quá trình làm việc") },
+  { id: "philosophy", label: t("Philosophy", "Triết lý"), aside: t("Engineering Principles", "Nguyên tắc kỹ thuật") },
+  { id: "lab", label: t("3D Lab", "3D Lab"), aside: t("WebGL & Animations", "WebGL & Đồ họa") },
   { id: "stack", label: t("Stack", "Công nghệ"), aside: t("Tools & Capabilities", "Công nghệ & Kỹ năng") },
   { id: "background", label: t("Background", "Nền tảng"), aside: t("Education & Languages", "Học vấn & Ngôn ngữ") },
   { id: "contact", label: t("Contact", "Liên hệ"), aside: t("Get in Touch", "Kênh kết nối") },
-];
+] as const satisfies readonly PageLink[];
+
+export function getPage(id: (typeof pages)[number]["id"]) {
+  const page = pages.find((entry) => entry.id === id);
+  if (!page) throw new Error(`Unknown section: ${id}`);
+  return page;
+}
 
 /* ------------------------------------------------------------------ *
  * The thesis. Everything else on the page is evidence for it.         *
@@ -109,8 +115,8 @@ export const philosophy = {
     {
       where: t("Layout & Performance", "Hiệu năng hiển thị & Layout"),
       how: t(
-        "Every dynamic container reserves exact dimensions up-front to guarantee 0 Cumulative Layout Shift (CLS). Critical content renders server-side (SSR) while heavy visual assets stream asynchronously.",
-        "Mọi khung hình chuyển đổi đều giữ chỗ kích thước chuẩn để tránh giật nhảy giao diện (CLS = 0). Nội dung cốt lõi render phía server (SSR), các thành phần đồ họa nặng được stream bất đồng bộ.",
+        "Reserve space for dynamic content to reduce layout shifts. Render critical content on the server and defer heavy visual assets until needed.",
+        "Giữ chỗ cho nội dung động để giảm dịch chuyển bố cục. Render nội dung cốt lõi phía server và trì hoãn tải tài nguyên đồ họa nặng đến khi cần.",
       ),
     },
     {
@@ -341,20 +347,23 @@ export const domains: Domain[] = [
   },
   {
     id: "ai",
-    short: "AI",
-    label: t("AI / Automation", "AI / Tự động hoá"),
-    aside: t("Models in production workflows", "Đưa mô hình vào quy trình thật"),
-    depth: 4,
+    short: "AI Dev",
+    label: t("AI-Assisted Development", "AI-Assisted Development"),
+    aside: t("Context engineering & AI workflows", "Context engineering & quy trình AI"),
+    depth: 5,
     items: [
+      "Claude Code",
+      "Cursor",
+      "ChatGPT / Codex",
+      "Context Engineering",
+      "Prompt Engineering",
+      "Agent Rules (.ai / system instructions)",
+      "AI Coding Workflows",
+      "AI-assisted Code Review",
+      "AI-assisted Testing & Debugging",
+      "MCP / Tool Integration",
       "OpenAI API",
-      "Whisper",
-      "LLM integration",
-      "Prompt engineering",
-      "RAG concepts",
-      "Python (AI testing)",
-      "n8n",
-      "AI Coding Assistants",
-      "Automation pipelines",
+      "LLM Integration",
     ],
   },
   {

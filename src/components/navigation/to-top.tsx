@@ -34,7 +34,7 @@ export function ToTop() {
       href="#home"
       aria-hidden={!shown}
       tabIndex={shown ? 0 : -1}
-      className={`panel fixed bottom-5 right-4 z-40 grid h-11 w-11 place-items-center text-ink-soft shadow-[var(--shadow-pop)] transition-[opacity,transform,color,border-color] duration-300 hover:border-accent hover:text-accent lg:right-6 ${
+      className={`panel fixed bottom-5 right-5 z-40 grid h-11 w-11 place-items-center text-ink-soft shadow-[var(--shadow-pop)] transition-[opacity,transform,color,border-color] duration-300 hover:border-accent hover:text-accent sm:right-6 ${
         shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"
       }`}
     >
