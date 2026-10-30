@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { profile } from "@/content/profile";
 import { archive, categories, type Category } from "@/content/projects";
 import { T, t } from "@/lib/i18n";
+import { formatDate } from "./labels";
 
 const copy = {
   count: t("shown", "đang hiện"),
@@ -14,13 +15,6 @@ const copy = {
   updated: t("Updated", "Cập nhật"),
   all: t("All 31 repositories on GitHub", "Toàn bộ 31 repository trên GitHub"),
 };
-
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-function formatDate(iso: string) {
-  const [y, m] = iso.split("-");
-  return `${MONTHS[Number(m) - 1]} ${y}`;
-}
 
 /** The rest of the work, kept dense on purpose: this is a reference table,
  *  not a showcase. Engineers scan it; recruiters can skip it. */
@@ -56,7 +50,8 @@ export function Archive() {
               }`}
             >
               <T v={c.label} />
-              <span className="tnum opacity-60">{n}</span>
+              {/* Full strength: at 60% opacity the count fell to 2.4:1 on paper. */}
+              <span className="tnum">{n}</span>
             </button>
           );
         })}
@@ -145,7 +140,7 @@ export function Archive() {
                           href={p.demoUrl}
                           target="_blank"
                           rel="noreferrer noopener"
-                          className="mono inline-flex items-center gap-1 rounded-chip border border-accent/40 bg-accent-wash px-1.5 py-0.5 text-[0.625rem] text-accent uppercase tracking-wider no-underline transition-colors hover:border-accent"
+                          className="mono inline-flex items-center gap-1 rounded-chip border border-accent/40 bg-accent-wash px-1.5 py-0.5 text-step--2 text-accent uppercase tracking-wider no-underline transition-colors hover:border-accent"
                         >
                           Demo ↗
                         </a>

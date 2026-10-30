@@ -58,30 +58,8 @@ export const profile = {
   ],
 };
 
-/* ------------------------------------------------------------------ *
- * Navigation. `aside` is the world's name for the section — it never  *
- * replaces the real one.                                              *
- * ------------------------------------------------------------------ */
-
-export type PageLink = { id: string; label: L; aside: L };
-
-export const pages = [
-  { id: "home", label: t("Home", "Trang chủ"), aside: t("Overview", "Tổng quan") },
-  { id: "intro", label: t("Intro", "Giới thiệu"), aside: t("Engineer Profile", "Hồ sơ kỹ sư") },
-  { id: "projects", label: t("Projects", "Dự án"), aside: t("Featured Works", "Dự án tiêu biểu") },
-  { id: "experience", label: t("Experience", "Kinh nghiệm"), aside: t("Career Path", "Quá trình làm việc") },
-  { id: "philosophy", label: t("Philosophy", "Triết lý"), aside: t("Engineering Principles", "Nguyên tắc kỹ thuật") },
-  { id: "lab", label: t("3D Lab", "3D Lab"), aside: t("WebGL & Animations", "WebGL & Đồ họa") },
-  { id: "stack", label: t("Stack", "Công nghệ"), aside: t("Tools & Capabilities", "Công nghệ & Kỹ năng") },
-  { id: "background", label: t("Background", "Nền tảng"), aside: t("Education & Languages", "Học vấn & Ngôn ngữ") },
-  { id: "contact", label: t("Contact", "Liên hệ"), aside: t("Get in Touch", "Kênh kết nối") },
-] as const satisfies readonly PageLink[];
-
-export function getPage(id: (typeof pages)[number]["id"]) {
-  const page = pages.find((entry) => entry.id === id);
-  if (!page) throw new Error(`Unknown section: ${id}`);
-  return page;
-}
+/* Navigation lives in rooms.ts: the site is a set of rooms now, not one
+   page of sections. */
 
 /* ------------------------------------------------------------------ *
  * The thesis. Everything else on the page is evidence for it.         *
@@ -319,6 +297,8 @@ export const domains: Domain[] = [
       "SWR",
       "Vite",
       "Angular (basic)",
+      "Vue",
+      "Nuxt",
       "Responsive UI",
       "State management",
       "API integration",

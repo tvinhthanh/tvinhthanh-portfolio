@@ -5,6 +5,10 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt = `${profile.nameLatin} — frontend & full-stack developer`;
 
+/** --accent on obsidian. The card used to carry a green that the palette
+ *  rules out (metal cuts wood); it takes the site's one gold instead. */
+const GOLD = "#edd49a";
+
 /** Dark palette and lattice motif from the site itself, so the share card
  *  reads as a piece of the page rather than a generic banner. */
 export default function OpengraphImage() {
@@ -23,7 +27,7 @@ export default function OpengraphImage() {
             width: r * 2,
             height: r * 2,
             borderRadius: r * 2,
-            backgroundColor: "#52d6ae",
+            backgroundColor: GOLD,
             opacity: 0.18 + Math.abs(wave) * 0.62,
             display: "flex",
           }}
@@ -41,25 +45,25 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#0d0f13",
-          color: "#e9e7e3",
+          backgroundColor: "#080c0d",
+          color: "#f2f0e9",
           padding: "70px 60px",
           position: "relative",
         }}
       >
         {dots}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 24, letterSpacing: 5, color: "#52d6ae" }}>
+          <div style={{ display: "flex", fontSize: 24, letterSpacing: 5, color: GOLD }}>
             {"OPEN TO WORK / HO CHI MINH CITY"}
           </div>
           <div style={{ display: "flex", fontSize: 96, marginTop: 26, letterSpacing: -2 }}>
             {profile.nameLatin}
           </div>
-          <div style={{ display: "flex", fontSize: 38, color: "#9d9a95", marginTop: 16 }}>
+          <div style={{ display: "flex", fontSize: 38, color: "#9aa7a2", marginTop: 16 }}>
             Frontend & Full-stack Engineer
           </div>
         </div>
-        <div style={{ display: "flex", fontSize: 24, color: "#7e7b76" }}>
+        <div style={{ display: "flex", fontSize: 24, color: "#798882" }}>
           {"Next.js · NestJS · PostgreSQL · Redis · WebSocket · Three.js"}
         </div>
       </div>

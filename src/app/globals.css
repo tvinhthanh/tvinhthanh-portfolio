@@ -83,7 +83,13 @@
   --doc-wide: 68rem;
   --radius: 6px;
   --radius-chip: 3px; /* chips and pills only — 6px reads bloated at 11px text */
-  --rail: 15rem;
+  /* The rise of a doorway's arch. Horizontal radius is always half the width,
+     so the crown is centred whatever the column; this sets how tall it is. */
+  --arch: 6.5rem;
+
+  /* The floor plan docked at the foot of the screen, and the clearance every
+     room keeps below its last line so nothing ever sits underneath it. */
+  --plan: 4.75rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -197,7 +203,7 @@
   --color-line-soft: var(--line-soft);
   --color-hairline: var(--hairline);
 
-  --font-display: var(--font-title), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-title), "Iowan Old Style", Georgia, serif;
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-code), ui-monospace, monospace;
 
@@ -246,7 +252,9 @@
 html {
   overflow-x: clip;
   scroll-behavior: smooth;
-  scroll-padding-top: 96px;
+  scroll-padding-top: 2rem;
+  /* Keyboard focus and in-page jumps stop above the floor plan, never under it. */
+  scroll-padding-bottom: calc(var(--plan) + 1.5rem);
   -webkit-text-size-adjust: 100%;
 }
 
@@ -284,12 +292,13 @@ body {
   stroke-opacity: 1;
 }
 
-/* Display face: high-performance, aerodynamic, confident technical typography */
+/* Display face: Cormorant, the voice of the wall text. Old, high-contrast and
+   quiet; 600 is reserved for the smaller display sizes, where 500 thins out. */
 .display {
-  font-family: var(--font-title), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.08;
+  font-family: var(--font-title), "Iowan Old Style", Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  line-height: 1.06;
 }
 
 .mono {
@@ -330,67 +339,22 @@ body {
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.14), 0 16px 48px -12px rgba(0, 0, 0, 0.5);
 }
 
-/* ============================================================
-   RADIANCE & MOTION SYSTEM
-   ============================================================ */
+/* The reading surface for long text. Denser than .panel: the world still
+   shows through as a blurred glow, but a gold particle crossing a paragraph
+   can never pull the copy below AA.
 
-@keyframes celestial-rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes celestial-rotate-rev {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes gold-shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.celestial-spin {
-  animation: celestial-rotate 48s linear infinite;
-}
-
-.celestial-spin-rev {
-  animation: celestial-rotate-rev 36s linear infinite;
-}
-
-.shimmer-gold-btn {
-  position: relative;
-  overflow: hidden;
-}
-
-.shimmer-gold-btn::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.18) 50%,
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: gold-shimmer 4.5s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.glow-subtle {
-  box-shadow: 0 0 32px -8px var(--accent-wash);
+   94% is computed, not a feel. Worst case is the brightest world colour
+   (pearl on obsidian, the river's gold ink on paper) filling the whole area
+   behind the surface: --ink-faint labels then read 4.72:1 on obsidian and
+   4.57:1 on paper. At 92% they dropped to 4.49 and 4.43. Text shields, wall
+   labels and doorway arches use the same density for the same reason. */
+.placard {
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06), 0 8px 32px -14px rgba(0, 0, 0, 0.35);
 }
 
 .doc {
@@ -414,25 +378,6 @@ body {
     var(--hairline) 93%,
     transparent
   );
-}
-
-/* Topographic hairlines — the contour map under a mountain range */
-.contour {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0 22px,
-    var(--line-soft) 22px 23px
-  );
-}
-
-.anchor {
-  opacity: 0;
-  transition: opacity 140ms ease;
-}
-
-.heading-row:hover .anchor,
-.anchor:focus-visible {
-  opacity: 1;
 }
 
 /* ============================================================
@@ -482,19 +427,6 @@ body {
 
   .pulse {
     animation: none;
-  }
-
-  /* The celestial rings and the sweep across the primary CTA are ambient loops
-     that never stop on their own. The WebGL world already drops to a single
-     still frame at this setting; these have to be held still with it. */
-  .celestial-spin,
-  .celestial-spin-rev {
-    animation: none;
-  }
-
-  .shimmer-gold-btn::after {
-    animation: none;
-    opacity: 0;
   }
 }
 
@@ -571,46 +503,6 @@ body {
   opacity: calc(var(--world-recede, 0) * 0.4);
 }
 
-/* ============================================================
-   QUIET STRIPS
-
-   The world is a signature, not a wallpaper. Between hero, projects
-   and contact — the three deliberate exposures — the paper closes
-   over the scene so the document can be read without competing
-   motion behind it. The edges fade rather than clip, so the swap
-   between quiet and open never reads as a boundary line.
-   ============================================================ */
-
-.quiet-strip {
-  position: relative;
-}
-
-.quiet-strip::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -6rem;
-  bottom: -6rem;
-  background: var(--paper);
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0,
-    #000 6rem,
-    #000 calc(100% - 6rem),
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0,
-    #000 6rem,
-    #000 calc(100% - 6rem),
-    transparent 100%
-  );
-  z-index: -1;
-  pointer-events: none;
-}
-
 /* Held for the single frame in which the theme swaps — see ThemeToggle. */
 :root[data-theme-swapping] *,
 :root[data-theme-swapping] *::before,
@@ -621,12 +513,10 @@ body {
 /* ============================================================
    TEXT SHIELD
 
-   The hero is one of the three deliberate exposures, so the paper
-   cannot close over it the way .quiet-strip closes the sections
-   between. But the qi river runs straight through the statement
-   line, and gold particles on --ink-soft measure about 1.8:1 where
-   they cross a glyph — the one sentence that has to be read is the
-   one the scene interferes with most.
+   Wall text sits straight on the world, not on a placard. But the
+   qi river runs through it, and gold particles on --ink-soft measure
+   about 1.8:1 where they cross a glyph — the sentences that have to
+   be read are the ones the scene interferes with most.
 
    So the paper gathers behind the type only: densest under the text,
    gone well before the column edge, no seam anywhere. The river is
@@ -648,15 +538,14 @@ body {
   inset: -2rem -2.5rem;
   z-index: 0;
   pointer-events: none;
-  /* The type runs the full width of the column, so the plateau has to as well —
-     a tighter centre left the end of the statement line back in the particles. */
-  background: radial-gradient(
-    86% 74% at 46% 50%,
-    color-mix(in srgb, var(--paper) 92%, transparent) 0%,
-    color-mix(in srgb, var(--paper) 84%, transparent) 46%,
-    color-mix(in srgb, var(--paper) 46%, transparent) 72%,
-    transparent 92%
-  );
+  /* A plate of paper with its edges blurred away, not a radial glow. Wall text
+     comes in every shape — a long statement, a two-line room header, a single
+     eyebrow — and a radial thinned out at exactly the corners where eyebrows
+     sit, leaving 11px labels in the particles. The plate is dense under every
+     line, corners included, and dissolves over the 2rem margin around them. */
+  border-radius: 2.5rem;
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  filter: blur(20px);
 }
 
 /* Technology chips arriving in the expertise panel — staggered by index,
@@ -680,51 +569,6 @@ body {
   .reveal-chip {
     animation: none;
   }
-}
-
-/* ============================================================
-   HIGH-PERFORMANCE MOTORSPORT & COCKPIT TELEMETRY STYLING
-   ============================================================ */
-
-.cockpit-panel {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--surface) 95%, transparent) 0%,
-    color-mix(in srgb, var(--surface-2) 90%, transparent) 100%
-  );
-  border: 1px solid var(--line);
-  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.45);
-  position: relative;
-}
-
-.cockpit-panel::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 5%, var(--accent) 50%, transparent 95%);
-  opacity: 0.7;
-}
-
-.hud-pill {
-  font-family: var(--font-code), ui-monospace, monospace;
-  font-size: var(--step--2);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  border-radius: 4px;
-  border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--paper) 60%, transparent);
-  backdrop-filter: blur(8px);
-  padding: 0.25rem 0.65rem;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hud-pill:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: 0 0 12px rgba(237, 212, 154, 0.25);
 }
 
 /* ============================================================
@@ -851,156 +695,407 @@ body[data-robot="error"] .robot-poster {
   }
 }
 
-/* --- Intro Anchor --- */
-.robot-anchor--intro {
-  position: absolute;
-  right: 0;
-  top: -190px;
-  width: 170px;
-  height: 200px;
+/* The docent switched off: its post closes up instead of leaving a hole. */
+body[data-robot="paused"] .robot-anchor--hero {
+  height: 0;
+  margin: 0;
 }
 
-@media (max-width: 1023px) and (min-width: 768px) {
-  /* Middle screens / Tablet */
-  .robot-anchor--intro {
-    right: 1.5rem;
-    top: -160px;
-    width: 140px;
-    height: 170px;
+/* ============================================================
+   THE PAVILION
+
+   A lobby and four rooms, each its own page, strung along the
+   river. Everything below is the architecture they share: the
+   room itself, the floor plan, the doorways, and the vitrines
+   the work hangs in.
+   ============================================================ */
+
+.room {
+  padding: clamp(4.5rem, 10vh, 7rem) 1.25rem calc(var(--plan) + var(--s-section));
+}
+
+/* The lobby opens on a full screen of its own and sets its own top. */
+.room--lobby {
+  padding-top: 0;
+}
+
+@media (min-width: 640px) {
+  .room {
+    padding-inline: 2rem;
   }
 }
 
-@media (max-width: 767px) {
-  /* Mobile */
-  .robot-anchor--intro {
-    right: 0.5rem;
-    top: -130px;
-    width: 110px;
-    height: 140px;
+@media (min-width: 1024px) {
+  .room {
+    padding-inline: 4rem;
   }
 }
 
-/* --- Philosophy Anchor --- */
-.robot-anchor--philosophy {
-  position: absolute;
-  right: 2.5rem;
-  bottom: 1.5rem;
-  width: 170px;
-  height: 210px;
+/* ---------- floor plan ---------- */
+
+.plan-dock {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  padding: 0 0.5rem calc(0.5rem + env(safe-area-inset-bottom));
+  pointer-events: none;
+  /* Anchored through every room change: the content moves, the plan does not. */
+  view-transition-name: plan;
 }
 
-@media (max-width: 1023px) and (min-width: 768px) {
-  /* Middle screens / Tablet */
-  .robot-anchor--philosophy {
-    right: 1.5rem;
-    bottom: 1.25rem;
-    width: 140px;
-    height: 170px;
-  }
+.plan {
+  width: 100%;
+  max-width: 62rem;
+  pointer-events: auto;
+  /* Solid, unlike a panel: room text scrolls underneath the dock. At panel
+     density a heading passing behind it read straight through the plan, and
+     even at 94% paper the chart's lit bar and its labels still ghosted in. */
+  background: var(--surface-solid);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: var(--shadow-pop);
 }
 
-@media (max-width: 767px) {
-  /* Mobile */
-  .robot-anchor--philosophy {
-    right: 0.75rem;
-    bottom: 0.75rem;
-    width: 110px;
-    height: 135px;
-  }
-}
-
-/* --- Projects Anchor --- */
-.robot-anchor--projects {
-  position: absolute;
-  right: 2rem;
-  top: 1rem;
-  width: 180px;
-  height: 220px;
-}
-
-@media (max-width: 1023px) and (min-width: 768px) {
-  /* Middle screens / Tablet */
-  .robot-anchor--projects {
-    right: 1.5rem;
-    top: 0.5rem;
-    width: 135px;
-    height: 170px;
-  }
-}
-
-@media (max-width: 767px) {
-  /* Mobile */
-  .robot-anchor--projects {
-    right: 0.5rem;
-    top: 0;
-    width: 110px;
-    height: 135px;
-  }
-}
-
-/* --- Stack Anchor --- */
-.robot-anchor--stack {
-  position: absolute;
-  right: 2rem;
-  top: 1rem;
-  width: 180px;
-  height: 220px;
-}
-
-@media (max-width: 1023px) and (min-width: 768px) {
-  /* Middle screens / Tablet */
-  .robot-anchor--stack {
-    right: 1.5rem;
-    top: 0.5rem;
-    width: 135px;
-    height: 170px;
-  }
-}
-
-@media (max-width: 767px) {
-  /* Mobile */
-  .robot-anchor--stack {
-    right: 0.5rem;
-    top: 0;
-    width: 110px;
-    height: 135px;
-  }
-}
-
-/* --- Contact Anchor --- */
-.robot-anchor--contact {
-  position: absolute;
-  right: 3rem;
-  bottom: 2rem;
-  width: 180px;
-  height: 230px;
-}
-
-@media (max-width: 1023px) and (min-width: 768px) {
-  /* Middle screens / Tablet */
-  .robot-anchor--contact {
-    right: 1.5rem;
-    bottom: 1.5rem;
-    width: 140px;
-    height: 180px;
-  }
-}
-
-@media (max-width: 767px) {
-  /* Mobile */
-  .robot-anchor--contact {
-    right: 0.75rem;
-    bottom: 1rem;
-    width: 115px;
-    height: 140px;
-  }
-}
-
-
-
-/* Opaque reading surface keeps animated particles behind the document. */
-.reading-strip {
+.plan-stations {
   position: relative;
-  background: var(--paper);
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
 }
-.project-card { background: var(--paper); }
+
+/* The thread the stations sit on — the river, drawn as a hairline through
+   the centre of every pearl. */
+.plan-stations::before {
+  content: "";
+  position: absolute;
+  left: 1.25rem;
+  right: 1.25rem;
+  top: 12px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--hairline) 8%,
+    var(--hairline) 92%,
+    transparent
+  );
+}
+
+.plan-station {
+  position: relative;
+  display: flex;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 9px 0.375rem 0.25rem;
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+  font-size: var(--step--1);
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    color 200ms ease,
+    background-color 200ms ease;
+}
+
+.plan-station:hover {
+  color: var(--ink);
+  background: var(--accent-wash);
+}
+
+.plan-pearl {
+  position: relative;
+  z-index: 1;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--hairline);
+  transition:
+    background-color 400ms ease,
+    box-shadow 400ms ease;
+}
+
+.plan-station:hover .plan-pearl {
+  background: var(--ink-faint);
+}
+
+/* The room you are standing in: its pearl is lit. */
+.plan-station[data-here] {
+  color: var(--ink);
+}
+
+.plan-station[data-here] .plan-pearl {
+  background: var(--accent);
+  box-shadow:
+    0 0 0 3px var(--accent-wash),
+    0 0 12px var(--accent);
+}
+
+.plan-mark {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.plan-mark .mono {
+  font-size: var(--step--2);
+  letter-spacing: 0.08em;
+}
+
+/* Phones: numerals only. The room name is hidden visually, not removed, so
+   it is still part of each link's accessible name. */
+.plan-name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .plan-name {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  .plan-station {
+    padding-inline: 0.625rem;
+  }
+}
+
+/* ---------- doorways ---------- */
+
+/* The lobby's way into each room. An arch, not a card: the crown is a half
+   ellipse as wide as the door, with a keystone that lights on approach. */
+.arch {
+  --arch-shape: 50% 50% var(--radius) var(--radius) / var(--arch) var(--arch) var(--radius) var(--radius);
+
+  position: relative;
+  display: flex;
+  height: 100%;
+  min-height: 15.5rem;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.75rem 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--arch-shape);
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  text-align: center;
+  text-decoration: none;
+  transition:
+    border-color 280ms ease,
+    box-shadow 280ms ease,
+    transform 280ms cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+.arch::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  border-radius: 999px;
+  background: var(--hairline);
+  transition:
+    background-color 400ms ease,
+    box-shadow 400ms ease;
+}
+
+.arch:hover,
+.arch:focus-visible {
+  border-color: var(--hairline);
+  box-shadow: 0 22px 44px -30px var(--accent);
+  transform: translateY(-3px);
+}
+
+/* The global ring would square the arch off; it follows the arch instead. */
+.arch:focus-visible {
+  border-radius: var(--arch-shape);
+  outline-offset: 4px;
+}
+
+.arch:hover::before,
+.arch:focus-visible::before {
+  background: var(--accent);
+  box-shadow:
+    0 0 0 3px var(--accent-wash),
+    0 0 12px var(--accent);
+}
+
+@media (max-width: 639px) {
+  .arch {
+    --arch: 4.5rem;
+    min-height: 14rem;
+    padding: 2rem 0.75rem 1rem;
+  }
+}
+
+/* The way on, at the end of every room. A placard rather than a panel: the
+   last doors in the workshop stand right in the river. */
+.doorway {
+  display: block;
+  min-height: 7rem;
+  padding: 1.5rem 1.75rem;
+  text-decoration: none;
+  transition:
+    border-color 280ms ease,
+    transform 280ms cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+.doorway:hover,
+.doorway:focus-visible {
+  border-color: var(--hairline);
+  transform: translateY(-2px);
+}
+
+/* ---------- exhibits ---------- */
+
+.exhibit {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color 280ms ease;
+}
+
+.exhibit:hover {
+  border-color: var(--hairline);
+}
+
+/* The glass the work sits behind. Thinner than a placard on purpose: the
+   river shows through the case as a soft glow. */
+.vitrine {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 30% 20%, var(--accent-wash), transparent 60%),
+    color-mix(in srgb, var(--paper) 55%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.wall-label {
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* ============================================================
+   WALKING BETWEEN ROOMS
+
+   Room changes are view transitions. The page behind the content
+   is never snapshotted: the world keeps running live through the
+   change instead of freezing into a picture and fading. Only the
+   room's content slides, in the direction you walked, and the
+   name of the door you came through becomes the room's heading.
+   ============================================================ */
+
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(root) {
+  display: none;
+}
+
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-group(plan) {
+  z-index: 100;
+  animation: none;
+}
+
+::view-transition-old(plan) {
+  display: none;
+}
+
+::view-transition-new(plan) {
+  animation: none;
+}
+
+::view-transition-old(.nav-forward) {
+  --slide-offset: -60px;
+  animation:
+    150ms ease-in both vt-fade reverse,
+    400ms ease-in-out both vt-slide reverse;
+}
+
+::view-transition-new(.nav-forward) {
+  --slide-offset: 60px;
+  animation:
+    210ms ease-out 150ms both vt-fade,
+    400ms ease-in-out both vt-slide;
+}
+
+::view-transition-old(.nav-back) {
+  --slide-offset: 60px;
+  animation:
+    150ms ease-in both vt-fade reverse,
+    400ms ease-in-out both vt-slide reverse;
+}
+
+::view-transition-new(.nav-back) {
+  --slide-offset: -60px;
+  animation:
+    210ms ease-out 150ms both vt-fade,
+    400ms ease-in-out both vt-slide;
+}
+
+::view-transition-group(.morph) {
+  animation-duration: 450ms;
+}
+
+::view-transition-image-pair(.morph) {
+  animation-name: vt-via-blur;
+}
+
+@keyframes vt-fade {
+  from {
+    filter: blur(3px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes vt-slide {
+  from {
+    translate: var(--slide-offset);
+  }
+  to {
+    translate: 0;
+  }
+}
+
+@keyframes vt-via-blur {
+  30% {
+    filter: blur(3px);
+  }
+}
+
+/* Rooms swap in place. The camera already cuts instead of walking at this
+   setting (the world drops to a still frame), and the content does the same. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

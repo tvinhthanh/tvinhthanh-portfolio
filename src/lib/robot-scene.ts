@@ -8,6 +8,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { warmToGold } from "./retint";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,14 +23,34 @@ export interface AnchorConfig {
   fit: number;
 }
 
+// The docent stands at the entrance and does not follow you into the rooms,
+// so the lobby's threshold is its only post.
 export const ANCHORS: Record<string, AnchorConfig> = {
   hero: { clip: "Look_Wave", turn: -0.38, fit: 1.0 },
-  intro: { clip: "Look_Wave", turn: 0.35, fit: 0.9 },
-  philosophy: { clip: "Sitting", turn: 0.5, fit: 0.8 },
-  projects: { clip: "Look_Wave", turn: -0.28, fit: 0.85 },
-  stack: { clip: "Look_Wave", turn: 0.32, fit: 0.85 },
-  contact: { clip: "Sitting", turn: 0.1, fit: 0.85 },
 };
+
+/** Moves the texture's warm paint to gold, once, before it reaches the GPU. */
+function retintTexture(texture: THREE.Texture) {
+  const image = texture.image as (CanvasImageSource & { width: number; height: number }) | undefined;
+  if (!image?.width || !image.height) return;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  if (!context) return;
+
+  context.drawImage(image, 0, 0);
+  const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+  warmToGold(pixels.data);
+  context.putImageData(pixels, 0, 0);
+
+  if ("close" in image && typeof image.close === "function") image.close();
+  // Same pixels in the same order: the loader never flips its bitmaps, and the
+  // texture keeps flipY = false, so the UVs still land where they did.
+  texture.image = canvas;
+  texture.needsUpdate = true;
+}
 
 function disposeModel(root: THREE.Object3D) {
   root.traverse((child) => {
@@ -115,7 +136,8 @@ export function initRobotScene({ stage, canvas, prefersReducedMotion = false }: 
   let desiredClip: string | null = ANCHORS.hero.clip;
   let disposed = false;
   const actions = new Map<string, THREE.AnimationAction>();
-  const clock = new THREE.Clock();
+  // THREE.Clock is deprecated as of r185; Timer is its replacement.
+  const timer = new THREE.Timer();
 
   const playClip = (name: string, fadeDuration = 0.45) => {
     desiredClip = name;
@@ -144,8 +166,10 @@ export function initRobotScene({ stage, canvas, prefersReducedMotion = false }: 
         const mesh = child as THREE.Mesh;
         const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
         materials.forEach((material) => {
-          if (material && (material as THREE.MeshStandardMaterial).map) {
-            (material as THREE.MeshStandardMaterial).map!.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+          const map = material ? (material as THREE.MeshStandardMaterial).map : null;
+          if (map) {
+            retintTexture(map);
+            map.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
           }
         });
       });
@@ -288,7 +312,8 @@ export function initRobotScene({ stage, canvas, prefersReducedMotion = false }: 
 
   const animate = () => {
     animationFrame = 0;
-    const delta = Math.min(clock.getDelta(), 0.05);
+    timer.update();
+    const delta = Math.min(timer.getDelta(), 0.05);
 
     placeRobot();
 
@@ -319,7 +344,8 @@ export function initRobotScene({ stage, canvas, prefersReducedMotion = false }: 
 
   const wake = () => {
     if (animationFrame || disposed) return;
-    clock.getDelta();
+    // Restart the frame clock so the time spent parked is not one huge step.
+    timer.update();
     animationFrame = window.requestAnimationFrame(animate);
   };
 
@@ -373,6 +399,7 @@ export function initRobotScene({ stage, canvas, prefersReducedMotion = false }: 
     window.removeEventListener("resize", handleResize);
     if (model) disposeModel(model);
     mixer?.stopAllAction();
+    timer.dispose();
     renderer.dispose();
     if (typeof document !== "undefined") {
       delete document.body.dataset.robot;

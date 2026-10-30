@@ -23,7 +23,7 @@ const label = t("Reached for first", "Dùng nhiều nhất");
 
 export function ArsenalShowcase() {
   return (
-    <div className="mb-10 grid gap-x-10 gap-y-3 border-t border-line pt-7 md:grid-cols-[minmax(0,10rem)_minmax(0,1fr)]">
+    <div className="mb-10 grid gap-x-10 gap-y-3 border-b border-line pb-7 md:grid-cols-[minmax(0,10rem)_minmax(0,1fr)]">
       <p className="mono pt-0.5 text-step--2 uppercase tracking-[0.14em] text-ink-faint">
         <T v={label} />
       </p>

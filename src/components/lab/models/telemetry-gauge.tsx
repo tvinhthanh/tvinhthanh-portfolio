@@ -3,6 +3,7 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { metal, modeTone } from "../palette";
 
 type Props = {
   rpm: number;
@@ -28,28 +29,20 @@ export function TelemetryGauge({
   const ledRefs = useRef<(THREE.Mesh | null)[]>([]);
   const smoothedRpm = useRef(rpm);
 
-  const modeAccent = useMemo(() => {
-    switch (driveMode) {
-      case "corsa":
-        return "#ff3333";
-      case "track":
-        return "#f59e0b";
-      case "sport":
-      default:
-        return "#edd49a";
-    }
-  }, [driveMode]);
+  const modeAccent = modeTone[driveMode].glow;
 
+  // The shift-light strip climbs silver → gold → hot gold → pearl, and the
+  // redline is the brightest metal on the dial rather than a red one.
   const materials = useMemo(() => {
     return {
       binnacleCarbon: new THREE.MeshStandardMaterial({
-        color: "#111417",
+        color: metal.carbon,
         metalness: 0.9,
         roughness: 0.2,
         wireframe,
       }),
       dialFace: new THREE.MeshStandardMaterial({
-        color: "#090d0f",
+        color: metal.carbonDeep,
         metalness: 0.5,
         roughness: 0.5,
         wireframe,
@@ -61,45 +54,45 @@ export function TelemetryGauge({
         wireframe,
       }),
       needleMat: new THREE.MeshStandardMaterial({
-        color: "#ff3e3e",
-        emissive: "#d92323",
+        color: metal.goldHot,
+        emissive: metal.gold,
         emissiveIntensity: 0.8,
         metalness: 0.8,
         roughness: 0.2,
       }),
       tickNormal: new THREE.MeshStandardMaterial({
-        color: "#8395a1",
+        color: metal.silverDeep,
         metalness: 0.7,
         roughness: 0.3,
       }),
       tickRedline: new THREE.MeshStandardMaterial({
-        color: "#ff4d4d",
-        emissive: "#cc1111",
+        color: metal.pearl,
+        emissive: metal.goldHot,
         emissiveIntensity: 0.6,
       }),
       ledOff: new THREE.MeshStandardMaterial({
-        color: "#22272b",
+        color: metal.unlit,
         metalness: 0.8,
         roughness: 0.5,
       }),
-      ledGreen: new THREE.MeshStandardMaterial({
-        color: "#22c55e",
-        emissive: "#16a34a",
+      ledLow: new THREE.MeshStandardMaterial({
+        color: metal.silver,
+        emissive: metal.silverDeep,
+        emissiveIntensity: 1.0,
+      }),
+      ledMid: new THREE.MeshStandardMaterial({
+        color: metal.gold,
+        emissive: metal.goldDeep,
         emissiveIntensity: 1.2,
       }),
-      ledYellow: new THREE.MeshStandardMaterial({
-        color: "#eab308",
-        emissive: "#ca8a04",
-        emissiveIntensity: 1.2,
-      }),
-      ledRed: new THREE.MeshStandardMaterial({
-        color: "#ef4444",
-        emissive: "#dc2626",
+      ledHigh: new THREE.MeshStandardMaterial({
+        color: metal.goldHot,
+        emissive: metal.gold,
         emissiveIntensity: 1.5,
       }),
-      ledBlue: new THREE.MeshStandardMaterial({
-        color: "#38bdf8",
-        emissive: "#0284c7",
+      ledShift: new THREE.MeshStandardMaterial({
+        color: metal.pearl,
+        emissive: metal.goldHot,
         emissiveIntensity: 1.8,
       }),
       gearActive: new THREE.MeshStandardMaterial({
@@ -108,7 +101,7 @@ export function TelemetryGauge({
         emissiveIntensity: 0.9,
       }),
       glassCover: new THREE.MeshPhysicalMaterial({
-        color: "#0d171b",
+        color: metal.glass,
         metalness: 0.1,
         roughness: 0.05,
         transmission: 0.8,
@@ -152,16 +145,18 @@ export function TelemetryGauge({
     // Shift Lights update directly in WebGL frame loop
     const shiftProgress = Math.min(Math.max((curRpm - 3500) / 5000, 0), 1);
     const activeLeds = Math.floor(shiftProgress * 9);
-    const isBlinkingRedline = curRpm > 8400 && Math.floor(Date.now() / 80) % 2 === 0;
+    // 200ms on, 200ms off: 2.5 flashes a second, under the three-flash limit
+    // (WCAG 2.3.1). It used to strobe at 80ms.
+    const isBlinkingRedline = curRpm > 8400 && Math.floor(Date.now() / 200) % 2 === 0;
 
     ledRefs.current.forEach((mesh, i) => {
       if (!mesh) return;
       if (isBlinkingRedline) {
-        mesh.material = materials.ledBlue;
+        mesh.material = materials.ledShift;
       } else if (i < activeLeds) {
-        if (i < 3) mesh.material = materials.ledGreen;
-        else if (i < 6) mesh.material = materials.ledYellow;
-        else mesh.material = materials.ledRed;
+        if (i < 3) mesh.material = materials.ledLow;
+        else if (i < 6) mesh.material = materials.ledMid;
+        else mesh.material = materials.ledHigh;
       } else {
         mesh.material = materials.ledOff;
       }
@@ -316,7 +311,7 @@ export function TelemetryGauge({
           [-0.18, 0.18].map((y, yi) => (
             <mesh key={`${xi}-${yi}`} position={[x, y, 0.02]}>
               <boxGeometry args={[0.07, 0.12, 0.015]} />
-              <primitive object={materials.ledGreen} attach="material" />
+              <primitive object={materials.ledLow} attach="material" />
             </mesh>
           ))
         )}

@@ -30,7 +30,7 @@ export function SpanChart() {
   return (
     // Label column widens once there is room; on a phone the date line is
     // dropped rather than clipped — the timeline below carries it anyway.
-    <figure className="mb-14 [--lbl:6.5rem] sm:[--lbl:10rem]">
+    <figure className="[--lbl:6.5rem] sm:[--lbl:10rem]">
       <div aria-hidden="true" className="relative">
         {/* Plot overlay: the year grid and the overlap band sit behind every row */}
         <div className="pointer-events-none absolute inset-y-0 right-0 left-[calc(var(--lbl)+1.25rem)]">
@@ -76,7 +76,7 @@ export function SpanChart() {
               <div className="min-w-0 text-right">
                 <p className="truncate text-step--1 text-ink">{role.company}</p>
                 <p className="mono hidden whitespace-nowrap text-step--2 tabular-nums text-ink-faint sm:block">
-                  {label(role.start)} → {role.end ? label(role.end) : "now"}
+                  {label(role.start)} → {role.end ? label(role.end) : <T v={t("now", "nay")} />}
                 </p>
               </div>
               <div className="relative h-2.5">

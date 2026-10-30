@@ -3,6 +3,7 @@
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { modeTone } from "../palette";
 
 type Props = {
   rpm: number;
@@ -18,29 +19,7 @@ export function PowertrainEngine({ rpm, driveMode, wireframe, autoRotate }: Prop
   const pulseCoreRef = useRef<THREE.Mesh>(null);
   const smoothedRpm = useRef(rpm);
 
-  const modeColors = useMemo(() => {
-    switch (driveMode) {
-      case "corsa":
-        return {
-          glow: "#ff3333",
-          accent: "#ff4d4d",
-          intensity: 1.4,
-        };
-      case "track":
-        return {
-          glow: "#f59e0b",
-          accent: "#fbbf24",
-          intensity: 1.1,
-        };
-      case "sport":
-      default:
-        return {
-          glow: "#edd49a",
-          accent: "#d4a755",
-          intensity: 0.8,
-        };
-    }
-  }, [driveMode]);
+  const modeColors = modeTone[driveMode];
 
   const materials = useMemo(() => {
     return {

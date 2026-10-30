@@ -613,3 +613,14 @@ export const featuredDetail: Record<string, FeaturedDetail> = {
 
 export const featured = projects.filter((p) => p.featured);
 export const archive = projects.filter((p) => !p.featured);
+
+/** The featured work as it hangs in the gallery: in catalogue order, each with
+ *  the label that goes beside it. */
+export const exhibits = featured
+  .flatMap((project) => {
+    const detail = featuredDetail[project.id];
+    return detail ? [{ project, detail }] : [];
+  })
+  .sort((a, b) => a.detail.index.localeCompare(b.detail.index));
+
+export type ExhibitEntry = (typeof exhibits)[number];

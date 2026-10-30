@@ -7,7 +7,9 @@ import * as THREE from "three";
 import { AeroChassis } from "./models/aero-chassis";
 import { PowertrainEngine } from "./models/powertrain-engine";
 import { TelemetryGauge } from "./models/telemetry-gauge";
+import { metal } from "./palette";
 import type { LabState } from "./types";
+import { T, t } from "@/lib/i18n";
 
 type Props = {
   state: LabState;
@@ -19,7 +21,7 @@ function LoadingFallback() {
   return (
     <mesh>
       <octahedronGeometry args={[0.5, 1]} />
-      <meshBasicMaterial color="#edd49a" wireframe />
+      <meshBasicMaterial color={metal.gold} wireframe />
     </mesh>
   );
 }
@@ -30,14 +32,18 @@ export function LabCanvas({ state, isIntersecting, reducedMotion }: Props) {
       camera={{ position: [5, 3, 7], fov: 50 }}
       dpr={[1, 1.5]}
       frameloop={isIntersecting ? (reducedMotion ? "demand" : "always") : "never"}
-      fallback={<div className="p-8 text-ink-soft">3D preview unavailable / Không hỗ trợ xem 3D.</div>}
+      fallback={
+        <div className="p-8 text-ink-soft">
+          <T v={t("3D preview unavailable on this device.", "Thiết bị này không hỗ trợ xem 3D.")} />
+        </div>
+      }
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       className="h-full w-full !touch-pan-y"
       style={{ touchAction: "pan-y" }}
     >
       <ambientLight intensity={0.9} />
       <directionalLight position={[4, 6, 4]} intensity={1.8} color="#ffffff" />
-      <directionalLight position={[-4, -3, -3]} intensity={1.2} color="#edd49a" />
+      <directionalLight position={[-4, -3, -3]} intensity={1.2} color={metal.gold} />
       <pointLight position={[0, 3, 2]} intensity={0.6} color="#fff" />
 
       <Suspense fallback={<LoadingFallback />}>
@@ -75,7 +81,7 @@ export function LabCanvas({ state, isIntersecting, reducedMotion }: Props) {
           scale={7}
           blur={2}
           far={3.5}
-          color="#0d1417"
+          color={metal.obsidian}
         />
       </Suspense>
 
