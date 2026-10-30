@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import type { Tier } from "@/hooks/use-device-capability";
+import type { Station } from "../stations";
 import { createQiRiver } from "./qi-river";
 import { createTerrain } from "./terrain";
 
@@ -16,14 +17,19 @@ const readVar = (name: string, fallback: string) => {
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
+/** How much further down the valley reading to the bottom of a room carries
+ *  the camera. Small on purpose: rooms are stations, scrolling is a few steps. */
+const LOCAL_SPAN = 0.14;
+
 /**
- * The world. One fixed canvas behind the whole document: a distant range, a
- * river of qi running through it, and a camera that drifts deeper as you read.
+ * The world. One fixed canvas behind every room: a distant range, a river of
+ * qi running through it, and a camera that walks down the valley from room to
+ * room, then a few steps further as you read.
  *
- * Everything here is imperative on purpose — scroll, pointer and time drive
- * uniforms directly, so React never re-renders while the scene is running.
+ * Everything here is imperative on purpose — the station, scroll, pointer and
+ * time drive uniforms directly, so React never re-renders while it runs.
  */
-export function createCelestialScene(host: HTMLElement, tier: Tier) {
+export function createCelestialScene(host: HTMLElement, tier: Tier, station: Station) {
   const budget = BUDGET[tier];
   const still = tier === "minimal";
 
@@ -37,7 +43,7 @@ export function createCelestialScene(host: HTMLElement, tier: Tier) {
     if (!renderer.getContext()) throw new Error("no webgl context");
   } catch {
     host.dataset.ready = "true";
-    return { dispose() {} };
+    return { dispose() {}, setStation() {} };
   }
 
   const dpr = Math.min(window.devicePixelRatio || 1, budget.dpr);
@@ -97,10 +103,11 @@ export function createCelestialScene(host: HTMLElement, tier: Tier) {
     damp = w < 768 ? 0.45 : w < 1100 ? 0.85 : 1;
   };
 
-  /* ---------------- scroll & pointer ---------------- */
+  /* ---------------- station, scroll & pointer ---------------- */
 
-  const target = { scroll: 0, px: 0, py: 0 };
-  const eased = { scroll: 0, px: 0, py: 0 };
+  // `local` is how far down the current room the reader has scrolled.
+  const target = { ...station, local: 0, px: 0, py: 0 };
+  const eased = { ...target };
 
   /* A card in the document can ask the world to acknowledge it: the river
      brightens and quickens for about a second, then settles. Fired from the
@@ -113,7 +120,7 @@ export function createCelestialScene(host: HTMLElement, tier: Tier) {
   const readScroll = () => {
     const doc = document.documentElement;
     const max = doc.scrollHeight - doc.clientHeight;
-    target.scroll = max > 0 ? Math.min(1, Math.max(0, doc.scrollTop / max)) : 0;
+    target.local = max > 0 ? Math.min(1, Math.max(0, doc.scrollTop / max)) : 0;
   };
 
   const onPointerMove = (event: PointerEvent) => {
@@ -123,17 +130,18 @@ export function createCelestialScene(host: HTMLElement, tier: Tier) {
 
   let lastRecede = -1;
 
-  /** Everything the scroll position controls, in one place. */
-  function applyProgress(p: number) {
+  /** Everything the station and the scroll position control, in one place. */
+  function applyProgress() {
+    const p = eased.depth + eased.local * LOCAL_SPAN;
     camera.position.set(
-      eased.px * 1.8,
+      eased.drift + eased.px * 1.8,
       lerp(13, 15.5, p) + eased.py * 1.1,
       lerp(30, -8, p),
     );
     // The camera travels forward but barely pitches: tilting down through the
     // scroll pushed the river into the bottom of the frame, where the veil is
     // opaque, and the flow appeared to stop partway down the page.
-    camera.lookAt(eased.px * 2.6, lerp(8.5, 7.2, p), -80);
+    camera.lookAt(eased.drift * 0.6 + eased.px * 2.6, lerp(8.5, 7.2, p), -80);
 
     terrain.uniforms.uAmp.value = lerp(17, 10, p);
 
@@ -142,12 +150,13 @@ export function createCelestialScene(host: HTMLElement, tier: Tier) {
     // it only steps back far enough to stay out of the way of the text.
     const base = (Number(readVar("--world-alpha", "1")) || 1) * damp;
     terrain.uniforms.uAlpha.value = base * lerp(1, 0.3, p);
-    qi.uniforms.uSpeed.value = lerp(1, 1.9, p) + pulse * 1.2;
+    qi.uniforms.uSpeed.value = lerp(1, 1.9, p) * (1 - eased.calm * 0.55) + pulse * 1.2;
     qi.uniforms.uAlpha.value = base * lerp(1, 0.72, p) * (1 + pulse * 0.55);
 
-    // Written to the DOM only when it actually moves: a style write every
-    // frame would force a recalc on every frame for no visible gain.
-    const recede = Math.round(p * 50) / 50;
+    // The paper rises behind the text as you read down a room. Written to the
+    // DOM only when it actually moves: a style write every frame would force a
+    // recalc on every frame for no visible gain.
+    const recede = Math.round(eased.local * 50) / 50;
     if (recede !== lastRecede) {
       lastRecede = recede;
       document.documentElement.style.setProperty("--world-recede", String(recede));
@@ -165,8 +174,8 @@ export function createCelestialScene(host: HTMLElement, tier: Tier) {
     // A composed still: the world at a moment worth stopping on.
     terrain.uniforms.uTime.value = 6.5;
     qi.uniforms.uTime.value = 6.5;
-    eased.scroll = target.scroll;
-    applyProgress(eased.scroll);
+    Object.assign(eased, target);
+    applyProgress();
     renderer.render(scene, camera);
   }
 
@@ -178,12 +187,17 @@ export function createCelestialScene(host: HTMLElement, tier: Tier) {
     pulse *= 0.955;
     if (pulse < 0.002) pulse = 0;
 
-    // Ease towards the targets so the camera never snaps with the scrollbar
-    eased.scroll += (target.scroll - eased.scroll) * 0.055;
+    // Ease towards the targets so the camera never snaps with the scrollbar.
+    // The walk between rooms is slower than the scroll: about a second and a
+    // half, long enough to read as travel, short enough to arrive with the page.
+    eased.depth += (target.depth - eased.depth) * 0.035;
+    eased.drift += (target.drift - eased.drift) * 0.035;
+    eased.calm += (target.calm - eased.calm) * 0.03;
+    eased.local += (target.local - eased.local) * 0.055;
     eased.px += (target.px - eased.px) * 0.03;
     eased.py += (target.py - eased.py) * 0.03;
 
-    applyProgress(eased.scroll);
+    applyProgress();
     world.rotation.y = Math.sin(elapsed * 0.03) * 0.02 + eased.px * 0.03;
 
     renderer.render(scene, camera);
@@ -247,6 +261,12 @@ export function createCelestialScene(host: HTMLElement, tier: Tier) {
   host.dataset.ready = "true";
 
   return {
+    /** Walk to another room. Without motion it is a cut, not a walk. */
+    setStation(next: Station) {
+      Object.assign(target, next);
+      readScroll();
+      if (still) renderOnce();
+    },
     dispose() {
       setRunning(false);
       cancelAnimationFrame(raf);

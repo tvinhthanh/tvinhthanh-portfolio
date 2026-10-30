@@ -32,6 +32,7 @@ const readTheme = (): Theme => {
 
 export function ThemeToggle() {
   const theme = useSyncExternalStore(subscribe, readTheme, () => null);
+  const lang = useLang();
 
   const toggle = useCallback(() => {
     const next: Theme = readTheme() === "dark" ? "light" : "dark";
@@ -63,12 +64,16 @@ export function ThemeToggle() {
   }, []);
 
   const isDark = theme === "dark";
+  const label =
+    lang === "vi"
+      ? isDark ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"
+      : isDark ? "Switch to light theme" : "Switch to dark theme";
 
   return (
     <button
       type="button"
       onClick={toggle}
-      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      aria-label={label}
       className="grid h-11 w-11 shrink-0 place-items-center rounded-base border border-line bg-surface text-ink-soft transition-colors duration-200 hover:border-accent hover:text-accent"
     >
       <svg
@@ -128,7 +133,7 @@ export function LangToggle({ compact = false }: { compact?: boolean }) {
 export function RobotToggle() {
   const { enabled, toggle } = useRobotSettings();
   const lang = useLang();
-  const label = lang === "vi" ? "Robot 3D" : "3D companion";
+  const label = lang === "vi" ? "Robot hướng dẫn 3D" : "3D docent";
   const status = enabled ? (lang === "vi" ? "Bật" : "On") : (lang === "vi" ? "Tắt" : "Off");
 
   return (

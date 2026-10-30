@@ -35,8 +35,10 @@ class LabBoundary extends Component<{ children: ReactNode }, { failed: boolean }
   }
 }
 
-export function LabSection() {
-  const sectionRef = useRef<HTMLElement>(null);
+/** The bench in the workshop: a 3D viewport and its controls. The heading
+ *  belongs to the room it stands in. */
+export function LabBench() {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
   const [hasEntered, setHasEntered] = useState(false);
   const reducedMotion = useReducedMotion();
@@ -74,44 +76,17 @@ export function LabSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="lab" className="relative py-[var(--s-section)]">
+    <div ref={sectionRef} className="relative">
       <Reveal>
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-3">
-            <span className="mono text-step--2 uppercase tracking-[0.18em] text-accent">
-              05 / <T v={t("INTERACTIVE 3D LAB", "THỬ NGHIỆM 3D TƯƠNG TÁC")} />
-            </span>
-            <span className="h-px flex-1 bg-line-soft" />
-          </div>
-
-          <h2 className="display text-step-3 text-ink sm:text-step-4">
-            <T
-              v={t(
-                "3D Lab",
-                "Thử nghiệm 3D"
-              )}
-            />
-          </h2>
-
-          <p className="max-w-[72ch] text-step-0 leading-relaxed text-ink-soft">
-            <T
-              v={t(
-                "A small collection of interactive models exploring structure, motion, and data visualization.",
-                "Một số mô hình tương tác để khám phá cấu trúc, chuyển động và cách hiển thị dữ liệu.",
-              )}
-            />
-          </p>
-        </div>
-
         {/* 3D Lab Interactive Container */}
-        <div className="mt-8 grid grid-cols-1 overflow-hidden rounded-card border border-line bg-paper lg:grid-cols-12">
+        <div className="placard grid grid-cols-1 overflow-hidden lg:grid-cols-12">
           {/* 3D Viewport Column */}
           <div className="relative min-h-[380px] bg-gradient-to-b from-paper/30 to-surface-2/40 sm:min-h-[460px] lg:col-span-7 lg:min-h-[540px]">
             {hasEntered ? (
               <LabBoundary><DynamicLabCanvas state={{ ...state, autoRotate: state.autoRotate && !reducedMotion }} isIntersecting={isIntersecting} reducedMotion={reducedMotion} /></LabBoundary>
             ) : (
               <div className="flex min-h-[380px] items-center justify-center p-8 text-center text-ink-soft sm:min-h-[460px] lg:min-h-[540px]">
-                <T v={t("3D experiment loads when you reach this section.", "Thử nghiệm 3D tải khi bạn đến section này.")} />
+                <T v={t("The 3D bench loads as you reach it.", "Bàn thí nghiệm 3D tải khi bạn đến gần.")} />
               </div>
             )}
 
@@ -140,11 +115,11 @@ export function LabSection() {
           </div>
 
           {/* Controls & Telemetry Column */}
-          <div className="border-t border-line-soft bg-surface/60 lg:col-span-5 lg:border-l lg:border-t-0">
+          <div className="border-t border-line-soft lg:col-span-5 lg:border-l lg:border-t-0">
             <LabControls state={{ ...state, autoRotate: state.autoRotate && !reducedMotion }} onChange={handleStateChange} />
           </div>
         </div>
       </Reveal>
-    </section>
+    </div>
   );
 }

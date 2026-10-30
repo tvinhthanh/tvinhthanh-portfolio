@@ -1,15 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { Be_Vietnam_Pro, Cormorant_Garamond, JetBrains_Mono } from "next/font/google";
+import { FloorPlan } from "@/components/navigation/floor-plan";
+import { World } from "@/components/world";
 import { profile } from "@/content/profile";
+import { tour } from "@/content/rooms";
+import { T } from "@/lib/i18n";
 import "./globals.css";
 
-/* Display — Space Grotesk. Aerodynamic, high-speed, technical typography
-   calibrated for automotive and motorsport telemetry with native Vietnamese cut. */
-const title = Space_Grotesk({
+/* Display — Cormorant Garamond. Old, high-contrast, quiet: the voice of the
+   wall text in a gallery, and it has a real Vietnamese cut. */
+const title = Cormorant_Garamond({
   variable: "--font-title",
   subsets: ["latin", "latin-ext", "vietnamese"],
   display: "swap",
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600"],
 });
 
 /* Body — Be Vietnam Pro, drawn for Vietnamese. Tone marks are designed rather
@@ -112,9 +116,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   };
 
   return (
+    // data-scroll-behavior: Next 16 no longer resets smooth scrolling for route
+    // changes on its own, so without it every room would glide in from the
+    // scroll position of the last one.
     <html
       lang="en"
       data-lang="en"
+      data-scroll-behavior="smooth"
       className={`${title.variable} ${body.variable} ${code.variable} h-full`}
       suppressHydrationWarning
     >
@@ -125,7 +133,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           attributes onto <body> before React hydrates. Suppression here covers
           this element's own attributes only — never its children. */}
       <body className="min-h-full" suppressHydrationWarning>
-        {children}
+        <a
+          href="#main"
+          className="sr-only rounded-base bg-accent px-4 py-2 text-on-accent focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60]"
+        >
+          <T v={tour.skip} />
+        </a>
+
+        {/* Mounted once for the whole visit: rooms change, the world and the
+            plan stay where they are. The plan is docked at the foot of the
+            screen but comes first in the document, so the keyboard reaches
+            the rooms before the content and the skip link has a reason to exist. */}
+        <World />
+        <FloorPlan />
+        <main id="main" tabIndex={-1} className="relative z-10 outline-none">
+          {children}
+        </main>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }}

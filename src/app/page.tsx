@@ -1,55 +1,27 @@
-import { Footer } from "@/components/layout/footer";
-import { Rail } from "@/components/navigation/rail";
-import { ToTop } from "@/components/navigation/to-top";
-import { Contact } from "@/components/sections/contact";
-import { Experience } from "@/components/sections/experience";
-import { Hero } from "@/components/sections/hero";
-import { Intro } from "@/components/sections/intro";
-import { LabSection } from "@/components/lab/lab-section";
-import { Philosophy } from "@/components/sections/philosophy";
-import { Projects } from "@/components/sections/projects";
-import { Background, Stack } from "@/components/sections/stack";
-import { World } from "@/components/world";
-import { RobotStage } from "@/components/robot/robot-stage";
+import { Directory } from "@/components/lobby/directory";
+import { About, Desk } from "@/components/lobby/desk";
+import { LegacyHash } from "@/components/lobby/legacy-hash";
+import { Threshold } from "@/components/lobby/threshold";
 import { RobotSettingsProvider } from "@/components/robot/robot-settings";
+import { RobotStage } from "@/components/robot/robot-stage";
+import { RoomFrame } from "@/components/rooms/room";
 
-export default function Home() {
+/**
+ * The lobby. Who this is and how to reach him are answered here without
+ * entering a single room; the directory is for everyone who wants to look
+ * closer. The docent stands at the entrance and does not follow you in.
+ */
+export default function Lobby() {
   return (
     <RobotSettingsProvider>
-      <World />
       <RobotStage />
-
-      <div className="relative z-10 lg:pl-[var(--rail)]">
-        <a
-          href="#main"
-          className="sr-only rounded-base bg-accent px-4 py-2 text-on-accent focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60]"
-        >
-          Skip to content
-        </a>
-
-        <Rail />
-        <ToTop />
-
-        <main id="main">
-          <Hero />
-
-          <div className="reading-strip px-5 sm:px-8 lg:px-16">
-            <Intro />
-            <Projects />
-            <Experience />
-            <Philosophy />
-            <LabSection />
-            <Stack />
-            <Background />
-          </div>
-
-          <div className="reading-strip px-5 pb-[var(--s-section)] sm:px-8 lg:px-16">
-            <Contact />
-          </div>
-        </main>
-
-        <Footer />
-      </div>
+      <LegacyHash />
+      <RoomFrame lobby>
+        <Threshold />
+        <Directory />
+        <About />
+        <Desk />
+      </RoomFrame>
     </RobotSettingsProvider>
   );
 }
