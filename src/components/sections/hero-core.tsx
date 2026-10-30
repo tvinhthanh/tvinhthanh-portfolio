@@ -13,7 +13,7 @@ const coreData = {
 const stackDomains = [
   {
     label: t("Frontend", "Frontend"),
-    items: ["React 19", "Next.js", "TypeScript", "Tailwind"],
+    items: ["React 19", "Next.js", "Vue", "Nuxt", "Angular (basic)", "TypeScript", "Tailwind"],
     highlight: true,
   },
   {

@@ -319,6 +319,8 @@ export const domains: Domain[] = [
       "SWR",
       "Vite",
       "Angular (basic)",
+      "Vue",
+      "Nuxt",
       "Responsive UI",
       "State management",
       "API integration",
